@@ -1,0 +1,1358 @@
+---
+title: "Estudio de Percepción y Evaluación Comunal de Renca 2023 \n Análisis descriptivo"
+author: "Centro de Estudios de Conflicto y Cohesión Social"
+date: '24-04-2023'
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    keep_md: yes
+    toc: yes
+    theme: paper
+    highlight: pygments
+    toc_float:
+      collapsed: yes
+header-includes:
+   - \usepackage{floatrow}
+   - \floatsetup[figure]{capposition=top}
+   - \usepackage{titling}
+   - \posttitle{\begin{center}
+     \includegraphics[width=4in,height=4in]{input/logos/COES_Logo_azul.jpg}\LARGE\\
+     \includegraphics[width=4in,height=4in]{input/logos/renca.png}\LARGE\\}
+   - \posttitle{\end{center}}
+editor_options: 
+  chunk_output_type: inline
+---
+
+\newpage
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	fig.align = "left",
+	fig.topcaption = TRUE,
+	fig.width = 10,
+	fig.height = 8,
+	message = FALSE,
+	warning = FALSE,
+	cache = FALSE
+)
+Sys.setlocale("LC_ALL","ES_ES.UTF-8")
+
+```
+
+```{r packages, message=FALSE, warning=FALSE, include=FALSE}
+library(haven)
+library(tidyverse)
+library(psych)
+library(gridExtra)
+library(grid)
+library(sjmisc)
+library(summarytools)
+library(sjlabelled)
+```
+
+```{r datos}
+getwd()
+renca <- read_dta("../input/data/Renca_320_unidadbarrial.dta")
+
+#view(dfSummary(renca))
+```
+
+# 1. Relación con la comuna y el barrio
+
+## Apego al barrio
+
+```{r apego-barrial, echo=FALSE}
+#remove("apego.barrio")
+
+apego.barrio <- renca %>%
+  dplyr::select(q0002_0001, q0002_0002, q0002_0003, q0002_0004, q0002_0005) 
+
+apego.barrio <- apego.barrio %>% 
+  pivot_longer(cols = names(apego.barrio))
+
+apego.barrio <-  apego.barrio %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  filter(value %in% c(4,5)) %>% 
+  summarise(sfreq = sum(freq))
+
+apego.barrio <- apego.barrio %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0002_0001", "q0002_0002", "q0002_0003", "q0002_0004", "q0002_0005"),
+                       labels = c("Este barrio es\nideal para mi",
+                                  "Me siento integrada/o\nen este barrio",
+                                  "Me identifico con la\ngente de mi barrio",
+                                  "Este barrio es\nparte de mi",
+                                  "Me siento orgulloso/a\nde vivir en este barrio")))
+
+apego.barrio %>%
+  ggplot(aes(x = name, y = sfreq, 
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Nivel de apego al barrio", subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
+       x = "", y = "") 
+```
+
+
+## Sociabilidad 
+
+```{r soci-barrial, echo=FALSE}
+#remove("soci.barrial")
+
+soci.barrial <- renca %>%
+  dplyr::select(q0002_0007, q0002_0008, q0002_0009, q0002_0010, q0002_0011, q0002_0012) 
+
+soci.barrial <- soci.barrial %>% 
+  pivot_longer(cols = names(soci.barrial))
+
+soci.barrial <-  soci.barrial %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  filter(value %in% c(4,5)) %>% 
+  summarise(sfreq = sum(freq))
+
+soci.barrial <- soci.barrial %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0002_0007", "q0002_0008", "q0002_0009", "q0002_0010", "q0002_0011", "q0002_0012"),
+                       labels = c("En este barrio es\nfácil hacer amigas/os",
+                                  "La gente en este\nbarrio es sociable",
+                                  "La gente en este\nbarrio es cordial",
+                                  "La gente en este\nbarrio es colaboradora",
+                                  "La gente en este\nbarrio está interesada en los demás",
+                                  "La gente en este\nbarrio está dispuesta a ayudar a\notros residentes cuando es necesario")))
+
+soci.barrial %>%
+  ggplot(aes(x = name, y = sfreq, 
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.5, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Nivel de sociabilidad barrial", subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
+       x = "", y = "") +
+  coord_flip()
+```
+
+```{r amigos-barrio}
+amigos.barrio <- renca %>%
+  dplyr::select(q0003) %>% 
+  as_label(q0003) %>% 
+  count(q0003) %>% 
+  mutate(freq = n/sum(n))
+
+amigos.barrio %>%
+  ggplot(aes(x = q0003, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿Cuántos amigos o amigas cercanas tiene usted en el barrio?", x = "", y = "") 
+```
+
+### Apoyo social
+
+```{r apoyo-social}
+#remove("apoyo.social")
+
+apoyo.social <- renca %>%
+  dplyr::select(starts_with("q0004_")) 
+
+apoyo.social <- apoyo.social %>% 
+  pivot_longer(cols = names(apoyo.social))
+
+
+apoyo.social <-  apoyo.social %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  filter(value == 1) 
+
+apoyo.social <- apoyo.social %>% 
+  mutate(name = factor(name,
+                       levels = c("q0004_0001", "q0004_0002", "q0004_0003", "q0004_0004", "q0004_0005", "q0004_0006"),
+                       labels = c("Ayudar en el cuidado en caso\nde enfermedad de\nalgún miembro del hogar",
+                                  "Ayudar en el cuidado de niños(as)\nu otras personas de su hogar",
+                                  "Prestar dinero en\ncaso de emergencia",
+                                  "Ayudar a resolver consultas\no realizar trámites legales o financieros",
+                                  "Ayudar con reparaciones\ndel hogar",
+                                  "Apoyar en caso de\nproblemas personales"))) 
+apoyo.social %>%
+  ggplot(aes(x = name, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿Tiene algun vecino o vecina que pueda ayudarle\no apoyarle en los siguientes asuntos?", 
+       subtitle = "Porcentaje que responde 'Sí'", 
+       x = "", y = "") +
+  coord_flip()
+```
+### Visitas
+
+```{r cant-visit}
+visitas <- renca %>%
+  dplyr::select(q0005) %>% 
+  as_label(q0005) %>% 
+  count(q0005) %>% 
+  mutate(freq = n/sum(n))
+
+visitas %>%
+  ggplot(aes(x = q0005, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = get_label(renca$q0005), x = "", y = "") 
+```
+
+### Confianza
+
+```{r conf-vecinal}
+confianza <- renca %>%
+  dplyr::select(q0006) %>% 
+  filter(!q0006 == 6) %>% 
+  as_label(q0006) %>% 
+  count(q0006) %>% 
+  mutate(freq = n/sum(n))
+  
+
+confianza %>%
+  ggplot(aes(x = q0006, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "En términos generales, ¿Cuánto confía usted en sus vecinos?", x = "", y = "") 
+```
+
+## Confianza en autoridades e instituciones comunales
+
+```{r conf-auto}
+#remove("conf.auto")
+
+conf.auto <- renca %>%
+  dplyr::select(starts_with("q0007_")) 
+
+conf.auto <- conf.auto %>% 
+  pivot_longer(cols = names(conf.auto)) 
+
+conf.auto <-  conf.auto %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  filter(value %in% c(4,5)) %>% 
+  summarise(sfreq = sum(freq)) %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0007_0001", "q0007_0002", "q0007_0003", 
+                                  "q0007_0004", "q0007_0005", "q0007_0006",
+                                  "q0007_0007"),
+                       labels = c("El alcalde de Renca",
+                                  "Concejales de Renca",
+                                  "Servicios municipales",
+                                  "Centros de salud",
+                                  "Establecimientos\neducacionales",
+                                  "Juntas de vecinos",
+                                  "Carabineros que\ntrabajan en la comuna")))
+
+conf.auto %>%
+  ggplot(aes(x = name, y = sfreq, 
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Grado de confianza en instituciones o autoridades de la comuna", 
+       subtitle = "Porcentaje que responde 'bastante o mucho'", 
+       x = "", y = "") +
+  coord_flip()
+```
+## Arraigo físico
+
+```{r arraigo}
+arraigo <- renca %>%
+  dplyr::select(q0008) %>% 
+  filter(!q0008 %in% c(5,6)) %>% 
+  as_label(q0008) %>% 
+  count(q0008) %>% 
+  mutate(freq = n/sum(n))
+  
+
+arraigo %>%
+  ggplot(aes(x = q0008, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿Tiene planeado cambiarse de casa/departamento en el próximo año?", x = "", y = "") 
+```
+
+
+
+## Participación
+```{r participacion2}
+#remove("particip")
+
+particip <- renca %>%
+  dplyr::select(starts_with("q0009_"), -q0009_0017, -q0009_0018, -q0009_0019, -q0009_other) %>% 
+  as_label()
+
+particip <- particip %>% 
+  pivot_longer(cols = names(particip)) 
+
+particip <-  particip %>% 
+  count(name, value) %>% 
+  drop_na() %>% 
+  mutate(freq = (n/320))
+
+particip %>%
+  ggplot(aes(x = value, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Participación en organizaciones", 
+       subtitle = "En los últimos 12 meses", 
+       x = "", y = "") +
+  coord_flip()
+```
+
+
+
+## Actividad civica
+
+```{r actividad-civica}
+#remove("actividad.civica")
+actividad.civica <- renca %>%
+  dplyr::select(starts_with("q0011_")) 
+
+actividad.civica <- actividad.civica %>% 
+  pivot_longer(cols = names(actividad.civica))
+
+actividad.civica <-  actividad.civica %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  filter(value == 1) 
+
+actividad.civica <- actividad.civica %>% 
+  mutate(name = factor(name,
+                       levels = c("q0011_0001", "q0011_0002", "q0011_0003", "q0011_0004"),
+                       labels = c("Asistido a alguna reunión donde se traten temas\nde interés público o comunitario dentro de la comuna",
+                                  "Firmado una carta o petición apoyando una\ncausa relacionada con la comuna",
+                                  "Asistido a una marcha o manifestación\npolítica dentro de la comuna",
+                                  "Usado las redes sociales para expresar su\nopinión en temas públicos sobre la comuna"))) 
+actividad.civica %>%
+  ggplot(aes(x = name, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Durante los últimos 12 meses,\n¿con cuánta frecuencia usted ha...?", 
+       subtitle = "Porcentaje que responde 'Sí'", 
+       x = "", y = "") +
+  coord_flip()
+
+```
+
+## Grupos de nuevos residentes
+
+```{r nuevos-residentes}
+#remove("new.resid")
+new.resid <- renca %>%
+  dplyr::select(starts_with("q0012_")) 
+
+new.resid <- new.resid %>% 
+  pivot_longer(cols = names(new.resid)) 
+
+new.resid <-  new.resid %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  filter(value %in% c(1,2)) %>% 
+  summarise(sfreq = sum(freq))
+
+new.resid <- new.resid %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0012_0001", "q0012_0002", "q0012_0003", "q0012_0004", "q0012_0005",
+                                  "q0012_0006", "q0012_0007", "q0012_0008", "q0012_0009"),
+                       labels = c("Personas  de  pueblos  indígenas",
+                                  "Personas de clase media acomodada",
+                                  "Personas que hayan estado\nprivadas de libertad (ex presos)",
+                                  "Personas de clase baja",
+                                  "Inmigrantes peruanos y bolivianos",
+                                  "Inmigrantes venezolanos y colombianos",
+                                  "Inmigrantes haitianos",
+                                  "Diversidades  sexuales \n(Homosexuales, lesbianas, transexuales, etc.)",
+                                  "Inmigrantes norteamericanos o europeos")))
+
+new.resid %>%
+  ggplot(aes(x = name, y = sfreq, 
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Grado de acuerdo con la llegada de:", subtitle = "Porcentaje que responde 'en desacuerdo o muy en desacuerdo'", 
+       x = "", y = "") +
+  coord_flip()
+```
+
+## Justificación violencia
+
+```{r just-viol}
+#remove("just.viol")
+just.viol <- renca %>%
+  dplyr::select(starts_with("q0013_")) 
+
+just.viol <- just.viol %>% 
+  pivot_longer(cols = names(just.viol)) 
+
+just.viol <-  just.viol %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  filter(value %in% c(4,5)) %>% 
+  summarise(sfreq = sum(freq))
+
+just.viol <- just.viol %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0013_0001", "q0013_0002", "q0013_0004", "q0013_0005"),
+                       labels = c("Que algunas personas incendien o dañen\nmobiliario público, negocios, y/o\nlocales para exigir cambios sociales",
+                                  "Que algunas personas incendien o dañen\nmedios de transporte para exigir\ncambios sociales",
+                                  "Que algunas personas persigan y golpeen\na un “delincuente” que acaba de\ncometer un asalto",
+                                  "Que algunas personas amarren a un poste\ny desnuden a un “delincuente” que\nacaba de cometer un asalto")))
+
+just.viol %>%
+  ggplot(aes(x = name, y = sfreq, 
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿En qué medida se justifican las siguientes\nsituaciones dentro de la comuna?", 
+       subtitle = "Porcentaje que responde 'muchas veces o siempre se justifica'", 
+       x = "", y = "") +
+  coord_flip()
+```
+
+# 2. Conocimiento de iniciativas municipales y autoridades
+
+## Medios de información:
+```{r medio-inform}
+renca %>%
+  filter(!q0014 %in% 16:17) %>% 
+  as_label(q0014) %>% 
+  count(q0014) %>%
+  mutate(freq = (n/sum(n))) %>%
+  drop_na() %>% 
+  ggplot(aes(x = q0014, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Cuál es el principal medio por donde informarse?", x = "", y = "") +
+  coord_flip()
+```
+
+```{r conoce-medios}
+wsp <- renca %>% 
+  filter(!q0015 %in% 3:4) %>% 
+  as_label(q0015) %>% 
+  count(q0015) %>%
+  mutate(freq = (n/sum(n))) %>%
+  drop_na() %>% 
+  ggplot(aes(x = q0015, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -1, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Whatsapp informativo “RencaResponde”", x = "", y = "")
+
+app <- renca %>% 
+  filter(!q0016 %in% 3:4) %>% 
+  as_label(q0016) %>% 
+  count(q0016) %>%
+  mutate(freq = (n/sum(n))) %>%
+  drop_na() %>% 
+  ggplot(aes(x = q0016, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -1, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Pataforma “Renca Participa”", x = "", y = "")
+
+diario <- renca %>% 
+  filter(!q0017 %in% 3:4) %>%  
+  as_label(q0017) %>% 
+  count(q0017) %>%
+  mutate(freq = (n/sum(n))) %>%
+  drop_na() %>% 
+  ggplot(aes(x = q0017, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -1, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Diario “El Mirador deRenca”", x = "", y = "")
+
+grid.arrange(wsp,app,diario ,nrow = 2, top = textGrob("Usted conoce:"))
+```
+
+## Evaluación infraestructura y programas municipales
+
+```{r conoce-infra}
+#remove("conoce.infra")
+
+conoce.infra <- renca %>%
+  dplyr::select(starts_with("q0018_"), -ends_with("_0002")) 
+
+conoce.infra <- conoce.infra %>% 
+  pivot_longer(cols = names(conoce.infra))
+
+
+conoce.infra <-  conoce.infra %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  filter(value == 1) 
+
+conoce.infra <- conoce.infra %>% 
+  mutate(name = factor(name,
+                       levels = c("q0018_0001_0001", "q0018_0002_0001", "q0018_0003_0001",
+                                  "q0018_0004_0001", "q0018_0005_0001", "q0018_0006_0001",
+                                  "q0018_0007_0001", "q0018_0008_0001", "q0018_0009_0001",
+                                  "q0018_0010_0001", "q0018_0011_0001"),
+                       labels = c("Punto Limpio del Parque las Palmeras", 
+                                  "“La Fábrica” de Renca", 
+                                  "Estadio Municipal de Renca", "Estadio Newén", 
+                                  "Estadio Sarmiento", "Gimnasio Bicentenario", 
+                                  "Parque Las Palmeras",
+                                  "Edificio Municipal", "El Parque Cerros de Renca", 
+                                  "Casa de la Cultura", "Plaza Mayor"))) 
+conoce.infra %>%
+  ggplot(aes(x = name, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Conoce o ha escuchado hablar de:", subtitle = "Porcentaje que responde 'Sí'", 
+       x = "", y = "") +
+  coord_flip()
+```
+
+```{r nota-infra}
+#remove("nota.infra")
+
+nota.infra <- renca %>%
+  dplyr::select(starts_with("q0018_"), -ends_with("_0001")) 
+
+nota.infra <- nota.infra %>% 
+  pivot_longer(cols = names(nota.infra))
+
+nota.infra <-  nota.infra %>% 
+  filter(!value %in% c(8,9,10)) %>% 
+  group_by(name) %>% 
+  summarise(mean = mean(value))
+
+nota.infra <- nota.infra %>% 
+  mutate(name = factor(name,
+                       levels = c("q0018_0001_0002", "q0018_0002_0002", "q0018_0003_0002",
+                                  "q0018_0004_0002", "q0018_0005_0002", "q0018_0006_0002",
+                                  "q0018_0007_0002", "q0018_0008_0002", "q0018_0009_0002",
+                                  "q0018_0010_0002", "q0018_0011_0002"),
+                       labels = c("Punto Limpio del Parque las Palmeras", 
+                                  "“La Fábrica” de Renca", 
+                                  "Estadio Municipal de Renca", "Estadio Newén", 
+                                  "Estadio Sarmiento", "Gimnasio Bicentenario", 
+                                  "Parque Las Palmeras",
+                                  "Edificio Municipal", "El Parque Cerros de Renca", 
+                                  "Casa de la Cultura", "Plaza Mayor")))
+
+ggplot(nota.infra, aes(x = name, y = mean)) +
+  geom_point(size = 3) + 
+  geom_segment(aes(x = name, xend = name, y = 0, yend = mean)) + 
+  scale_y_continuous(limits = c(0, 7)) +
+  labs(title = "¿Cómo evaluaría la calidad en una escala de 1 a 7?",
+       subtitle = "Evaluación promedio de la muestra",
+       x = "", y = "") +
+  coord_flip()
+```
+
+```{r conoce-programas}
+#remove("conoceprogramas")
+
+conoce.programas <- renca %>%
+  dplyr::select(starts_with("q0019_"), -ends_with("_0002")) 
+
+conoce.programas <- conoce.programas %>% 
+  pivot_longer(cols = names(conoce.programas))
+
+conoce.programas <-  conoce.programas %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  filter(value == 1) 
+
+conoce.programas <- conoce.programas %>% 
+  mutate(name = factor(name,
+                       levels = c("q0019_0001_0001", "q0019_0002_0001", "q0019_0003_0001",
+                                  "q0019_0004_0001", "q0019_0005_0001", "q0019_0006_0001",
+                                  "q0019_0007_0001", "q0019_0008_0001", "q0019_0009_0001",
+                                  "q0019_0010_0001", "q0019_0011_0001", "q0019_0012_0001",
+                                  "q0019_0013_0001", "q0019_0014_0001"),
+                       labels = c("Farmacia Comunitaria ", "Óptica Comunitaria", 
+                       "Servicios de acompañamiento (PADI)", "Renca Jazz", 
+                       "Santiago a Mil en Renca", "Programa Fuerza Joven", "Programa 75+", 
+                       "Agenda Fácil", "Servicio de seguridad comunitaria 1453",  
+                       "Estrategia de prevención de \nviolencia contra la mujer", 
+                       "Atención municipal vespertina", "Renca te abriga", 
+                       "Escuela del Trabajo" ,"Corrida Familiar")))
+
+conoce.programas %>%
+  ggplot(aes(x = name, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Conoce o ha escuchado hablar de:", subtitle = "Porcentaje que responde 'Sí'", 
+       x = "", y = "") +
+  coord_flip()
+```
+
+
+```{r nota-programas}
+#remove("nota.infra")
+
+nota.infra <- renca %>%
+  dplyr::select(starts_with("q0019_"), -ends_with("_0001")) 
+
+nota.infra <- nota.infra %>% 
+  pivot_longer(cols = names(nota.infra))
+
+nota.infra <-  nota.infra %>% 
+  filter(!value %in% c(8,9,10)) %>% 
+  group_by(name) %>% 
+  summarise(mean = mean(value))
+
+nota.infra <- nota.infra %>% 
+  mutate(name = factor(name,
+                       levels = c("q0019_0001_0002", "q0019_0002_0002", "q0019_0003_0002",
+                                  "q0019_0004_0002", "q0019_0005_0002", "q0019_0006_0002",
+                                  "q0019_0007_0002", "q0019_0008_0002", "q0019_0009_0002",
+                                  "q0019_0010_0002", "q0019_0011_0002", "q0019_0012_0002",
+                                  "q0019_0013_0002", "q0019_0014_0002"),
+                       labels = c("Farmacia Comunitaria ", "Óptica Comunitaria", 
+                       "Servicios de acompañamiento (PADI)", "Renca Jazz", 
+                       "Santiago a Mil en Renca", "Programa Fuerza Joven", "Programa 75+", 
+                       "Agenda Fácil", "Servicio de seguridad comunitaria 1453",  
+                       "Estrategia de prevención de \nviolencia contra la mujer", 
+                       "Atención municipal vespertina", "Renca te abriga", 
+                       "Escuela del Trabajo" ,"Corrida Familiar")))
+
+ggplot(nota.infra, aes(x = name, y = mean)) +
+  geom_point(size = 3) + 
+  geom_segment(aes(x = name, xend = name, y = 0, yend = mean)) + 
+  scale_y_continuous(limits = c(0, 7)) +
+  labs(title = "¿Cómo evaluaría la calidad en una escala de 1 a 7?",
+       subtitle = "Evaluación promedio de la muestra",
+       x = "", y = "") +
+  coord_flip()
+```
+
+## Conocimiento autoridades
+
+```{r conoc-alc}
+
+alcalde <- renca %>% 
+  dplyr::select(q0020) %>% 
+  mutate(q0020 = recode(q0020, "NS" = "No sabe", "NR" = "No responde")) %>% 
+  count(q0020) %>% 
+  mutate(freq = n/sum(n))
+
+alcalde %>%
+  ggplot(aes(x = q0020, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿Podría decirme el nombre del Alcalde de Renca? ", x = "", y = "") +
+  coord_flip()
+```
+```{r conoce-consej}
+
+consejal <- renca %>% 
+  dplyr::select(q0021) %>% 
+  mutate(q0021 = recode(q0021, "Améstica" = "César Amestica", "César" = "César Amestica",
+                        "Avilés" = "Camila Avilés", 
+                        "Cecilia" = "Cecilia López", "López" = "Cecilia López",
+                        "Diego" = "Diego Fuentes", "Fuentes" = "Diego Fuentes",
+                        "Iskra" = "Iskra Calderón",
+                        "Sepúlveda" = "Claudio Sepúlveda",
+                        "Araya" = "Ismael Araya",
+                        "NS" = "No sabe", "NR" = "No responde")) %>% 
+  count(q0021) %>% 
+  mutate(freq = n/sum(n))
+
+consejal %>%
+  ggplot(aes(x = q0021, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿Podría decirme el nombre de algún consejal? ", x = "", y = "") + 
+  coord_flip()
+```
+
+
+# 3. Evaluación gestión municipal
+
+## Evaluación de la Municipalidad de Renca
+
+```{r eval-gest}
+#remove("eval.gest")
+
+eval.gest <- renca %>%
+  dplyr::select(starts_with("q0022_")) 
+
+eval.gest <- eval.gest %>% 
+  pivot_longer(cols = names(eval.gest)) 
+
+eval.gest <-  eval.gest %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  filter(value %in% c(4,5)) %>% 
+  summarise(sfreq = sum(freq))
+
+eval.gest <- eval.gest %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0022_0002", "q0022_0003", "q0022_0004", "q0022_0005", 
+                              "q0022_0006","q0022_0007" ,"q0022_0008", "q0022_0009"),
+                       labels = c("Da respuesta a los\nproblemas de  las  y los vecinos",
+                                  "Es Transparente", "Trabaja en terreno", 
+                                  "Permite a la ciudadanía\ncolaborar en la gestión local",
+                                  "Apunta al desarrollo\nsustentable de la comuna",
+                                  "Promueve el orgullo de ser renquino/a.",
+                                  "Funcionarios dan un buen\ntrato a las y los vecinos",
+                                  "Está mejorando  su  gestión")))
+
+eval.gest %>%
+  ggplot(aes(x = name, y = sfreq, 
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Grado de acuerdo con afirmaciones sobre el municipio:", subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
+       x = "", y = "") +
+  coord_flip()
+```
+
+## Evaluación elementos del barrio
+
+```{r nota-barrio-1}
+#remove("eval.barrio1")
+
+eval.barrio1 <- renca %>%
+  dplyr::select(starts_with("q0023_")) 
+
+eval.barrio1 <- eval.barrio1 %>% 
+  pivot_longer(cols = names(eval.barrio1)) 
+
+eval.barrio1 <-  eval.barrio1 %>% 
+  filter(!value %in% c(8,9,10)) %>% 
+  group_by(name) %>% 
+  summarise(mean = mean(value))
+
+eval.barrio1 <- eval.barrio1 %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0023_0001", "q0023_0002", "q0023_0003", "q0023_0004",
+                                  "q0023_0005", "q0023_0006", "q0023_0007" ,"q0023_0008", 
+                                  "q0023_0009", "q0023_0010", "q0023_0011"),
+                       labels = c("Paraderos", "Calles y avenidas", "Veredas", "Basureros", "Bancas", "Arbolado", "Juego infantiles y calistenias", "Luminarias/alumbrado público", "Cruces peatonales y demarcaciones", "Señalética", "Ciclovías y Ciclosendas")))
+
+ggplot(eval.barrio1, aes(x = name, y = mean)) +
+  geom_point(size = 3) + 
+  geom_segment(aes(x = name, xend = name, y = 0, yend = mean)) + 
+  scale_y_continuous(limits = c(0, 7)) +
+  labs(title = "En una escala de 1 a 7 ¿Cómo evaluaría la calidad de?",
+       subtitle = "Evaluación promedio de la muestra",
+       x = "", y = "") +
+  coord_flip()
+```
+## Evaluación infrestructura y equipamiento barrial
+
+```{r nota-barrio2}
+#remove("eval.barrio2")
+
+eval.barrio2 <- renca %>%
+  dplyr::select(starts_with("q0024_")) 
+
+eval.barrio2 <- eval.barrio2 %>% 
+  pivot_longer(cols = names(eval.barrio2)) 
+
+eval.barrio2 <-  eval.barrio2 %>% 
+  filter(!value %in% c(8,9,10)) %>% 
+  group_by(name) %>% 
+  summarise(mean = mean(value))
+
+eval.barrio2 <- eval.barrio2 %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0024_0001", "q0024_0002", "q0024_0003", "q0024_0004",
+                                  "q0024_0005", "q0024_0006", "q0024_0007"),
+                       labels = c("Plazas de su barrio", "Bandejones y platabandas", 
+                                  "Parques  y  áreas  verdes", "Multicanchas de su barrio",
+                                  "Sedes sociales", "El consultorio donde ud. se atiende",
+                                  "Jardines, Escuelas y Liceos Municipales")))
+
+ggplot(eval.barrio2, aes(x = name, y = mean)) +
+  geom_point(size = 3) + 
+  geom_segment(aes(x = name, xend = name, y = 0, yend = mean)) + 
+  scale_y_continuous(limits = c(0, 7)) +
+  labs(title = "En una escala de 1 a 7 ¿Cómo evaluaría la calidad de?",
+       subtitle = "Evaluación promedio de la muestra",
+       x = "", y = "") +
+  coord_flip()
+```
+
+## Evaluación servicios municipales
+
+```{r eval-servicios}
+#remove("eval.servicios")
+
+eval.servicios <- renca %>%
+  dplyr::select(starts_with("q0025_")) 
+
+eval.servicios <- eval.servicios %>% 
+  pivot_longer(cols = names(eval.servicios)) 
+
+eval.servicios <-  eval.servicios %>% 
+  filter(!value %in% c(8,9,10)) %>% 
+  group_by(name) %>% 
+  summarise(mean = mean(value))
+
+eval.servicios <- eval.servicios %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0025_0001", "q0025_0002", "q0025_0003", "q0025_0008",
+                                  "q0025_0009", "q0025_0010", "q0025_0011", "q0025_0012",
+                                  "q0025_0013", "q0025_0014", "q0025_0015", "q0025_0016",
+                                  "q0025_0017", "q0025_0018", "q0025_0019", "q0025_0020"),
+                       labels = c("Aseo de la comuna, limpieza de calles y veredas",
+                                  "El retiro de basura domiciliaria", 
+                                  "La labor preventiva del Municipio en Seguridad", 
+                                  "La respuesta a emergencias",
+                                  "Las actividades de promoción de la cultura y las artes", 
+                                  "Las  actividades  de  promoción  del  deporte y la vida saludable", 
+                                  "La entrega de permisos de circulación", 
+                                  "El  apoyo  a  la  búsqueda  de  empleo  y capacitación laboral", 
+                                  "La  calidad  de  la  educación  en  los  jardines, escuelas y liceos municipales", 
+                                  "La atención en los Centros de Salud de la comuna", "La entrega de licencias de conducir", 
+                                  "Ayuda a personas de escasos recursos", 
+                                  "Atención al emprendedor(a) (tramites, patentes, asesoría, etc.)", 
+                                  "La facilitación de buses para actividades comunitarias", 
+                                  "El apoyo a las Juntas de Vecinos y Organizaciones Comunitarias", 
+                                  "Lo servicios para mascotas entregados por la Veterinaria Municipal")))
+
+ggplot(eval.servicios, aes(x = name, y = mean)) +
+  geom_point(size = 3) + 
+  geom_segment(aes(x = name, xend = name, y = 0, yend = mean)) + 
+  scale_y_continuous(limits = c(0, 7)) +
+  labs(title = "En una escala de 1 a 7\n¿Cómo evaluaría la calidad de?",
+       subtitle = "Evaluación promedio de la muestra",
+       x = "", y = "") +
+  coord_flip()
+```
+
+# 4. Proyección futuro
+
+## Fortalezas
+
+```{r fortalezas}
+#remove("fortalezas")
+fortaleza1 <- renca %>% 
+  dplyr::select(q0026_0001) %>% 
+  count(q0026_0001) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = q0026_0001, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Primera preferencia", x = "", y = "") +
+  coord_flip()
+
+fortaleza2 <- renca %>% 
+  dplyr::select(q0026_0002) %>% 
+  count(q0026_0002) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = q0026_0002, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Segunda preferencia", x = "", y = "") +
+  coord_flip()
+
+fortaleza3 <- renca %>% 
+  dplyr::select(q0026_0003) %>% 
+  count(q0026_0003) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = q0026_0003, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Tercera preferencia", x = "", y = "") +
+  coord_flip()
+
+grid.arrange(fortaleza1, fortaleza2, fortaleza3, nrow = 2,
+             top = textGrob("Señale las 3 principales fortalezas de su barrio y/o comunidad"))
+```
+## Renca en tres años
+
+```{r proyec-tres}
+proyec.tres <- renca %>%
+  dplyr::select(q0027) %>% 
+  filter(!q0027 %in% c(4,5)) %>% 
+  as_label(q0027) %>% 
+  count(q0027) %>% 
+  mutate(freq = n/sum(n)) %>% 
+  drop_na()
+  
+
+proyec.tres %>%
+  ggplot(aes(x = q0027, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Según su percepción, en 3 años Renca estara:", x = "", y = "") 
+```
+## Principales problemas
+```{r tres-problemas}
+#remove("tres.problemas")
+
+tres.problemas <- renca %>%
+  dplyr::select(starts_with("q0028_"), -q0028_0012, -q0028_0013, -q0028_0014, -q0028_other) %>% 
+  as_label()
+
+tres.problemas <- tres.problemas %>% 
+  pivot_longer(cols = names(tres.problemas)) 
+
+tres.problemas <-  tres.problemas %>% 
+  count(name, value) %>% 
+  drop_na() %>% 
+  mutate(freq = (n/320),
+         value = recode(value, "Acceso a servicios privados (cajeros automáticos, bancos, supermercados, servipa" = "Acceso a servicios privados")) 
+
+tres.problemas %>%
+  ggplot(aes(x = value, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Principales tres problemas de la comuna", 
+       subtitle = "Porcentaje de menciones", 
+       x = "", y = "") +
+  coord_flip()
+```
+
+
+# 5. Seguridad
+
+## Reputación barrial
+
+```{r rep-barrial}
+rep.barrio <- renca %>%
+  dplyr::select(q0029) %>% 
+  as_label(q0029) %>% 
+  count(q0029) %>% 
+  mutate(freq = n/sum(n)) %>% 
+  drop_na()
+  
+rep.barrio %>%
+  ggplot(aes(x = q0029, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿Cómo cree que evalúan su barrio las personas que viven fuera de él?", x = "", y = "") 
+```
+
+## Seguridad en el barrio
+```{r segu-barrial}
+segu.barrio <- renca %>%
+  dplyr::select(q0030) %>% 
+  as_label(q0030) %>% 
+  count(q0030) %>% 
+  mutate(freq = n/sum(n))
+  
+segu.barrio %>%
+  ggplot(aes(x = q0030, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Qué tan seguro/a o inseguro/a se siente en el barrio", x = "", y = "") 
+```
+
+```{r segu-barrio2}
+#remove("segu-segu.barrio2")
+
+segu.barrio2 <- renca %>%
+  dplyr::select(starts_with("q0031_")) 
+
+segu.barrio2 <- segu.barrio2 %>% 
+  pivot_longer(cols = names(segu.barrio2)) 
+
+segu.barrio2 <-  segu.barrio2 %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  filter(value %in% c(1,2)) %>% 
+  summarise(sfreq = sum(freq))
+
+segu.barrio2 <- segu.barrio2 %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0031_0001", "q0031_0002", "q0031_0003", 
+                                  "q0031_0004", "q0031_0005"),
+                       labels = c("En las calles durante el dia",
+                                  "En las calles durante la noche",
+                                  "En ferias, mercados o almacenes",
+                                  "En el transporte público y paraderos",
+                                  "En parques u otros espacios públicos")))
+
+segu.barrio2 %>%
+  ggplot(aes(x = name, y = sfreq, 
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Grado de seguridad en diferentes contextos", subtitle = "Porcentaje que responde 'inseguro o muy inseguro'", 
+       x = "", y = "") +
+  coord_flip()
+```
+
+```{r miedo.barrio}
+#remove("miedo.barrio")
+
+miedo.barrio <- renca %>%
+  dplyr::select(starts_with("q0032_")) 
+
+miedo.barrio <- miedo.barrio %>% 
+  pivot_longer(cols = names(miedo.barrio)) 
+
+miedo.barrio <-  miedo.barrio %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  filter(value %in% c(4,5)) %>% 
+  summarise(sfreq = sum(freq))
+
+miedo.barrio <- miedo.barrio %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0032_0001", "q0032_0002", "q0032_0003", 
+                                  "q0032_0004", "q0032_0005", "q0032_0006"),
+                       labels = c("Alguien entre a mi casa", 
+                                  "Salir de noche porque podría ser\nvíctima de un delito en la calle",
+                                  "Alguien de mi familia sean agredido/a o asaltado/a",
+                                  "Ser atacado/a por alguien con un arma",
+                                  "Ser acosado o amenazado",
+                                  "Ser violado/a o agredido/a sexualmente")))
+
+miedo.barrio %>%
+  ggplot(aes(x = name, y = sfreq, 
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Grado de acuerdo con sentir miedo de:", 
+       subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
+       x = "", y = "") +
+  coord_flip()
+```
+
+```{r crimen-barrio}
+#remove("crimen.barrio")
+
+crimen.barrio <- renca %>%
+  dplyr::select(starts_with("q0033_")) 
+
+crimen.barrio <- crimen.barrio %>% 
+  pivot_longer(cols = names(crimen.barrio)) 
+
+crimen.barrio <-  crimen.barrio %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  filter(value %in% c(4,5)) %>% 
+  summarise(sfreq = sum(freq))
+
+crimen.barrio <- crimen.barrio %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0033_0001", "q0033_0002", "q0033_0003", "q0033_0004", 
+                                  "q0033_0005", "q0033_0006", "q0033_0007", 
+                                  "q0033_0009", "q0033_0010", "q0033_0011", "q0033_0012",
+                                  "q0033_0013", "q0033_0015", "q0033_0016"),
+                       labels = c('Consumo de alcohol y/o droga en la  vía  publica,  parques  o  plazas',
+                                  'Peleas callejeras con armas blancas o de fuego',
+                                  'Robo  o  asaltos  en  la  vía  pública', 
+                                  'Venta de droga y/u otras sustancias  ilícitas',
+                                  'Escucha balaceras o disparos',
+                                  'Amenazas  o  peleas  entre  vecinos/as',
+                                  'Ruidos molestos',
+                                  'Problemas o molestia por presencia de perros vagos',
+                                  'Rayados o marcas en la propiedad  pública  o  privada\n(grafitis, pinturas  o  murales  sin  autorización)',
+                                  'Sitios   eriazos   o   descuidados/acumulación  de  basura',
+                                  'Robo en viviendas particulares',
+                                  'Robo  o  hurto  de  vehículos  motorizados',
+                                  'Violencia intrafamiliar',
+                                  'Niños/as  solos  en  las  calles')))
+
+crimen.barrio %>%
+  ggplot(aes(x = name, y = sfreq, 
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Con qué frecuencia ha visto", 
+       subtitle = "Porcentaje que responde 'a menudo o siempre'", 
+       x = "", y = "") +
+  coord_flip()
+```
+
+# 6. Caracterización sociodemográfica
+
+```{r sexo}
+sexo <- renca %>%
+  dplyr::select(q0034) %>% 
+  as_label(q0034) %>% 
+  count(q0034) %>% 
+  mutate(freq = n/sum(n))
+  
+sexo %>%
+  ggplot(aes(x = q0034, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Sexo de los/as encuestados/as", x = "", y = "") 
+```
+
+```{r edad}
+edad.cat <- renca %>%
+  dplyr::select(q0035) %>% 
+  mutate(edad = cut(as.numeric(renca$q0035),breaks=c(17,25,35,45,55,65,85),
+                    labels=c("18-25","26-35","36-45","46-55","56-65", "66 o más"))) %>% 
+  count(edad) %>% 
+  mutate(freq = n/sum(n))
+
+edad.cat %>%
+  ggplot(aes(x = edad, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Edad de los/as encuestados/as", x = "", y = "") 
+```
+
+```{r nacionalidad}
+nacion <- renca %>%
+  dplyr::select(q0036) %>% 
+  as_label(q0036) %>% 
+  count(q0036) %>% 
+  mutate(freq = n/sum(n))
+
+nacion %>%
+  ggplot(aes(x = q0036, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Nacionalidad de los/as encuestados/as", x = "", y = "") 
+```
+
+```{r pueblo-orig}
+pueb.orig <- renca %>%
+  dplyr::select(q0037) %>% 
+  as_label(q0037) %>% 
+  count(q0037) %>% 
+  mutate(freq = n/sum(n))
+
+pueb.orig %>%
+  ggplot(aes(x = q0037, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿Se considera perteneciente a algún pueblo indígena u originario?", x = "", y = "") 
+```
+
+```{r anos-comuna}
+
+annos.com <- renca %>%
+  dplyr::select(q0038) %>% 
+  mutate(annos = cut(as.numeric(renca$q0038),breaks = c(0,10,20,30,40,50,80),
+                            labels=c("1-10","11-20","21-30","31-40","41-50","61 o más"))) %>% 
+  count(annos) %>% 
+  mutate(freq = n/sum(n))
+
+annos.com %>%
+  ggplot(aes(x = annos, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿Desde hace cuántos años vive en esta comuna?", x = "", y = "") 
+```
+
+```{r educacion}
+nvl.educ <- renca %>%
+  dplyr::select(q0039) %>% 
+  filter(!q0039 %in% c(9,10)) %>% 
+  as_label(q0039) %>% 
+  count(q0039) %>% 
+  mutate(freq = n/sum(n))
+
+nvl.educ %>%
+  ggplot(aes(x = q0039, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿Se considera perteneciente a algún pueblo indígena u originario?", x = "", y = "") +
+  coord_flip()
+```
+
+```{r trabajo}
+#remove("trabajo")
+trabajo <- renca %>%
+  dplyr::select(q0040) %>% 
+  as_label(q0040) %>% 
+  count(q0040, sort = TRUE) %>% 
+  mutate(freq = n/sum(n))
+
+trabajo %>%
+  ggplot(aes(x = q0040, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Tomando en cuenta la semana pasada ¿Usted...?", x = "", y = "") +
+  coord_flip()
+```
+
+```{r sit-laboral}
+sit.trabajo <- renca %>%
+  dplyr::select(q0041) %>% 
+  filter(!q0041 %in% c(7,8)) %>% 
+  as_label(q0041) %>% 
+  count(q0041, sort = TRUE) %>% 
+  mutate(freq = n/sum(n),
+         q0041 = recode(q0041, "Tenía empleo, pero estaba de vacaciones, con licencia, en descanso, etc." = "Tenía empleo, pero estaba de vacaciones,\ncon licencia, en descanso, etc.")) %>% 
+  drop_na
+
+sit.trabajo %>%
+  ggplot(aes(x = q0041, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Si no trabajó, ¿Se encontraba en alguna de\nlas siguientes situaciones?:", x = "", y = "") +
+  coord_flip()
+```
+
+```{r ocupacion}
+ocupacion <- renca %>%
+  dplyr::select(q0044) %>% 
+  filter(!q0044 %in% c(8,9)) %>% 
+  as_label(q0044) %>% 
+  count(q0044, sort = TRUE) %>% 
+  mutate(freq = n/sum(n)) %>% 
+  drop_na()
+
+ocupacion %>%
+  ggplot(aes(x = q0044, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Si trabaja, en este trabajo usted es...", x = "", y = "") +
+  coord_flip()
+```
+
+
+```{r sost-hogar}
+sost.hogar <- renca %>%
+  dplyr::select(q0044) %>% 
+  as_label(q0044) %>% 
+  count(q0044, sort = TRUE) %>% 
+  mutate(freq = n/sum(n)) %>% 
+  drop_na()
+
+sost.hogar %>%
+  ggplot(aes(x = q0044, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿Es usted el principal sostenedor del hogar?", x = "", y = "") +
+  coord_flip()
+```
+
+```{r educ-jefe}
+educ.sost <- renca %>%
+  dplyr::select(q0045) %>% 
+  filter(!q0045 %in% c(9,10)) %>% 
+  as_label(q0045) %>% 
+  count(q0045, sort = TRUE) %>% 
+  mutate(freq = n/sum(n)) %>% 
+  drop_na()
+
+educ.sost %>%
+  ggplot(aes(x = q0045, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿Cuál es el nivel educacional del principal sostenedor\ndel hogar?", x = "", y = "") +
+  coord_flip()
+```
+
+
+```{r trabajo-jefe}
+trab.sost <- renca %>%
+  dplyr::select(q0046) %>% 
+  filter(!q0046 %in% c(10,11)) %>% 
+  as_label(q0046) %>% 
+  count(q0046, sort = TRUE) %>% 
+  mutate(freq = n/sum(n)) %>% 
+  drop_na()
+
+trab.sost %>%
+  ggplot(aes(x = q0046, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Actividad principal del sostenedor\ndel hogar durante el último mes", x = "", y = "") +
+  coord_flip()
+```
+
+
+```{r ingresos}
+## Ingresos totales
+ingresos <- renca %>%
+  dplyr::select(q0048) %>% 
+  filter(!q0048 %in% c(8,9)) %>% 
+  mutate(ingre_hog  = factor(q0048, labels = c("Menos de $250.000","$250.000 - $350.000",
+                                               "$350.000 - $450.000","$450.000 - $700.000",
+                                               "$700.000 - $800.000","$900.000 - $1.00.0000",
+                                               "Más de $1.000.000"))) %>% 
+  count(ingre_hog) %>% 
+  mutate(freq = n/sum(n)) %>% 
+  drop_na()
+
+ingresos %>%
+  ggplot(aes(x = ingre_hog, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Edad de los/as encuestados/as", x = "", y = "") +
+  coord_flip()
+
+```
+

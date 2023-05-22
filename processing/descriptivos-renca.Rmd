@@ -709,7 +709,7 @@ conoce.programas %>%
   coord_flip()
 ```
 
-Ahora, cuando se evalúan los distintos programas se observa que, de acuerdo con el Gráfico \ref{fig:nota_programas} se observa que, en promedio, los programas son evaluados con una nota de 4.5, siendo la Farmacia Comunitaria la con mejor evaluación: un 5 aproximadamente. 
+Ahora, cuando se evalúan los distintos programas se observa que, de acuerdo con el Gráfico \ref{fig:nota_programas} se observa que, en promedio, los programas son evaluados con una nota de 4.5, siendo la Farmacia Comunitaria la con mejor evaluación: un 5 aproximadamente, nota similar a la que recibe el programa Santiago a Mil en Renca. La óptica comunitaria obtiene un 4.8 aproximadamente. Sin embargo, cuando se observa el Servicio de Seguridad Comunitario, este apenas sobre pasa el 4.
 
 ```{r nota-programas,fig.cap="\\label{fig:nota_programas}Nota de cada programa"}
 #remove("nota.infra")
@@ -752,7 +752,9 @@ ggplot(nota.infra, aes(x = name, y = mean)) +
 
 ## Conocimiento autoridades
 
-```{r conoc-alc}
+De acuerdo con el Gráfico \ref{fig:conocimiento_alc} existe un alto nivel de conocimiento de la figura del alcalde: un 43% logra identificarlo como "Claudio Castro"; y cerca de un 20% lo conoce o por su nombre o por su apellido. 
+
+```{r conoc-alc,fig.cap="\\label{fig:conocimiento_alc}Grado de conocimiento del alcalde"}
 
 alcalde <- renca %>% 
   dplyr::select(q0020) %>% 
@@ -769,7 +771,10 @@ alcalde %>%
   labs(title = "¿Podría decirme el nombre del Alcalde de Renca? ", x = "", y = "") +
   coord_flip()
 ```
-```{r conoce-consej}
+
+Por su parte, en lo que respecta a los concejales, de acuerdo con el Gráfico \ref{fig:conoce_csj}, la mayoría no logra identificar a un concejal (66%, considerando a los No sabe y No responde). El concejal con el mayor nivel de conocimiento sería César Amestica (14%).
+
+```{r conoce-consej,fig.cap="\\label{fig:conoce_csj}Nivel de conocimiento de concejales"}
 
 consejal <- renca %>% 
   dplyr::select(q0021) %>% 
@@ -879,9 +884,12 @@ ggplot(eval.barrio1, aes(x = name, y = mean)) +
        x = "", y = "") +
   coord_flip()
 ```
+
 ## Evaluación infrestructura y equipamiento barrial
 
-```{r nota-barrio2}
+El Gráfico \ref{fig:nota_barrio} muestra la evaluación promedio a distintas infraestructuras barriales. El promedio es de 3.8, y destacan el consultorio donde los encuestados se atienden, que recibe una nota de 4.5, un poco por sobre los jardines, escuelas y liceos municipales. El resto de las infraestructuras recibe una nota bajo el 4, siendo los bandejones y las platabandas los que reciben la evaluación más baja (3.3). 
+
+```{r nota-barrio2,fig.cap="\\label{fig:nota_barrio}Nota a infraestructura y equipamiento barrial"}
 #remove("eval.barrio2")
 
 eval.barrio2 <- renca %>%
@@ -917,7 +925,11 @@ ggplot(eval.barrio2, aes(x = name, y = mean)) +
 
 ## Evaluación servicios municipales
 
-```{r eval-servicios}
+El Gráfico \ref{fig:nota_servmun} muestra las notas que los encuestados ponen a cada uno de los servicios municipales, los que en promedio reciben una nota de 4.1. Destacan los servicios de retiro de basura, con una nota cercana al 5, seguidos de la atención en los centros de salud y la educación recibida en los jardines, escuelas y liceos municipales.
+
+Por otro lado, los servicios que reciben la peor evaluación son los relacionados con seguridad, la atención a emprendedores y el apoyo a las organizaciones comunitarias y de juntas de vecinos. Estas res reciben una nota de 3.7.
+
+```{r eval-servicios,fig.cap="\\label{fig:nota_servmun}Nota a los servicios de la municipalidad"}
 #remove("eval.servicios")
 
 eval.servicios <- renca %>%
@@ -959,7 +971,8 @@ ggplot(eval.servicios, aes(x = name, y = mean)) +
   scale_y_continuous(limits = c(0, 7)) +
   labs(title = "En una escala de 1 a 7\n¿Cómo evaluaría la calidad de?",
        subtitle = "Evaluación promedio de la muestra",
-       x = "", y = "") +
+       x = "", y = "",
+       caption = paste("Promedio =",round(mean(eval.servicios$mean),1))) +
   coord_flip()
 ```
 

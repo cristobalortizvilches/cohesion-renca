@@ -94,8 +94,8 @@ elsoc.sub <- elsoc.sub %>% mutate_at(vars(starts_with("comuna")),function(x)gsub
            t10_w06 %in% c(4,5) ~ 3
          ),labels=c("Inseguro","Ni seguro ni inseguro",
                     "Seguro")),
-         c07_01_w05 = factor(c07_01_w05,labels=c("No lo ha hecho","Lo ha hecho una o dos veces",
-                                                 "Lo ha hecho más de dos veces"))) %>%
+         c07_01_w05 = factor(c07_01_w05,labels=c("No lo hizo","Lo hizo 1 o 2 veces",
+                                                 "Lo hizo más de 2 veces"))) %>%
   mutate_at(vars(starts_with(c("t02","t03")) & ends_with("w06")),function(x)factor(case_when(
     x %in% c(1,2) ~ 1,
     x == 3 ~ 2,
@@ -356,7 +356,7 @@ visitas <- renca %>%
   dplyr::select(q0005) %>% 
   as_label(q0005) %>% 
   count(q0005) %>% 
-  mutate(freq = n/sum(n))
+  mutate(freq = n/sum(n)) %>% filter(q0005 != "No sabe (no leer)", q0005 != "No responde (no leer)")
 
 visitas %>%
   ggplot(aes(x = q0005, y = freq, 
@@ -365,6 +365,25 @@ visitas %>%
   geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = get_label(renca$q0005), x = "", y = "") 
+```
+
+Ahora, comparado con la RM, se observa que, de acuerdo al Gráfico \ref{fig:visitas.elsoc}, en Renca hay una mayor frecuencia de visitas a los vecinos: si en la RM el 33% declara nunca haber visitado a un vecino, en Renca este porcentaje baja al 22%. A su vez, si en la RM entre el 15% y el 26% declara haber visitado 1 o 2 veces a su vecino, o más de 2 veces, estos porcentajes alcanzan el 37% y 38% en Renca.
+
+```{r cant-visit.elsoc,fig.cap="\\label{fig:visitas.elsoc}Número de visitas a un vecinó ralizadas en el último mes (ELSO)"}
+visitas.elsoc <- elsoc.sub %>%
+  dplyr::select(c07_01_w05) %>% 
+  as_label(c07_01_w05) %>% 
+  count(c07_01_w05) %>% 
+  mutate(freq = n/sum(n)) %>% na.omit()
+
+visitas.elsoc %>%
+  ggplot(aes(x = c07_01_w05, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = get_label(renca$q0005), x = "", y = "",
+       caption = "Fuente: elaboración propia a partir de la ELSOC Ola 5") 
 ```
 
 ### Confianza
@@ -377,7 +396,7 @@ confianza <- renca %>%
   filter(!q0006 == 6) %>% 
   as_label(q0006) %>% 
   count(q0006) %>% 
-  mutate(freq = n/sum(n))
+  mutate(freq = n/sum(n)) %>% filter(q0006 != "NR (No leer)")
   
 
 confianza %>%
@@ -388,6 +407,26 @@ confianza %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "En términos generales, ¿Cuánto confía usted en sus vecinos?", x = "", y = "") 
 ```
+El Gráfico \ref{fig:conf_vec_elsoc} muestra los niveles de confianza entre los vecinos para la RM. En ella se ve que el 42% de los habitantes de la RM confía en sus vecinos, situación que contrasta con la de Renca. Sin embargo, si se observa a quienes no confían se ve que las diferencias son menos marcadas con respecto a la RM, en donde el 29% declara no confiar en sus vecinos. Es decir, en comparación a la RM, si bien en Renca son menos los que confían mucho o bastante en sus vecinos, sí son más los que confían en algo en sus vecinos.
+
+```{r conf-vecinal.elsoc,fig.cap="\\label{fig:conf_vec_elsoc}Nivel de confianza en los vecinos (ELSOC)"}
+confianza.elsoc <- elsoc.sub %>%
+  dplyr::select(t01_w06) %>% 
+  as_label(t01_w06) %>% 
+  count(t01_w06) %>% 
+  mutate(freq = n/sum(n)) %>% na.omit()
+  
+
+confianza.elsoc %>%
+  ggplot(aes(x = t01_w06, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "En términos generales, ¿Cuánto confía usted en sus vecinos?", x = "", y = "",
+       caption= "Fuente: elaboración propia a partir de la ELSOC Ola 6.") 
+```
+
 
 ## Confianza en autoridades e instituciones comunales
 
@@ -455,7 +494,25 @@ arraigo %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿Tiene planeado cambiarse de casa/departamento en el próximo año?", x = "", y = "") 
 ```
+De acuerdo con el Gráfico \ref{fig:arraigo.elsoc} no parecen haber grandes diferencias entre la RM y Renca en este sentido.
 
+```{r arraigo.elsoc,fig.cap="\\label{fig:arraigo.elsoc}Probabilidad de cambio de domicilio (ELSOC)"}
+arraigo.elsoc <- elsoc.sub %>%
+  dplyr::select(t05_w06) %>%
+  as_label(t05_w06) %>% 
+  count(t05_w06) %>% 
+  mutate(freq = n/sum(n)) %>% na.omit()
+  
+
+arraigo.elsoc %>%
+  ggplot(aes(x = t05_w06, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿Tiene planeado cambiarse de casa/departamento en el próximo año?", x = "", y = "",
+       caption = "Fuente: elaboración propia a partir de la ELSOC Ola 6.") 
+```
 
 ## Participación
 
@@ -1259,7 +1316,7 @@ segu.barrio %>%
 ```
 Por su parte, cuando se considera al conjunto de la RM se ve que la mayoría tiende a considerarse seguro en su barrio (46%), mientras que el 30% se considera inseguro en su barrio
 
-```{r segu-barrial,fig.cap="\\label{fig:seguridad.elsoc}Percepción de seguridad en el barrio (ELSOC)"}
+```{r segu-barrial.elsoc,fig.cap="\\label{fig:seguridad.elsoc}Percepción de seguridad en el barrio (ELSOC)"}
 segu.barrio.elsoc <- elsoc.sub %>%
   dplyr::select(t10_w06) %>% 
   as_label(t10_w06) %>% 

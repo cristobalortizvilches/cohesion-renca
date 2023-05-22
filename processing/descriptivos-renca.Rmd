@@ -490,6 +490,40 @@ particip %>%
   coord_flip()
 ```
 
+Si se comparan estos resultados con la RM en su conjunto, se observa que, de acuerdo al Gráfico \ref{fig:prticipacion.elsco}, hay similitudes con la región en lo que refiere a la tendencia, es decir: las organizaciones religiosas son las que cuentan con la mayor cantidad de participantes. Sin embargo, existen diferencias significativas en lo que respecta a las magnitudes. Si en Renca el 9% participa en organizaciones religiosas, en la RM este porcentaje alcanza el 26%. A su vez, si en Renca el 7% participa en las juntas de vecinos u organizaciones territoriales, este porcentaje alcanza un 27% en la RM
+
+```{r participacion.elsoc,fig.cap="\\label{fig:prticipacion.elsoc}Porcentaje de personas que participa en alguna asociación (ELSOC)"}
+#remove("particip")
+
+particip.elsoc <- elsoc.sub %>%
+  select(starts_with("c12"), -starts_with(c("c12_09","c12_06"))) %>% mutate_all(function(x)ifelse(x %in% c("Miembro \ninactivo","Miembro \nactivo"),"Sí",x))
+
+particip.elsoc <- particip.elsoc %>% 
+  pivot_longer(cols = names(particip.elsoc)) 
+
+particip.elsoc <-  particip.elsoc %>% 
+  count(name, value) %>% 
+  drop_na() %>% 
+  group_by(name) %>%
+  mutate(freq = (n/sum(n)),
+         name = factor(name,
+                       levels = c("c12_01_w06","c12_02_w06","c12_03_w06","c12_04_w06",
+                                  "c12_05_w06","c12_07_w06","c12_08_w06"),
+                       labels = c("Junta de vecinos","Org. religiosa","Partido o movimiento político",
+          "Sindicato","Asociación \nprofesional o gremial","Org. deportiva","Asociaciones o \ncentro de estudiantes"))) %>% filter(value=="Sí")
+
+particip.elsoc %>%
+  ggplot(aes(x = name, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Participación en organizaciones", 
+       subtitle = "Miembros activos e inactivos", 
+       x = "", y = "", caption = "Fuente: elaboración propia a partir de ELSOC Ola 6") +
+  coord_flip()
+```
+
 ## Actividad civica
 
 El Gráfico \ref{fig:act_cvica} muestra el porcentaje de personas que declara haber participado en distintas instancias de activismo. En general se observa que, entre quienes participan, la mayoría ha ocupado las redes sociales para expresar sus opiniones (35%) seguido de la asistencia a reuniones (29%).

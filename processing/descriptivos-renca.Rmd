@@ -138,6 +138,8 @@ apego.barrio %>%
        x = "", y = "") 
 ```
 
+\newpage
+
 ## Sociabilidad 
 
 El Gráfico \ref{fig:soci_barrial} muestra el grado de acuerdo que existe con las siguientes frases: (1) La gente en este barrio está dispuesta a ayudar a otros residentes cuando es necesario, (2) La gente en este barrio está interesada en los demás, (3) La gente en este barrio es colaboradora, (4) La gente en este barrio es cordial, (5) La gente en este barrio es sociable y (6) En este barrio es fácil hacer amigos.

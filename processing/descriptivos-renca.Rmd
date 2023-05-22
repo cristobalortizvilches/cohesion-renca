@@ -516,7 +516,11 @@ just.viol %>%
 
 ## Medios de información:
 
-```{r medio-inform}
+El Gráfico \ref{fig:medio_info} muestra cuáles son los principales medios por los cuales los vecinos de Renca se informan. De acuerdo con la información del gráfico, la mayoría utiliza medios digitales para informarse, destacando Facebook (con un 21%) y medios online (13%), sin embargo, sólo un 7% se informa por medio de Instagram, y apenas un 1% por medio de Twitter, y un 0.5% por medio de TikTok. Por su parte, un 13% declara que se informa por medio de los vecinos.
+
+Por otro lado, cuando se observan los medios de comunicación tradicionales, se observa que el 13% prefiere la televisión, y apenas un 1.5% la radio y el diario de la comuna.
+
+```{r medio-inform,fig.cap="\\label{fig:medio_info}Principales medios de información usados por los vecinos"}
 renca %>%
   filter(!q0014 %in% 16:17) %>% 
   as_label(q0014) %>% 
@@ -531,7 +535,9 @@ renca %>%
   coord_flip()
 ```
 
-```{r conoce-medios}
+Por otro lado, de acuerdo al Gráfico \ref{fig:concimiento_medios} se evidencia un bajo nivel de conocimiento de distintos medios de información, a saber: el WhatsApp "Renca Responde", la plataforma "Renca Participa" y el Dirio "El Mirador de Renca". En los dos primeros, el grado de conocimiento no supera el 20%, mientras que en el caso del diario de la comuna, este porcentaje sube al 30% aproximadamente. Estos resultados bien pueden explicar el por qué los vecinos de la comuna no los mencionan como los principales medios por los cuales se informan. 
+
+```{r conoce-medios,fig.cap="\\label{fig:conocimiento_medios}Grado de conocimiento de los medios de comunicación comunales"}
 wsp <- renca %>% 
   filter(!q0015 %in% 3:4) %>% 
   as_label(q0015) %>% 
@@ -968,6 +974,8 @@ ggplot(fortalezas,aes(x = value, y = freq, label = as.character(scales::percent(
 ```
 
 ## Renca en tres años
+
+
 
 ```{r proyec-tres}
 proyec.tres <- renca %>%

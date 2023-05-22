@@ -23,6 +23,7 @@ editor_options:
 ---
 
 \newpage
+
 \tableofcontents
 
 ```{r setup, include=FALSE}

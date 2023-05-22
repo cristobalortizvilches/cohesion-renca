@@ -463,7 +463,7 @@ El Gráfico \ref{fig:participacion} muestra el porcentaje de personas que partic
 
 Después, cerca de un 20% de los encuestados declara participar en comités de vivienda, de adelanto y/o de administración o en agrupaciones de adulto mayor, y un cuarto en juntas de vecinos u organizaciones territoriales. Un 15% declara participar en centros de madres, talleres de mujeres u organizaciones de mujeres. El resto de las categorías cae por debajo del 10%.
 
-```{r participacion2,fig.cap="\\label{fig:prticipacion}Porcentaje de personas que participa en alguna asociación"}
+```{r participacion2,fig.cap="\\label{fig:participacion}Porcentaje de personas que participa en alguna asociación"}
 #remove("particip")
 
 particip <- renca %>%
@@ -526,7 +526,7 @@ particip.elsoc %>%
 
 ## Actividad civica
 
-El Gráfico \ref{fig:act_cvica} muestra el porcentaje de personas que declara haber participado en distintas instancias de activismo. En general se observa que, entre quienes participan, la mayoría ha ocupado las redes sociales para expresar sus opiniones (35%) seguido de la asistencia a reuniones (29%).
+El Gráfico \ref{fig:act_civica} muestra el porcentaje de personas que declara haber participado en distintas instancias de activismo. En general se observa que, entre quienes participan, la mayoría ha ocupado las redes sociales para expresar sus opiniones (35%) seguido de la asistencia a reuniones (29%).
 
 ```{r actividad-civica,fig.cap="\\label{fig:act_civica}Participación en actividades civicas"}
 #remove("actividad.civica")
@@ -673,7 +673,7 @@ renca %>%
   coord_flip()
 ```
 
-Por otro lado, de acuerdo al Gráfico \ref{fig:concimiento_medios} se evidencia un bajo nivel de conocimiento de distintos medios de información, a saber: el WhatsApp "Renca Responde", la plataforma "Renca Participa" y el Dirio "El Mirador de Renca". En los dos primeros, el grado de conocimiento no supera el 20%, mientras que en el caso del diario de la comuna, este porcentaje sube al 30% aproximadamente. Estos resultados bien pueden explicar el por qué los vecinos de la comuna no los mencionan como los principales medios por los cuales se informan. 
+Por otro lado, de acuerdo al Gráfico \ref{fig:conocimiento_medios} se evidencia un bajo nivel de conocimiento de distintos medios de información, a saber: el WhatsApp "Renca Responde", la plataforma "Renca Participa" y el Diario "El Mirador de Renca". En los dos primeros, el grado de conocimiento no supera el 20%, mientras que en el caso del diario de la comuna, este porcentaje sube al 30% aproximadamente. Estos resultados bien pueden explicar el por qué los vecinos de la comuna no los mencionan como los principales medios por los cuales se informan. 
 
 ```{r conoce-medios,fig.cap="\\label{fig:conocimiento_medios}Grado de conocimiento de los medios de comunicación comunales"}
 wsp <- renca %>% 
@@ -803,7 +803,7 @@ ggplot(nota.infra, aes(x = name, y = mean)) +
 
 En cuanto al Gráfico \ref{fig:conoce_prog} muestra el grado de conocimiento de distintos programas de la comuna. En este caso, existe una dispar nivel de conocimiento entre programas, aunque varios de ellos tienden a tener niveles de conocimiento bajos.
 
-Entre los que mayor nivel de conocimiento tienen, destacan tres: la Farmacia Comunitaria, con un 82% de conocimiento. En un segundo lugar se encuentra el Serivicio de Seguridad Comunitario con un 75% de conocimiento, y finalmente, con un 63% de conocimiento se encuentra la Óptica Comunitaria. 
+Entre los que mayor nivel de conocimiento tienen, destacan tres: la Farmacia Comunitaria, con un 82% de conocimiento. En un segundo lugar se encuentra el Servicio de Seguridad Comunitario con un 75% de conocimiento, y finalmente, con un 63% de conocimiento se encuentra la Óptica Comunitaria. 
 
 Por su parte, los tres programas con menores niveles de conocimiento vendrían siendo el Programa Fuerza Joven con un 21% de conocimiento, el programa Renca Jazz con un 22% y la Escuela del trabajo y el PADI, ambos con un 25% de conocimiento aproximadamente. 
 
@@ -1140,8 +1140,9 @@ ggplot(fortalezas,aes(x = value, y = freq, label = as.character(scales::percent(
 
 ## Renca en tres años
 
+El Gráfico \ref{fig:renca_tres} muestra cómo las personas proyectan que estará la comuna en tres años más. En términos generales, se observa que la mayoría de las personas ven que la comuna puede estar mejor (45%) o igual (39%); sólo el 17% considera que estará peor. 
 
-```{r proyec-tres}
+```{r proyec-tres, fig.cap="\\label{fig:renca_tres}Poryección de la comuna en tres años más"}
 proyec.tres <- renca %>%
   dplyr::select(q0027) %>% 
   filter(!q0027 %in% c(4,5)) %>% 
@@ -1163,8 +1164,9 @@ proyec.tres %>%
 
 ## Principales problemas
 
+Por otro lado, cuando se consulta a las personas cuales son las principales problemáticas de la comuna, de acuerdo con el Gráfico \ref{fig:problemas}se observa que la delincuencia y el alacoholismo y la drogadicción son los principales, con un 27% y un 21% de las menciones, respectivamente. El 12% considera que la principal problemática es el acceso al trabajo. Por otro lado, sólo el 3% considera que el principal problema es la recolección de la basura, lo que se condice con los resultados mostrados anteriormente que mostraban que el servicio de basura es uno de los mejor evaluados de la comuna, situación que se repite con la movilización y el transporte y la educación que ofrece la comuna.
 
-```{r tres-problemas}
+```{r tres-problemas, fig.cap="\\label{fig:problemas}Principales problemas de la comuna"}
 #remove("tres.problemas")
 
 tres.problemas <- renca %>%
@@ -1197,7 +1199,9 @@ tres.problemas %>%
 
 ## Reputación barrial
 
-```{r rep-barrial}
+El Gráfico \ref{fig:reputacion_barrio} muestra la percepción que tienen las personas respecto a cómo otros evalúan su barrio. De acuerdo con los datos, la mayoría tiende a considerar que su barrio es visto de manera negativa: un 14% considera que es visto muy negativamente, y un 42% considera que es visto negativamente. Situación que contrasta con el menos del 10% que considera que su barrio es visto positivamente o muy positivamente.
+
+```{r rep-barrial, fig.cap="\\label{fig:reputacion_barrio}Percepción de cómo las personas externas evaluan el barrio"}
 rep.barrio <- renca %>%
   dplyr::select(q0029) %>% 
   as_label(q0029) %>% 
@@ -1214,8 +1218,31 @@ rep.barrio %>%
   labs(title = "¿Cómo cree que evalúan su barrio las personas que viven fuera de él?", x = "", y = "") 
 ```
 
+Si contrastamos estos datos con los reportados por la ELSOC para la RM, se observa que el 44% considera que su barrio es visto de manera positiva, mientras que el 27% considera que es visto de manera negativa. 
+
+```{r rep-barrial.elsoc, fig.cap="\\label{fig:reputacion_barrio_elsoc}Percepción de cómo las personas externas evaluan el barrio (ELSOC)"}
+rep.barrio.elsoc <- elsoc.sub %>%
+  dplyr::select(t08_w06) %>%
+  count(t08_w06) %>% 
+  mutate(freq = n/sum(n)) %>% 
+  drop_na()
+  
+rep.barrio.elsoc %>%
+  ggplot(aes(x = t08_w06, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿Cómo cree que evalúan su barrio las personas que viven fuera de él?", x = "", y = "",
+       caption = "Fuente: elaboración propia a partir de la ELSOC Ola 6.") 
+
+```
+
 ## Seguridad en el barrio
-```{r segu-barrial}
+
+El Gráfico \ref{fig:seguridad} muestra el grado de seguridad que sienten las personas en sus barrios. Nuevamente, al igual que en el caso del Gráfico \ref{fig:reputacion_barrio} se ve que la evaluación es más bien negativa. Cerca de un 55% se considera inseguro en su barrio, en contraste con el 13% que opina lo contrario.
+
+```{r segu-barrial,fig.cap="\\label{fig:seguridad}Percepción de seguridad en el barrio"}
 segu.barrio <- renca %>%
   dplyr::select(q0030) %>% 
   as_label(q0030) %>% 
@@ -1230,6 +1257,25 @@ segu.barrio %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Qué tan seguro/a o inseguro/a se siente en el barrio", x = "", y = "") 
 ```
+Por su parte, cuando se considera al conjunto de la RM se ve que la mayoría tiende a considerarse seguro en su barrio (46%), mientras que el 30% se considera inseguro en su barrio
+
+```{r segu-barrial,fig.cap="\\label{fig:seguridad.elsoc}Percepción de seguridad en el barrio (ELSOC)"}
+segu.barrio.elsoc <- elsoc.sub %>%
+  dplyr::select(t10_w06) %>% 
+  as_label(t10_w06) %>% 
+  count(t10_w06) %>% 
+  mutate(freq = n/sum(n)) %>% na.omit()
+  
+segu.barrio.elsoc %>%
+  ggplot(aes(x = t10_w06, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Qué tan seguro/a o inseguro/a se siente en el barrio", x = "", y = "",
+       caption = "Fuente: elaboración propia a partir de la ELSOC Ola 6.") 
+```
+
 
 ```{r segu-barrio2}
 #remove("segu-segu.barrio2")

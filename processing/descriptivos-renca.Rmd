@@ -577,9 +577,13 @@ diario <- renca %>%
 grid.arrange(wsp,app,diario ,nrow = 2, top = textGrob("Usted conoce:"))
 ```
 
-## Evaluación infraestructura y programas municipales
+## Evaluación infraestructura y programas municipales.
 
-```{r conoce-infra}
+El Gráfico \ref{fig:conoce_infra} muestra el grado de conocimiento de distintos lugares de la comuna. A diferencia de los medios de comunicación, se ve que existe un alto conocimiento en general de los distintos espacios de la comuna, destacando la Plaza Mayor con un 84% de conocimiento, seguida del Estadio Municipal con un 82%. Por su parte, el Parque Cerros de Renca muestra un 73% de conocimiento. 
+
+En contraste, existen tres lugares que bajan del 50% de conocimiento. "La Fabrica" es el lugar con el menor nivel de conocimiento: sólo un 28% la conoce. Por otro lado, los estadios Sarmiento y Newén también bajan del 50% de conocimiento, alcanzando un 40% de conocimiento aproximadamente. 
+
+```{r conoce-infra,fig.cap="\\label{fig:conoce_infra}Grado de conocimiento de infraestructura comunal"}
 #remove("conoce.infra")
 
 conoce.infra <- renca %>%
@@ -618,7 +622,9 @@ conoce.infra %>%
   coord_flip()
 ```
 
-```{r nota-infra}
+Por su parte, el Gráfico \ref{fig:notas_infra} muestra la evaluación que los vecinos hacen de las instalaciones de la comuna. En promedio, cada una de las instalaciones recibe una nota de 4.5, siendo el Estadio Municipal y el Gimnasio Bicentenario los que mejor evaluación obtienen con un 5 aproximadamente. Por su parte, cuando se observa a aquellas instalaciones con menor nivel de conocimiento, de acuerdo al gráfico anterior, se constata que "La Fabrica" es la que recibe la peor nota con un 3.9 aproximadamente, en cambio los Estadios Sarmiento y Newén reciben una nota apenas por sobre el 4.
+
+```{r nota-infra,fig.cap="\\label{fig:notas_infra}Nota a la infraestructura comunal"}
 #remove("nota.infra")
 
 nota.infra <- renca %>%
@@ -652,11 +658,18 @@ ggplot(nota.infra, aes(x = name, y = mean)) +
   scale_y_continuous(limits = c(0, 7)) +
   labs(title = "¿Cómo evaluaría la calidad en una escala de 1 a 7?",
        subtitle = "Evaluación promedio de la muestra",
-       x = "", y = "") +
+       x = "", y = "",
+       caption = paste("Promedio = ",round(mean(nota.infra$mean),1))) +
   coord_flip()
 ```
 
-```{r conoce-programas}
+En cuanto al Gráfico \ref{fig:conoce_prog} muestra el grado de conocimiento de distintos programas de la comuna. En este caso, existe una dispar nivel de conocimiento entre programas, aunque varios de ellos tienden a tener niveles de conocimiento bajos.
+
+Entre los que mayor nivel de conocimiento tienen, destacan tres: la Farmacia Comunitaria, con un 82% de conocimiento. En un segundo lugar se encuentra el Serivicio de Seguridad Comunitario con un 75% de conocimiento, y finalmente, con un 63% de conocimiento se encuentra la Óptica Comunitaria. 
+
+Por su parte, los tres programas con menores niveles de conocimiento vendrían siendo el Programa Fuerza Joven con un 21% de conocimiento, el programa Renca Jazz con un 22% y la Escuela del trabajo y el PADI, ambos con un 25% de conocimiento aproximadamente. 
+
+```{r conoce-programas,fig.cap="\\label{fig:conoce_prog}Grado de conocimiento de programas municiaples"}
 #remove("conoceprogramas")
 
 conoce.programas <- renca %>%
@@ -696,8 +709,9 @@ conoce.programas %>%
   coord_flip()
 ```
 
+Ahora, cuando se evalúan los distintos programas se observa que, de acuerdo con el Gráfico \ref{fig:nota_programas} se observa que, en promedio, los programas son evaluados con una nota de 4.5, siendo la Farmacia Comunitaria la con mejor evaluación: un 5 aproximadamente. 
 
-```{r nota-programas}
+```{r nota-programas,fig.cap="\\label{fig:nota_programas}Nota de cada programa"}
 #remove("nota.infra")
 
 nota.infra <- renca %>%
@@ -732,7 +746,7 @@ ggplot(nota.infra, aes(x = name, y = mean)) +
   scale_y_continuous(limits = c(0, 7)) +
   labs(title = "¿Cómo evaluaría la calidad en una escala de 1 a 7?",
        subtitle = "Evaluación promedio de la muestra",
-       x = "", y = "") +
+       x = "", y = "",caption = paste("Promedio = ",round(mean(nota.infra$mean),1))) +
   coord_flip()
 ```
 
@@ -925,19 +939,19 @@ eval.servicios <- eval.servicios %>%
                                   "q0025_0017", "q0025_0018", "q0025_0019", "q0025_0020"),
                        labels = c("Aseo de la comuna, limpieza de calles y veredas",
                                   "El retiro de basura domiciliaria", 
-                                  "La labor preventiva del Municipio en Seguridad", 
+                                  "La labor preventiva del Municipio \nen Seguridad", 
                                   "La respuesta a emergencias",
-                                  "Las actividades de promoción de la cultura y las artes", 
-                                  "Las  actividades  de  promoción  del  deporte y la vida saludable", 
+                                  "Las actividades de promoción de la cultura \ny las artes", 
+                                  "Las  actividades  de  promoción  del  deporte \ny la vida saludable", 
                                   "La entrega de permisos de circulación", 
-                                  "El  apoyo  a  la  búsqueda  de  empleo  y capacitación laboral", 
-                                  "La  calidad  de  la  educación  en  los  jardines, escuelas y liceos municipales", 
-                                  "La atención en los Centros de Salud de la comuna", "La entrega de licencias de conducir", 
+                                  "El  apoyo  a  la  búsqueda  de  empleo  \ny capacitación laboral", 
+                                  "La  calidad  de  la  educación  \nen  los  jardines, escuelas y liceos municipales", 
+                                  "La atención en Centros de Salud", "La entrega de licencias de conducir", 
                                   "Ayuda a personas de escasos recursos", 
-                                  "Atención al emprendedor(a) (tramites, patentes, asesoría, etc.)", 
-                                  "La facilitación de buses para actividades comunitarias", 
-                                  "El apoyo a las Juntas de Vecinos y Organizaciones Comunitarias", 
-                                  "Lo servicios para mascotas entregados por la Veterinaria Municipal")))
+                                  "Atención al emprendedor(a) \n(tramites, patentes, asesoría, etc.)", 
+                                  "La facilitación de buses \npara actividades comunitarias", 
+                                  "El apoyo a las Juntas de Vecinos \ny Organizaciones Comunitarias", 
+                                  "Los servicios para mascotas entregados \npor la Veterinaria Municipal")))
 
 ggplot(eval.servicios, aes(x = name, y = mean)) +
   geom_point(size = 3) + 
@@ -976,7 +990,6 @@ ggplot(fortalezas,aes(x = value, y = freq, label = as.character(scales::percent(
 ## Renca en tres años
 
 
-
 ```{r proyec-tres}
 proyec.tres <- renca %>%
   dplyr::select(q0027) %>% 
@@ -995,7 +1008,11 @@ proyec.tres %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Según su percepción, en 3 años Renca estara:", x = "", y = "") 
 ```
+
+
 ## Principales problemas
+
+
 ```{r tres-problemas}
 #remove("tres.problemas")
 

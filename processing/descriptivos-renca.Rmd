@@ -1,30 +1,29 @@
 ---
-title: "Estudio de Percepción y Evaluación Comunal de Renca 2023 \n Análisis descriptivo"
+title: "Estudio de Percepción y Evaluación Comunal de Renca 2023." 
+subtitle: "Análisis descriptivo."
 author: "Centro de Estudios de Conflicto y Cohesión Social"
 date: '24-04-2023'
 output:
   pdf_document:
-    toc: yes
+    number_sections: true
   html_document:
     keep_md: yes
-    toc: yes
     theme: paper
     highlight: pygments
-    toc_float:
-      collapsed: yes
 header-includes:
    - \usepackage{floatrow}
    - \floatsetup[figure]{capposition=top}
    - \usepackage{titling}
-   - \posttitle{\begin{center}
-     \includegraphics[width=4in,height=4in]{input/logos/COES_Logo_azul.jpg}\LARGE\\
-     \includegraphics[width=4in,height=4in]{input/logos/renca.png}\LARGE\\}
+   - \pretitle{\begin{center}
+     \includegraphics[width=4in,height=4in]{C:/Users/aigon/OneDrive/Documentos/GitHub/cohesion-renca/input/logos/COES_Logo_azul.jpg}\LARGE\\
+     \includegraphics[width=4in,height=4in]{C:/Users/aigon/OneDrive/Documentos/GitHub/cohesion-renca/input/logos/renca.png}\LARGE\\}
    - \posttitle{\end{center}}
 editor_options: 
   chunk_output_type: inline
 ---
 
 \newpage
+\tableofcontents
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
@@ -50,20 +49,58 @@ library(grid)
 library(sjmisc)
 library(summarytools)
 library(sjlabelled)
+library(ggplot2); theme_set(theme_bw() + 
+    theme(axis.text=element_text(size=12),axis.title=element_text(size=13),
+          strip.text.y = element_text(angle=0, size=13),plot.caption = element_text(size=11),
+          panel.grid = element_line(color = "grey70",linetype = 2)))
 ```
 
 ```{r datos}
 getwd()
-renca <- read_dta("../input/data/Renca_320_unidadbarrial.dta")
+renca <- read_dta("../input/data/Renca_1010_macrozona.dta")
 
 #view(dfSummary(renca))
 ```
 
-# 1. Relación con la comuna y el barrio
+# Introducción.
+
+## Presentación del Estudio
+
+De acuerdo con la Ley N°18.625, Orgánica Constitucional de Municipalidades, son corporaciones autónomas de derecho público, con personalidad jurídica y patrimonio propio, que buscan satisfacer las necesidades de su comunidad y asegurar su participación en el progreso económico, social y cultural. 
+
+Para ello, deben velar por la correcta distribución de sus recursos, los que son destinados a programas y proyectos que buscan mejorar la calidad de vida de quienes viven en la comuna. 
+
+En virtud de lo anterior, la Ilustre Municipalidad de Renca encargó al Centro de Estudios de Conflicto y Cohesión Social (COES) la elaboración de un estudio que permita evaluar la percepción de los vecinos de la comuna respecto a distintos temas, identificar problemáticas y sus preferencias.
+
+El presente documento presenta los principales resultados a nivel descriptivo, a partir de una encuesta realizada a 1.010 habitantes de la comuna. 
+
+## Ficha técnica
+
+La siguiente tabla presenta el diseño muestral:
+
+[AÑADIR CUADRO CON LA DESCRIPCION DE LA MUESTRA].
+
+## Trabajo de campo
+
+El levantamiento de los datos se realizó en el mes de marzo del año 2023, y fue realizado de manera presencial por un equipo de 19 encuestadores y encuestadoras.
+
+## Muestra
+
+La muestra total lograda son 1.010 casos. La siguiente tabla entrega el detalle por macrozona.
+
+[AÑADIR TABLA]
+
+\newpage
+
+# Relación con la comuna y el barrio
 
 ## Apego al barrio
 
-```{r apego-barrial, echo=FALSE}
+El Gráfico \ref{fig:apego_barrial} muestra a quienes se manifiestan como "Muy de acuerdo" o "De acuerdo" con las siguientes afirmaciones: (1) Este barrio es ideal para mi, (2) Me siento integrada/o en este barrio, (3) Me identifico con la gente de mi barrio, (4) Este barrio es parte de mi y (5) Me siento orgullosa/o de vivir en este barrio. 
+
+A partir de gráfico se logra ver que en la comuna las personas tienden a manifestar un cierto nivel de apego con su barrio: en torno al 50% de los encuestados manifiesta que se siente integrado en su barrio, que se identifica con la gente de su barrio o que el barrio es parte de ellos, aunque al mismo tiempo manifiestan que no se sienten orgullosos de vivir en el barrio: sólo un 40% manifiesta estar orgullos de vivir en su barrio, porcentaje relativamente similar a quienes manifiestan que el barrio donde viven es ideal para ellos.
+
+```{r apego-barrial, echo=FALSE, fig.cap="\\label{fig:apego_barrial}Nivel de apego barrial"}
 #remove("apego.barrio")
 
 apego.barrio <- renca %>%
@@ -92,16 +129,19 @@ apego.barrio %>%
   ggplot(aes(x = name, y = sfreq, 
              label = as.character(scales::percent(sfreq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Nivel de apego al barrio", subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
        x = "", y = "") 
 ```
 
-
 ## Sociabilidad 
 
-```{r soci-barrial, echo=FALSE}
+El Gráfico \ref{fig:soci_barrial} muestra el grado de acuerdo que existe con las siguientes frases: (1) La gente en este barrio está dispuesta a ayudar a otros residentes cuando es necesario, (2) La gente en este barrio está interesada en los demás, (3) La gente en este barrio es colaboradora, (4) La gente en este barrio es cordial, (5) La gente en este barrio es sociable y (6) En este barrio es fácil hacer amigos.
+
+Al igual que en el gráfico anterior, se observa en general una buena valoración de la vida en el barrio. En general, las personas tienden a evaluar de manera positiva a sus vecinos; solamente el interés por los demás cae por debajo del 50%.
+
+```{r soci-barrial, echo=FALSE, fig.cap="\\label{fig:soci_barrial}Percepción de sociabilidad barrial"}
 #remove("soci.barrial")
 
 soci.barrial <- renca %>%
@@ -131,14 +171,16 @@ soci.barrial %>%
   ggplot(aes(x = name, y = sfreq, 
              label = as.character(scales::percent(sfreq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.5, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.5, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Nivel de sociabilidad barrial", subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
        x = "", y = "") +
   coord_flip()
 ```
 
-```{r amigos-barrio}
+Nuevamente comparando con el resto de la Región Metropolitana [COMPLETAR].
+
+```{r amigos-barrio,fig.cap="\\label{fig:n_amigos}Número de amigos en el barrio"}
 amigos.barrio <- renca %>%
   dplyr::select(q0003) %>% 
   as_label(q0003) %>% 
@@ -149,14 +191,18 @@ amigos.barrio %>%
   ggplot(aes(x = q0003, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿Cuántos amigos o amigas cercanas tiene usted en el barrio?", x = "", y = "") 
 ```
 
 ### Apoyo social
 
-```{r apoyo-social}
+El Gráfico \ref{fig:apoyo_social} muestra el nivel de apoyo social que las personas perciben que pueden recibir de sus vecinos. En concreto, el gráfico muestra el porcentaje de personas que considera tener al menos un vecino a quien pedirle ayuda según distintas situaciones.
+
+La mayoría de los consultados reporta que puede solicitarle a un vecino ayuda con temas personales (55% aproximadamente). Sin embargo, este porcentaje desciende para las otras actividades, llegando al 38% que considera que puede pedir ayuda en caso de enfermedad de algún miembro del hogar. Esto puede ser indicativo de que las posibilidades de recibir ayuda disminuyen conforme la dificultad del problema aumenta. 
+
+```{r apoyo-social, fig.cap="\\label{fig:apoyo_social}Nivel de apoyo social"}
 #remove("apoyo.social")
 
 apoyo.social <- renca %>%
@@ -184,16 +230,21 @@ apoyo.social <- apoyo.social %>%
 apoyo.social %>%
   ggplot(aes(x = name, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿Tiene algun vecino o vecina que pueda ayudarle\no apoyarle en los siguientes asuntos?", 
        subtitle = "Porcentaje que responde 'Sí'", 
        x = "", y = "") +
   coord_flip()
 ```
+
 ### Visitas
 
-```{r cant-visit}
+El Gráfico \ref{fig:visitas} muestra el número de visitas que los encuestados han realizado en el último mes a sus vecinos. 
+
+Según el gráfico, cerca de un 75% ha visitado alguna vez a sus vecinos: un 37% los ha visitado una o dos veces en el último mes, mientras que el 38% lo ha hecho más de dos veces. Poco más de un 20% declara no haber visitado a sus vecinos en el último mes.
+
+```{r cant-visit,fig.cap="\\label{fig:visitas}Número de visitas a un vecinó ralizadas en el último mes"}
 visitas <- renca %>%
   dplyr::select(q0005) %>% 
   as_label(q0005) %>% 
@@ -204,14 +255,16 @@ visitas %>%
   ggplot(aes(x = q0005, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = get_label(renca$q0005), x = "", y = "") 
 ```
 
 ### Confianza
 
-```{r conf-vecinal}
+El Gráfico \ref{fig:conf_vec} muestra el nivel de confianza que se tiene en los vecinos. De acuerdo con los datos. En términos generales, la distribución de los niveles de confianza es bastante similar, aunque tiende a concentrarse en categorías medias de confianza. Cerca de un 35% no confía en sus vecinos (un 10% declara no confiar en nada, mientras que un 25% declara confiar poco). Un porcentaje similar se observa entre quienes declaran confiar mucho o bastante en sus vecinos: mientras un 3.6% declara confiar mucho en sus vecinos, un 28.4% declara que confía bastante. Finalmente, un 32% confía algo en sus vecinos.
+
+```{r conf-vecinal,fig.cap="\\label{fig:conf_vec}Nivel de confianza en los vecinos"}
 confianza <- renca %>%
   dplyr::select(q0006) %>% 
   filter(!q0006 == 6) %>% 
@@ -224,14 +277,18 @@ confianza %>%
   ggplot(aes(x = q0006, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "En términos generales, ¿Cuánto confía usted en sus vecinos?", x = "", y = "") 
 ```
 
 ## Confianza en autoridades e instituciones comunales
 
-```{r conf-auto}
+Por su parte, el Gráfico \ref{fig:conf_auto} muestra el porcentaje de personas que manifiesta tener bastante o mucha confianza en las autoridades y servicios comunales. Se observa que los establecimientos educacionales y los servicios de salud muestran los mayores niveles de confianza (en torno al 40% manifiesta confiar mucho o bastante en ellos), lo que contrasta con la categoría de servicios municipales: poco más de un 20% manifiesta confiar mucho o bastante en ellos. 
+
+Por su parte, las autoridades políticas (concejales y alcalde), tienen los menores niveles de confianza: un 12.5% para los concejales manifiesta confiar mucho o bastante en los concejales, y un 17% manifiesta lo mismo para el alcalde; porcentajes similares a los de las juntas de vecinos: un 14% manifiesta tener mucha o bastante confianza en ellas. 
+
+```{r conf-auto,fig.cap="\\label{fig:conf_auto}Nivel de confianza en autoridades y servicios comunales"}
 #remove("conf.auto")
 
 conf.auto <- renca %>%
@@ -262,16 +319,19 @@ conf.auto %>%
   ggplot(aes(x = name, y = sfreq, 
              label = as.character(scales::percent(sfreq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Grado de confianza en instituciones o autoridades de la comuna", 
        subtitle = "Porcentaje que responde 'bastante o mucho'", 
        x = "", y = "") +
   coord_flip()
 ```
+
 ## Arraigo físico
 
-```{r arraigo}
+El Gráfico \ref{fig:arraigo} muestra el porcentaje de personas que se cambiaría de domicilio en el próximo año. A partir de él se logra ver que la gran mayoría, es decir, más del 80% de los encuestados manifiesta que no se cambiaría de su actual domicilio, aunque las razones difieren: mientras el 50% manifiesta que no lo haría porque considera que está bien en su actual domicilio, el 32% no lo haría porque no tiene los medios económicos suficientes para ello.
+
+```{r arraigo,fig.cap="\\label{fig:arraigo}Probabilidad de cambio de domicilio"}
 arraigo <- renca %>%
   dplyr::select(q0008) %>% 
   filter(!q0008 %in% c(5,6)) %>% 
@@ -284,15 +344,19 @@ arraigo %>%
   ggplot(aes(x = q0008, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿Tiene planeado cambiarse de casa/departamento en el próximo año?", x = "", y = "") 
 ```
 
 
-
 ## Participación
-```{r participacion2}
+
+El Gráfico \ref{fig:participacion} muestra el porcentaje de personas que participa en distintos tipos de organizaciones. Un tercio de los encuestados declara participar en organizaciones religiosas o ligadas a la iglesia, proporción similar a quienes declaran participar en clubes deportivos.
+
+Después, cerca de un 20% de los encuestados declara participar en comités de vivienda, de adelanto y/o de administración o en agrupaciones de adulto mayor, y un cuarto en juntas de vecinos u organizaciones territoriales. Un 15% declara participar en centros de madres, talleres de mujeres u organizaciones de mujeres. El resto de las categorías cae por debajo del 10%.
+
+```{r participacion2,fig.cap="\\label{fig:prticipacion}Porcentaje de personas que participa en alguna asociación"}
 #remove("particip")
 
 particip <- renca %>%
@@ -305,13 +369,13 @@ particip <- particip %>%
 particip <-  particip %>% 
   count(name, value) %>% 
   drop_na() %>% 
-  mutate(freq = (n/320))
+  mutate(freq = (n/sum(n)))
 
 particip %>%
   ggplot(aes(x = value, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Participación en organizaciones", 
        subtitle = "En los últimos 12 meses", 
@@ -319,11 +383,11 @@ particip %>%
   coord_flip()
 ```
 
-
-
 ## Actividad civica
 
-```{r actividad-civica}
+El Gráfico \ref{fig:act_cvica} muestra el porcentaje de personas que declara haber participado en distintas instancias de activismo. En general se observa que, entre quienes participan, la mayoría ha ocupado las redes sociales para expresar sus opiniones (35%) seguido de la asistencia a reuniones (29%).
+
+```{r actividad-civica,fig.cap="\\label{fig:act_civica}Participación en actividades civicas"}
 #remove("actividad.civica")
 actividad.civica <- renca %>%
   dplyr::select(starts_with("q0011_")) 
@@ -347,7 +411,7 @@ actividad.civica <- actividad.civica %>%
 actividad.civica %>%
   ggplot(aes(x = name, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Durante los últimos 12 meses,\n¿con cuánta frecuencia usted ha...?", 
        subtitle = "Porcentaje que responde 'Sí'", 
@@ -358,7 +422,13 @@ actividad.civica %>%
 
 ## Grupos de nuevos residentes
 
-```{r nuevos-residentes}
+El Gráfico \ref{fig:nvo_residente} muestra el grado de aceptación a la llegada al barrio de distintos grupos sociales, tales como inmigrantes, personas de estratos socio-económicos medios, etc.
+
+De acuerdo con los datos, los grupos cuya llegada tendría menor aceptación son los inmigrantes, principalmente venezolanos y colombianos (64% no estaría de acuerdo con su llegada al barrio) y haitianos (61% no estaría de acuerdo con su llegada al barrio), seguidos de las personas que hayan estado privadas de libertad (61% no estaría de acuerdo con su llegada al barrio). Más abajo, estarían los inmigrantes peruanos y bolivianos: en este caso poco menos del 50% no estaría de acuerdo con su llegada al barrio. 
+
+Estos resultados contrastan con los otros grupos sociales, en donde su rechazo tiende a no superar el 20% aproximadamente, como es el caso de las personas de la diversidad sexual, de pueblos originarios.
+
+```{r nuevos-residentes,fig.cap="\\label{fig:nvo_residente}Aceptación de nuevos residentes según origen"}
 #remove("new.resid")
 new.resid <- renca %>%
   dplyr::select(starts_with("q0012_")) 
@@ -391,7 +461,7 @@ new.resid %>%
   ggplot(aes(x = name, y = sfreq, 
              label = as.character(scales::percent(sfreq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Grado de acuerdo con la llegada de:", subtitle = "Porcentaje que responde 'en desacuerdo o muy en desacuerdo'", 
        x = "", y = "") +
@@ -400,7 +470,11 @@ new.resid %>%
 
 ## Justificación violencia
 
-```{r just-viol}
+El Gráfico \ref{fig:just_viol} muestra el porcentaje de personas que justificarían el uso de la violencia para detener a un delincuente, o bien como medio de protesta.
+
+En términos generales, se observa un bajo apoyo a la violencia como medio de protesta: menos de un 5% estaría de acuerdo con dañar el mobiliario o el transporte público para exigir cambios sociales. Situación que contrasta con el apoyo a la violencia para detener a un delincuente. En este caso, cerca de un 8% estaría de acuerdo con hacer una detención ciudadana, esto es: amarrarlo a un poste y desnudarlo. Por su parte, un 15% estaría a favor de perseguir y golpear a quien acaba de cometer un asalto.
+
+```{r just-viol,fig.cap="\\label{fig:just_viol}Porcentaje de personas que justifican la violencia según casos"}
 #remove("just.viol")
 just.viol <- renca %>%
   dplyr::select(starts_with("q0013_")) 
@@ -427,7 +501,7 @@ just.viol %>%
   ggplot(aes(x = name, y = sfreq, 
              label = as.character(scales::percent(sfreq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿En qué medida se justifican las siguientes\nsituaciones dentro de la comuna?", 
        subtitle = "Porcentaje que responde 'muchas veces o siempre se justifica'", 
@@ -435,9 +509,10 @@ just.viol %>%
   coord_flip()
 ```
 
-# 2. Conocimiento de iniciativas municipales y autoridades
+# Conocimiento de iniciativas municipales y autoridades
 
 ## Medios de información:
+
 ```{r medio-inform}
 renca %>%
   filter(!q0014 %in% 16:17) %>% 
@@ -447,7 +522,7 @@ renca %>%
   drop_na() %>% 
   ggplot(aes(x = q0014, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Cuál es el principal medio por donde informarse?", x = "", y = "") +
   coord_flip()
@@ -462,7 +537,7 @@ wsp <- renca %>%
   drop_na() %>% 
   ggplot(aes(x = q0015, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -1, hjust = 0.5) +
+  geom_text(size = 5, vjust = -1, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Whatsapp informativo “RencaResponde”", x = "", y = "")
 
@@ -474,7 +549,7 @@ app <- renca %>%
   drop_na() %>% 
   ggplot(aes(x = q0016, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -1, hjust = 0.5) +
+  geom_text(size = 5, vjust = -1, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Pataforma “Renca Participa”", x = "", y = "")
 
@@ -486,7 +561,7 @@ diario <- renca %>%
   drop_na() %>% 
   ggplot(aes(x = q0017, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -1, hjust = 0.5) +
+  geom_text(size = 5, vjust = -1, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Diario “El Mirador deRenca”", x = "", y = "")
 
@@ -527,7 +602,7 @@ conoce.infra <- conoce.infra %>%
 conoce.infra %>%
   ggplot(aes(x = name, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Conoce o ha escuchado hablar de:", subtitle = "Porcentaje que responde 'Sí'", 
        x = "", y = "") +
@@ -605,7 +680,7 @@ conoce.programas <- conoce.programas %>%
 conoce.programas %>%
   ggplot(aes(x = name, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Conoce o ha escuchado hablar de:", subtitle = "Porcentaje que responde 'Sí'", 
        x = "", y = "") +
@@ -666,7 +741,7 @@ alcalde %>%
   ggplot(aes(x = q0020, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿Podría decirme el nombre del Alcalde de Renca? ", x = "", y = "") +
   coord_flip()
@@ -690,18 +765,24 @@ consejal %>%
   ggplot(aes(x = q0021, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿Podría decirme el nombre de algún consejal? ", x = "", y = "") + 
   coord_flip()
 ```
 
 
-# 3. Evaluación gestión municipal
+# Evaluación gestión municipal
 
 ## Evaluación de la Municipalidad de Renca
 
-```{r eval-gest}
+El Gráfico \ref{fig:gestion} muestra el porcentaje de personas que evalúa de manera al trabajo del municipio según distintas dimensiones. En general, lo que se observa es que entre un tercio y un quinto de los encuestados está de acuerdo con que el municipio ha realizado una gestión positiva en la comuna.
+
+El aspecto que más destaca es el trato que los funcionarios dan a los vecinos: un 32% de los encuestados manifiesta que el trato que reciben es bueno. También destacan la percepción de continua mejora por parte del municipio y de trabajo en terreno, ambos bordeando el 30%.
+
+Los aspectos peor evaluados vendrían siendo el transporte: un 23% de los encuestados considera que el trabajo del municipio en este aspecto es bueno, y participación ciudadana, con un 24%.
+
+```{r eval-gest,fig.cap="\\label{fig:gestion}Porcentaje de personas que evalua positivamente al municipio según áreas de gestión"}
 #remove("eval.gest")
 
 eval.gest <- renca %>%
@@ -733,7 +814,7 @@ eval.gest %>%
   ggplot(aes(x = name, y = sfreq, 
              label = as.character(scales::percent(sfreq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Grado de acuerdo con afirmaciones sobre el municipio:", subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
        x = "", y = "") +
@@ -742,7 +823,9 @@ eval.gest %>%
 
 ## Evaluación elementos del barrio
 
-```{r nota-barrio-1}
+El Gráfico \ref{fig:eval_barrio} muestra las notas que los encuestados ponen a distintos aspectos del barrio. El promedio del total es de 3.6, y los elementos mejor evaluados son las luminarias públicas y el arbolado, ambos bordeando el 4.0. Por su parte, el elemento peor evaluado son las ciclovías, las que son evaluadas con un 3.3 en promedio, mientras que las señaléticas y los cruces peatonales son evaluados con un 3.5 aproximadamente.
+
+```{r nota-barrio-1,fig.cap="\\label{fig:eval_barrio}Nota a distintas dimensiones de la calidad de vida en el barrio"}
 #remove("eval.barrio1")
 
 eval.barrio1 <- renca %>%
@@ -769,6 +852,7 @@ ggplot(eval.barrio1, aes(x = name, y = mean)) +
   scale_y_continuous(limits = c(0, 7)) +
   labs(title = "En una escala de 1 a 7 ¿Cómo evaluaría la calidad de?",
        subtitle = "Evaluación promedio de la muestra",
+       caption = paste("Promedio = ",round(mean(eval.barrio1$mean),1)),
        x = "", y = "") +
   coord_flip()
 ```
@@ -803,7 +887,8 @@ ggplot(eval.barrio2, aes(x = name, y = mean)) +
   scale_y_continuous(limits = c(0, 7)) +
   labs(title = "En una escala de 1 a 7 ¿Cómo evaluaría la calidad de?",
        subtitle = "Evaluación promedio de la muestra",
-       x = "", y = "") +
+       x = "", y = "",
+       caption = paste("Promedio = ",round(mean(eval.barrio2$mean),1))) +
   coord_flip()
 ```
 
@@ -855,51 +940,30 @@ ggplot(eval.servicios, aes(x = name, y = mean)) +
   coord_flip()
 ```
 
-# 4. Proyección futuro
+# Proyección futuro
 
 ## Fortalezas
 
-```{r fortalezas}
+El Gráfico \ref{fig:fortalezas} muestra las principales fortalezas de la comuna según los encuestados, filtrando aquellas que no alcanzan un 1% de las menciones. En términos generales, se observa que las personas tienden a no identificar una fortaleza en la comuna: cerca del 60% de los encuestados no menciona una fortaleza, ya sea porque no sabe o no responde a la pregunta (56%) o bien porque efectivamente considera que no hay ninguna fortaleza (3%). 
+
+Por otro lado, cerca del 10% de los encuestados considera que una de las principales fortalezas de la comuna es el transporte público (lo que en cierta medida se condice con su renuencia a valorar la destrucción del mismo como medio de protesta). Más abajo se encontrarían las ferias y los vecinos como una de las princiaples fortalezas de la comuna, con cerca de un 4% de menciones.
+
+```{r fortalezas, fig.cap="\\label{fig:fortalezas}Principales fortalezas de la comuna"}
 #remove("fortalezas")
-fortaleza1 <- renca %>% 
-  dplyr::select(q0026_0001) %>% 
-  count(q0026_0001) %>% 
-  mutate(freq = (n/sum(n))) %>% 
-  ggplot(aes(x = q0026_0001, y = freq, 
-             label = as.character(scales::percent(freq, accuracy = .1)))) +
-  geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
-  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
-  labs(title = "Primera preferencia", x = "", y = "") +
-  coord_flip()
 
-fortaleza2 <- renca %>% 
-  dplyr::select(q0026_0002) %>% 
-  count(q0026_0002) %>% 
-  mutate(freq = (n/sum(n))) %>% 
-  ggplot(aes(x = q0026_0002, y = freq, 
-             label = as.character(scales::percent(freq, accuracy = .1)))) +
-  geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
-  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
-  labs(title = "Segunda preferencia", x = "", y = "") +
-  coord_flip()
+fortalezas <- renca %>% select(starts_with("q0026"))
+fortalezas <- fortalezas %>% pivot_longer(cols = names(fortalezas)) %>% filter(value!="#¡VALOR!") %>%
+  mutate(value=ifelse(value %in% c("NS","NR"),"NS/NR",value)) %>% group_by(value) %>% count(value) %>% ungroup() %>%
+  mutate(freq=n/sum(n)) %>% filter(freq*100 >= 1)
 
-fortaleza3 <- renca %>% 
-  dplyr::select(q0026_0003) %>% 
-  count(q0026_0003) %>% 
-  mutate(freq = (n/sum(n))) %>% 
-  ggplot(aes(x = q0026_0003, y = freq, 
-             label = as.character(scales::percent(freq, accuracy = .1)))) +
+ggplot(fortalezas,aes(x = value, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
-  labs(title = "Tercera preferencia", x = "", y = "") +
+  labs(title = "Principales fortalezas de la comuna",subtitle="Sólo las menciones con más de un 1%", x = "", y = "") +
   coord_flip()
-
-grid.arrange(fortaleza1, fortaleza2, fortaleza3, nrow = 2,
-             top = textGrob("Señale las 3 principales fortalezas de su barrio y/o comunidad"))
 ```
+
 ## Renca en tres años
 
 ```{r proyec-tres}
@@ -916,7 +980,7 @@ proyec.tres %>%
   ggplot(aes(x = q0027, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Según su percepción, en 3 años Renca estara:", x = "", y = "") 
 ```
@@ -934,14 +998,14 @@ tres.problemas <- tres.problemas %>%
 tres.problemas <-  tres.problemas %>% 
   count(name, value) %>% 
   drop_na() %>% 
-  mutate(freq = (n/320),
+  mutate(freq = (n/sum(n)),
          value = recode(value, "Acceso a servicios privados (cajeros automáticos, bancos, supermercados, servipa" = "Acceso a servicios privados")) 
 
 tres.problemas %>%
   ggplot(aes(x = value, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Principales tres problemas de la comuna", 
        subtitle = "Porcentaje de menciones", 
@@ -950,7 +1014,7 @@ tres.problemas %>%
 ```
 
 
-# 5. Seguridad
+# Seguridad
 
 ## Reputación barrial
 
@@ -966,7 +1030,7 @@ rep.barrio %>%
   ggplot(aes(x = q0029, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿Cómo cree que evalúan su barrio las personas que viven fuera de él?", x = "", y = "") 
 ```
@@ -983,7 +1047,7 @@ segu.barrio %>%
   ggplot(aes(x = q0030, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Qué tan seguro/a o inseguro/a se siente en el barrio", x = "", y = "") 
 ```
@@ -1018,7 +1082,7 @@ segu.barrio2 %>%
   ggplot(aes(x = name, y = sfreq, 
              label = as.character(scales::percent(sfreq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Grado de seguridad en diferentes contextos", subtitle = "Porcentaje que responde 'inseguro o muy inseguro'", 
        x = "", y = "") +
@@ -1056,7 +1120,7 @@ miedo.barrio %>%
   ggplot(aes(x = name, y = sfreq, 
              label = as.character(scales::percent(sfreq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Grado de acuerdo con sentir miedo de:", 
        subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
@@ -1105,7 +1169,7 @@ crimen.barrio %>%
   ggplot(aes(x = name, y = sfreq, 
              label = as.character(scales::percent(sfreq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.3, hjust = -0.3) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Con qué frecuencia ha visto", 
        subtitle = "Porcentaje que responde 'a menudo o siempre'", 
@@ -1113,7 +1177,7 @@ crimen.barrio %>%
   coord_flip()
 ```
 
-# 6. Caracterización sociodemográfica
+# Caracterización sociodemográfica
 
 ```{r sexo}
 sexo <- renca %>%
@@ -1126,7 +1190,7 @@ sexo %>%
   ggplot(aes(x = q0034, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Sexo de los/as encuestados/as", x = "", y = "") 
 ```
@@ -1143,7 +1207,7 @@ edad.cat %>%
   ggplot(aes(x = edad, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Edad de los/as encuestados/as", x = "", y = "") 
 ```
@@ -1159,7 +1223,7 @@ nacion %>%
   ggplot(aes(x = q0036, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Nacionalidad de los/as encuestados/as", x = "", y = "") 
 ```
@@ -1175,7 +1239,7 @@ pueb.orig %>%
   ggplot(aes(x = q0037, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿Se considera perteneciente a algún pueblo indígena u originario?", x = "", y = "") 
 ```
@@ -1193,7 +1257,7 @@ annos.com %>%
   ggplot(aes(x = annos, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = -0.8, hjust = 0.5) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿Desde hace cuántos años vive en esta comuna?", x = "", y = "") 
 ```
@@ -1210,7 +1274,7 @@ nvl.educ %>%
   ggplot(aes(x = q0039, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿Se considera perteneciente a algún pueblo indígena u originario?", x = "", y = "") +
   coord_flip()
@@ -1228,7 +1292,7 @@ trabajo %>%
   ggplot(aes(x = q0040, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Tomando en cuenta la semana pasada ¿Usted...?", x = "", y = "") +
   coord_flip()
@@ -1248,7 +1312,7 @@ sit.trabajo %>%
   ggplot(aes(x = q0041, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Si no trabajó, ¿Se encontraba en alguna de\nlas siguientes situaciones?:", x = "", y = "") +
   coord_flip()
@@ -1267,7 +1331,7 @@ ocupacion %>%
   ggplot(aes(x = q0044, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Si trabaja, en este trabajo usted es...", x = "", y = "") +
   coord_flip()
@@ -1286,7 +1350,7 @@ sost.hogar %>%
   ggplot(aes(x = q0044, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿Es usted el principal sostenedor del hogar?", x = "", y = "") +
   coord_flip()
@@ -1305,7 +1369,7 @@ educ.sost %>%
   ggplot(aes(x = q0045, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿Cuál es el nivel educacional del principal sostenedor\ndel hogar?", x = "", y = "") +
   coord_flip()
@@ -1325,7 +1389,7 @@ trab.sost %>%
   ggplot(aes(x = q0046, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Actividad principal del sostenedor\ndel hogar durante el último mes", x = "", y = "") +
   coord_flip()
@@ -1349,7 +1413,7 @@ ingresos %>%
   ggplot(aes(x = ingre_hog, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
-  geom_text(size = 2.5, vjust = 0.5, hjust = -0.1) +
+  geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Edad de los/as encuestados/as", x = "", y = "") +
   coord_flip()

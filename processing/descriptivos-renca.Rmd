@@ -61,6 +61,48 @@ library(ggplot2); theme_set(theme_bw() +
 ```{r datos}
 getwd()
 renca <- read_dta("../input/data/Renca_1010_macrozona.dta")
+load("../input/data/elsoc.sub.Rdata")
+
+bar.plot <- function(x,weight){
+  library(questionr)
+  library(ggplot2)
+  df <- as.data.frame(prop.table(wtd.table(x,weights=weight)))
+  p <- ggplot(df,aes(x=Var1,y=Freq)) + geom_bar(stat="identity")  + theme_bw() + 
+    theme(axis.text=element_text(size=12),axis.title=element_text(size=13),
+          strip.text.y = element_text(angle=0, size=13),plot.caption = element_text(size=11),
+          panel.grid = element_line(color = "grey70",linetype = 2))
+  return(p)
+}
+
+elsoc.sub <- elsoc.sub %>% mutate_at(vars(starts_with("comuna")),function(x)gsub("nh","n",tolower(x))) %>%
+  mutate(t05_w06 = factor(t05_w06,labels=c("Si, a otro barrio de la comuna","Si, a otra comuna","No, estoy bien donde estoy",
+                                           "No, no puedo aunque quisiera")),
+         t01_w06 = factor(case_when(
+           t01_w06 %in% c(1,2) ~ 1,
+           t01_w06 %in% 3 ~ 2,
+           t01_w06 %in% c(4,5) ~ 3
+         ),labels=c("Muy poco o Poco","Algo","Bastante o Mucho")),
+         t08_w06 = factor(case_when(
+           t08_w06 %in% c(1,2) ~ 1,
+           t08_w06 %in% 3 ~ 2,
+           t08_w06 %in% c(4,5) ~ 3
+         ),labels=c("Negativamente","Ni positiva ni negativamente",
+                                           "Positivamente")),
+         t10_w06 = factor(case_when(
+           t10_w06 %in% c(1,2) ~ 1,
+           t10_w06 %in% 3 ~ 2,
+           t10_w06 %in% c(4,5) ~ 3
+         ),labels=c("Inseguro","Ni seguro ni inseguro",
+                    "Seguro")),
+         c07_01_w05 = factor(c07_01_w05,labels=c("No lo ha hecho","Lo ha hecho una o dos veces",
+                                                 "Lo ha hecho más de dos veces"))) %>%
+  mutate_at(vars(starts_with(c("t02","t03")) & ends_with("w06")),function(x)factor(case_when(
+    x %in% c(1,2) ~ 1,
+    x == 3 ~ 2,
+    x %in% c(4,5) ~ 3
+  ), labels = c("En desacuerdo","Ni de acuerdo \nni en desacuerdo","De acuerdo"))) %>% 
+  mutate_at(vars(starts_with("c12"),-"c12_09_otro_w06"),function(x)factor(x,labels = c("No es miembro","Miembro \ninactivo",
+                                                                    "Miembro \nactivo")))
 
 #view(dfSummary(renca))
 ```
@@ -138,6 +180,41 @@ apego.barrio %>%
        x = "", y = "") 
 ```
 
+El Gráfico \ref{fig:apego_barrial_elsoc} muestra algunos de los ítems del Gráfico anterior pero comparados con la Región Metropolitana, ocupando los datos de la Encuesta Longitudinal Social de Chile (ELSOC) en su sexta ola. 
+
+Lo que se observa es que estos porcentajes son en algunos casos similares a lo que muestra la Región Metropolitana en general, aunque siempre por debajo entre unos 5 y 10 puntos. 
+
+\newpage
+
+```{r apego-barrial-elsoc, echo=FALSE, fig.cap="\\label{fig:apego_barrial_elsoc}Nivel de apego barrial (ELSOC)"}
+vars <- c("Este barrio es ideal para mi","Me siento integrado en este barrio", #t02
+          "Me identifico con la gente de este barrio","Este barrio es parte de mi",
+          "En este barrio es fácil hacer amigos","La genete de este barrio es sociable", #t03
+          "La gente de este barrio es cordial","La gente de este barrio es colaboradora")
+
+elsoc_barrio <- elsoc.sub %>% select(starts_with("t02"))
+elsoc_barrio <- elsoc_barrio %>% pivot_longer(cols=names(elsoc_barrio))
+elsoc_barrio <- elsoc_barrio %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% na.omit() %>%
+  mutate(name = factor(name,
+                       levels = c("t02_01_w06","t02_02_w06","t02_03_w06","t02_04_w06"),
+                       labels = c("Este barrio es ideal para mi","Me siento integrado en este barrio",
+          "Me identifico con la gente de este barrio","Este barrio es parte de mi"))) %>% filter(value == "De acuerdo")
+
+elsoc_barrio %>%
+  ggplot(aes(x = name, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 5, vjust = 0.5, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Nivel de apego al barrio", subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
+       x = "", y = "", caption = "Fuente: elaboración propia a partir de ELSOC Ola 6.") +
+  coord_flip()
+
+```
+
 \newpage
 
 ## Sociabilidad 
@@ -183,7 +260,32 @@ soci.barrial %>%
   coord_flip()
 ```
 
-Nuevamente comparando con el resto de la Región Metropolitana [COMPLETAR].
+Nuevamente comparando con la Región Metropolitana se observa que los patrones difieren en algunos aspectos. Por ejemplo, si en Renca el 53% considera que en el barrio es fácil hacer amigos, en la RM el 44% piensa lo mismo. Por el contrario, si en Renca el 54% considera que la gente de su barrio es cordial, este porcentaje aumenta a un 65% para la RM. En lo que respecta a la percepción de colaboración y a la de sociabilidad, no se observan grandes diferencias.
+
+```{r soci-barrial2, echo=FALSE, fig.cap="\\label{fig:soci_barrial_elsoc}Percepción de sociabilidad barrial (ELSOC)"}
+
+elsoc_barrio2 <- elsoc.sub %>% select(starts_with("t03"))
+elsoc_barrio2 <- elsoc_barrio2 %>% pivot_longer(cols=names(elsoc_barrio2))
+elsoc_barrio2 <- elsoc_barrio2 %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% na.omit() %>%
+  mutate(name = factor(name,
+                       levels = c("t03_01_w06","t03_02_w06","t03_03_w06","t03_04_w06"),
+                       labels = c("En este barrio es fácil hacer amigos",
+                                  "La gente de este barrio es sociable","La gente de este barrio es cordial","La gente de este barrio es colaboradora"))) %>% filter(value == "De acuerdo")
+
+elsoc_barrio2 %>%
+  ggplot(aes(x = name, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + 
+  geom_text(size = 5, vjust = 0.5, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Nivel de sociabilidad barrial", subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
+       x = "", y = "", caption = "Fuente: elaboración propia a partir de ELSOC Ola 6.") +
+  coord_flip()
+
+```
 
 ```{r amigos-barrio,fig.cap="\\label{fig:n_amigos}Número de amigos en el barrio"}
 amigos.barrio <- renca %>%

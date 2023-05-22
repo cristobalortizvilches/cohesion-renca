@@ -1276,8 +1276,9 @@ segu.barrio.elsoc %>%
        caption = "Fuente: elaboración propia a partir de la ELSOC Ola 6.") 
 ```
 
+Por su parte, el \ref{fig:seguridad2} muestra el grado de inseguridad que sienten los encuestados en distintas situaciones. Dentro de estas, la que presenta los mayores niveles de percepción de inseguridad es e estar en la calle durante la noche: cerca del 80% de los entrevistados considera que es una situación insegura, lo que es contrasta fuertemente con el estar en la calle durante el día: en tal caso el 47% considera que son inseguras. El resto de las otras situaciones tienen niveles de inseguridad medios: menos del 50% considera que los paraderos, los parques y las ferias son inseguras. 
 
-```{r segu-barrio2}
+```{r segu-barrio2,fig.cap="\\label{fig:seguridad2}Percepción de riesgo en la comuna según lugar"}
 #remove("segu-segu.barrio2")
 
 segu.barrio2 <- renca %>%
@@ -1314,7 +1315,9 @@ segu.barrio2 %>%
   coord_flip()
 ```
 
-```{r miedo.barrio}
+Congruentemente con lo que se ha dicho anteriormente, el Gráfico \ref{fig:miedo.barrio} muestra cuales son las principales fuentes de miedo en los encuestados. En él se ve que, en prácticamente todas las categorías, existe una alta percepción a sufrir un delito, o bien que una persona cercana lo sufra: en todas las categorías, el miedo a sufrir un delito de los enumerados es superior al 70%, y en algunos casos superior al 75%; sólo el miedo a sufrir una violación es ligeramente menor al 70%, alcanzando un 66%.
+
+```{r miedo.barrio,fig.cap="\\label{fig:miedo.barrio}Fuentes de miedo"}
 #remove("miedo.barrio")
 
 miedo.barrio <- renca %>%
@@ -1353,7 +1356,11 @@ miedo.barrio %>%
   coord_flip()
 ```
 
-```{r crimen-barrio}
+El Gráfico \ref{fig:crimen.barrio} reporta el porcentaje de personas que ha sido testigo de distintos delitos. Dentro de estos, poco más del 60% declara haber visto consumo de alcohol en la vía pública, venta de droga en la vía pública y rayados en la vía pública (siendo éste el más común). Es de notar también que el 50% de la muestra también declara ser testigo de balaceras o de disparos.
+
+Por otro lado, si se consideran los delitos con menor frecuencia de ser vistos, se logra ver que la violencia intrafamiliar tiene un 21% de testigos. Un porcentaje ligeramente mayor es el que se observa para el caso de los robos en viviendas: en este caso el 26% declara haber sido testigo de uno, porcentaje que contrasta con el número de personas que declara haber visto robos de autos o de vehículos motorizados (35%).
+
+```{r crimen-barrio,fig.cap="\\label{fig:crimen.barrio}Frecuencia con la que se ha visto delitos"}
 #remove("crimen.barrio")
 
 crimen.barrio <- renca %>%

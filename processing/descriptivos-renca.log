@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8.28) (preloaded format=pdflatex 2022.10.3)  23 MAY 2023 11:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8.28) (preloaded format=pdflatex 2022.10.3)  23 MAY 2023 14:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1146,61 +1146,52 @@ Package pdftex.def Info: descriptivos-renca_files/figure-latex/sit-laboral-1.pd
 f  used on input line 1024.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [50 <./descriptivos-renca_files/figure-latex/trabajo-1.pdf>]
-<descriptivos-renca_files/figure-latex/ocupacion-1.pdf, id=686, 722.7pt x 578.1
-6pt>
-File: descriptivos-renca_files/figure-latex/ocupacion-1.pdf Graphic file (type 
-pdf)
-<use descriptivos-renca_files/figure-latex/ocupacion-1.pdf>
-Package pdftex.def Info: descriptivos-renca_files/figure-latex/ocupacion-1.pdf 
- used on input line 1026.
-(pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[51 <./descriptivos-renca_files/figure-latex/sit-laboral-1.pdf>]
-<descriptivos-renca_files/figure-latex/sost-hogar-1.pdf, id=696, 722.7pt x 578.
+<descriptivos-renca_files/figure-latex/sost-hogar-1.pdf, id=686, 722.7pt x 578.
 16pt>
 File: descriptivos-renca_files/figure-latex/sost-hogar-1.pdf Graphic file (type
  pdf)
 <use descriptivos-renca_files/figure-latex/sost-hogar-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/sost-hogar-1.pdf
-  used on input line 1028.
+  used on input line 1026.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[52 <./descriptivos-renca_files/figure-latex/ocupacion-1.pdf>]
-<descriptivos-renca_files/figure-latex/educ-jefe-1.pdf, id=706, 722.7pt x 578.1
+[51 <./descriptivos-renca_files/figure-latex/sit-laboral-1.pdf>]
+<descriptivos-renca_files/figure-latex/educ-jefe-1.pdf, id=696, 722.7pt x 578.1
 6pt>
 File: descriptivos-renca_files/figure-latex/educ-jefe-1.pdf Graphic file (type 
 pdf)
 <use descriptivos-renca_files/figure-latex/educ-jefe-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/educ-jefe-1.pdf 
- used on input line 1030.
+ used on input line 1028.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[53 <./descriptivos-renca_files/figure-latex/sost-hogar-1.pdf>]
-<descriptivos-renca_files/figure-latex/trabajo-jefe-1.pdf, id=716, 722.7pt x 57
+[52 <./descriptivos-renca_files/figure-latex/sost-hogar-1.pdf>]
+<descriptivos-renca_files/figure-latex/trabajo-jefe-1.pdf, id=706, 722.7pt x 57
 8.16pt>
 File: descriptivos-renca_files/figure-latex/trabajo-jefe-1.pdf Graphic file (ty
 pe pdf)
 <use descriptivos-renca_files/figure-latex/trabajo-jefe-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/trabajo-jefe-1.p
-df  used on input line 1032.
+df  used on input line 1030.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[54 <./descriptivos-renca_files/figure-latex/educ-jefe-1.pdf>]
-<descriptivos-renca_files/figure-latex/ingresos-1.pdf, id=726, 722.7pt x 578.16
+[53 <./descriptivos-renca_files/figure-latex/educ-jefe-1.pdf>]
+<descriptivos-renca_files/figure-latex/ingresos-1.pdf, id=716, 722.7pt x 578.16
 pt>
 File: descriptivos-renca_files/figure-latex/ingresos-1.pdf Graphic file (type p
 df)
 <use descriptivos-renca_files/figure-latex/ingresos-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/ingresos-1.pdf  
-used on input line 1034.
+used on input line 1032.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[55 <./descriptivos-renca_files/figure-latex/trabajo-jefe-1.pdf>] [56 <./descri
+[54 <./descriptivos-renca_files/figure-latex/trabajo-jefe-1.pdf>] [55 <./descri
 ptivos-renca_files/figure-latex/ingresos-1.pdf>] (descriptivos-renca.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 15795 strings out of 475389
- 278432 string characters out of 2777000
+ 15785 strings out of 475389
+ 277927 string characters out of 2777000
  635876 words of memory out of 3000000
- 36582 multiletter control sequences out of 15000+600000
+ 36574 multiletter control sequences out of 15000+600000
  519925 words of font info for 127 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  74i,8n,81p,1017b,514s stack positions out of 10000i,1000n,20000p,200000b,80000s
@@ -1211,9 +1202,9 @@ sers/aigon/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/U
 sers/aigon/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Us
 ers/aigon/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Use
 rs/aigon/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb>
-Output written on descriptivos-renca.pdf (56 pages, 705132 bytes).
+Output written on descriptivos-renca.pdf (55 pages, 700354 bytes).
 PDF statistics:
- 912 PDF objects out of 1000 (max. 8388607)
- 167 named destinations out of 1000 (max. 500000)
- 29220 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 902 PDF objects out of 1000 (max. 8388607)
+ 166 named destinations out of 1000 (max. 500000)
+ 29215 words of extra memory for PDF output out of 29859 (max. 10000000)
 

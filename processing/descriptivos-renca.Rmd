@@ -2,7 +2,6 @@
 title: "Estudio de Percepción y Evaluación Comunal de Renca 2023." 
 subtitle: "Análisis descriptivo."
 author: "Centro de Estudios de Conflicto y Cohesión Social"
-date: '24-04-2023'
 output:
   pdf_document:
     number_sections: true
@@ -12,6 +11,8 @@ output:
     highlight: pygments
 header-includes:
    - \usepackage{floatrow}
+   - \usepackage{booktabs}
+   - \usepackage{multicol}
    - \floatsetup[figure]{capposition=top}
    - \usepackage{titling}
    - \pretitle{\begin{center}
@@ -56,10 +57,11 @@ library(ggplot2); theme_set(theme_bw() +
     theme(axis.text=element_text(size=12),axis.title=element_text(size=13),
           strip.text.y = element_text(angle=0, size=13),plot.caption = element_text(size=11),
           panel.grid = element_line(color = "grey70",linetype = 2)))
+
+getwd()
 ```
 
 ```{r datos}
-getwd()
 renca <- read_dta("../input/data/Renca_1010_macrozona.dta")
 load("../input/data/elsoc.sub.Rdata")
 
@@ -121,9 +123,11 @@ El presente documento presenta los principales resultados a nivel descriptivo, a
 
 ## Ficha técnica
 
-La siguiente tabla presenta el diseño muestral:
+La muestra es de corte transversal no experimental y busca evaluar la percepción de las y los vecinos de la comuna de Renca respecto materias barriales, comunales y municipales.
 
-[AÑADIR CUADRO CON LA DESCRIPCION DE LA MUESTRA].
+La encuesta fue realizada de manera presencial mediante dispositvos electrónicos (Tablets), y fue aplicada a los vecinos de la comuna de Renca. Se lograron 1.010 entrevistas, estratificadas por macrozona mediante afijación proporcional.
+
+El nivel de confianza de la muestra es del 95% con un error de muestreo del 2.2% (asumiendo varianza máxima). A nivel de macrozona, los errores estimados varían alrededor del 5.8% bajo 95% de intervalo de confianza, con varianza máxima.
 
 ## Trabajo de campo
 
@@ -133,7 +137,23 @@ El levantamiento de los datos se realizó en el mes de marzo del año 2023, y fu
 
 La muestra total lograda son 1.010 casos. La siguiente tabla entrega el detalle por macrozona.
 
-[AÑADIR TABLA]
+\begin{table}[h]
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+Macrozona   & Otro (especifique) & Mujer & Hombre & Total \\ \hline
+Macrozona 1 & 0                  & 66    & 78     & 144   \\ \hline
+Macrozona 2 & 0                  & 74    & 70     & 144   \\ \hline
+Macrozona 3 & 8                  & 74    & 62     & 144   \\ \hline
+Macrozona 4 & 1                  & 77    & 66     & 144   \\ \hline
+Macrozona 5 & 8                  & 83    & 53     & 144   \\ \hline
+Macrozona 6 & 0                  & 73    & 72     & 145   \\ \hline
+Macrozona 7 & 0                  & 83    & 62     & 145   \\ \hline
+Total       & 17                 & 530   & 463    & 1010  \\ \hline
+\end{tabular}
+\caption{Muestra total por macrozona}
+\label{tab:macro}
+\end{table}
+
 
 \newpage
 
@@ -179,12 +199,11 @@ apego.barrio %>%
   labs(title = "Nivel de apego al barrio", subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
        x = "", y = "") 
 ```
+\newpage
 
 El Gráfico \ref{fig:apego_barrial_elsoc} muestra algunos de los ítems del Gráfico anterior pero comparados con la Región Metropolitana, ocupando los datos de la Encuesta Longitudinal Social de Chile (ELSOC) en su sexta ola.
 
 Lo que se observa es que estos porcentajes son en algunos casos similares a lo que muestra la Región Metropolitana en general, aunque siempre por debajo entre unos 5 y 10 puntos.
-
-\newpage
 
 ```{r apego-barrial-elsoc, echo=FALSE, fig.cap="\\label{fig:apego_barrial_elsoc}Nivel de apego barrial (ELSOC)"}
 vars <- c("Este barrio es ideal para mi","Me siento integrado en este barrio", #t02
@@ -259,6 +278,8 @@ soci.barrial %>%
        x = "", y = "") +
   coord_flip()
 ```
+
+\newpage
 
 Nuevamente comparando con la Región Metropolitana se observa que los patrones difieren en algunos aspectos. Por ejemplo, si en Renca el 53% considera que en el barrio es fácil hacer amigos, en la RM el 44% piensa lo mismo. Por el contrario, si en Renca el 54% considera que la gente de su barrio es cordial, este porcentaje aumenta a un 65% para la RM. En lo que respecta a la percepción de colaboración y a la de sociabilidad, no se observan grandes diferencias.
 
@@ -371,6 +392,8 @@ visitas %>%
   labs(title = get_label(renca$q0005), x = "", y = "") 
 ```
 
+\newpage
+
 Ahora, comparado con la RM, se observa que, de acuerdo al Gráfico \ref{fig:visitas.elsoc}, en Renca hay una mayor frecuencia de visitas a los vecinos: si en la RM el 33% declara nunca haber visitado a un vecino, en Renca este porcentaje baja al 22%. A su vez, si en la RM entre el 15% y el 26% declara haber visitado 1 o 2 veces a su vecino, o más de 2 veces, estos porcentajes alcanzan el 37% y 38% en Renca.
 
 ```{r cant-visit.elsoc,fig.cap="\\label{fig:visitas.elsoc}Número de visitas a un vecinó ralizadas en el último mes (ELSO)"}
@@ -413,6 +436,8 @@ confianza %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "En términos generales, ¿Cuánto confía usted en sus vecinos?", x = "", y = "") 
 ```
+
+\newpage
 
 El Gráfico \ref{fig:conf_vec_elsoc} muestra los niveles de confianza entre los vecinos para la RM. En ella se ve que el 42% de los habitantes de la RM confía en sus vecinos, situación que contrasta con la de Renca. Sin embargo, si se observa a quienes no confían se ve que las diferencias son menos marcadas con respecto a la RM, en donde el 29% declara no confiar en sus vecinos. Es decir, en comparación a la RM, si bien en Renca son menos los que confían mucho o bastante en sus vecinos, sí son más los que confían en algo en sus vecinos.
 
@@ -505,6 +530,8 @@ arraigo %>%
   labs(title = "¿Tiene planeado cambiarse de casa/departamento en el próximo año?", x = "", y = "") 
 ```
 
+\newpage
+
 De acuerdo con el Gráfico \ref{fig:arraigo.elsoc} no parecen haber grandes diferencias entre la RM y Renca en este sentido.
 
 ```{r arraigo.elsoc,fig.cap="\\label{fig:arraigo.elsoc}Probabilidad de cambio de domicilio (ELSOC)"}
@@ -559,6 +586,8 @@ particip %>%
        x = "", y = "") +
   coord_flip()
 ```
+
+\newpage
 
 Si se comparan estos resultados con la RM en su conjunto, se observa que, de acuerdo al Gráfico \ref{fig:prticipacion.elsco}, hay similitudes con la región en lo que refiere a la tendencia, es decir: las organizaciones religiosas son las que cuentan con la mayor cantidad de participantes. Sin embargo, existen diferencias significativas en lo que respecta a las magnitudes. Si en Renca el 9% participa en organizaciones religiosas, en la RM este porcentaje alcanza el 26%. A su vez, si en Renca el 7% participa en las juntas de vecinos u organizaciones territoriales, este porcentaje alcanza un 27% en la RM
 
@@ -751,6 +780,8 @@ renca %>%
   coord_flip()
 ```
 
+\newpage
+
 Por otro lado, de acuerdo al Gráfico \ref{fig:conocimiento_medios} se evidencia un bajo nivel de conocimiento de distintos medios de información, a saber: el WhatsApp "Renca Responde", la plataforma "Renca Participa" y el Diario "El Mirador de Renca". En los dos primeros, el grado de conocimiento no supera el 20%, mientras que en el caso del diario de la comuna, este porcentaje sube al 30% aproximadamente. Estos resultados bien pueden explicar el por qué los vecinos de la comuna no los mencionan como los principales medios por los cuales se informan.
 
 ```{r conoce-medios,fig.cap="\\label{fig:conocimiento_medios}Grado de conocimiento de los medios de comunicación comunales"}
@@ -792,6 +823,8 @@ diario <- renca %>%
 
 grid.arrange(wsp,app,diario ,nrow = 2, top = textGrob("Usted conoce:"))
 ```
+
+\newpage
 
 ## Evaluación infraestructura y programas municipales.
 

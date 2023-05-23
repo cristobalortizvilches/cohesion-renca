@@ -589,7 +589,7 @@ particip %>%
 
 \newpage
 
-Si se comparan estos resultados con la RM en su conjunto, se observa que, de acuerdo al Gráfico \ref{fig:prticipacion.elsco}, hay similitudes con la región en lo que refiere a la tendencia, es decir: las organizaciones religiosas son las que cuentan con la mayor cantidad de participantes. Sin embargo, existen diferencias significativas en lo que respecta a las magnitudes. Si en Renca el 9% participa en organizaciones religiosas, en la RM este porcentaje alcanza el 26%. A su vez, si en Renca el 7% participa en las juntas de vecinos u organizaciones territoriales, este porcentaje alcanza un 27% en la RM
+Si se comparan estos resultados con la RM en su conjunto, se observa que, de acuerdo al Gráfico \ref{fig:prticipacion.elsoc}, hay similitudes con la región en lo que refiere a la tendencia, es decir: las organizaciones religiosas son las que cuentan con la mayor cantidad de participantes. Sin embargo, existen diferencias significativas en lo que respecta a las magnitudes. Si en Renca el 9% participa en organizaciones religiosas, en la RM este porcentaje alcanza el 26%. A su vez, si en Renca el 7% participa en las juntas de vecinos u organizaciones territoriales, este porcentaje alcanza un 27% en la RM
 
 ```{r participacion.elsoc,fig.cap="\\label{fig:prticipacion.elsoc}Porcentaje de personas que participa en alguna asociación (ELSOC)"}
 #remove("particip")

@@ -111,13 +111,13 @@ elsoc.sub <- elsoc.sub %>% mutate_at(vars(starts_with("comuna")),function(x)gsub
 
 ## Presentación del Estudio
 
-De acuerdo con la Ley N°18.625, Orgánica Constitucional de Municipalidades, son corporaciones autónomas de derecho público, con personalidad jurídica y patrimonio propio, que buscan satisfacer las necesidades de su comunidad y asegurar su participación en el progreso económico, social y cultural. 
+De acuerdo con la Ley N°18.625, Orgánica Constitucional de Municipalidades, son corporaciones autónomas de derecho público, con personalidad jurídica y patrimonio propio, que buscan satisfacer las necesidades de su comunidad y asegurar su participación en el progreso económico, social y cultural.
 
-Para ello, deben velar por la correcta distribución de sus recursos, los que son destinados a programas y proyectos que buscan mejorar la calidad de vida de quienes viven en la comuna. 
+Para ello, deben velar por la correcta distribución de sus recursos, los que son destinados a programas y proyectos que buscan mejorar la calidad de vida de quienes viven en la comuna.
 
 En virtud de lo anterior, la Ilustre Municipalidad de Renca encargó al Centro de Estudios de Conflicto y Cohesión Social (COES) la elaboración de un estudio que permita evaluar la percepción de los vecinos de la comuna respecto a distintos temas, identificar problemáticas y sus preferencias.
 
-El presente documento presenta los principales resultados a nivel descriptivo, a partir de una encuesta realizada a 1.010 habitantes de la comuna. 
+El presente documento presenta los principales resultados a nivel descriptivo, a partir de una encuesta realizada a 1.010 habitantes de la comuna.
 
 ## Ficha técnica
 
@@ -141,7 +141,7 @@ La muestra total lograda son 1.010 casos. La siguiente tabla entrega el detalle 
 
 ## Apego al barrio
 
-El Gráfico \ref{fig:apego_barrial} muestra a quienes se manifiestan como "Muy de acuerdo" o "De acuerdo" con las siguientes afirmaciones: (1) Este barrio es ideal para mi, (2) Me siento integrada/o en este barrio, (3) Me identifico con la gente de mi barrio, (4) Este barrio es parte de mi y (5) Me siento orgullosa/o de vivir en este barrio. 
+El Gráfico \ref{fig:apego_barrial} muestra a quienes se manifiestan como "Muy de acuerdo" o "De acuerdo" con las siguientes afirmaciones: (1) Este barrio es ideal para mi, (2) Me siento integrada/o en este barrio, (3) Me identifico con la gente de mi barrio, (4) Este barrio es parte de mi y (5) Me siento orgullosa/o de vivir en este barrio.
 
 A partir de gráfico se logra ver que en la comuna las personas tienden a manifestar un cierto nivel de apego con su barrio: en torno al 50% de los encuestados manifiesta que se siente integrado en su barrio, que se identifica con la gente de su barrio o que el barrio es parte de ellos, aunque al mismo tiempo manifiestan que no se sienten orgullosos de vivir en el barrio: sólo un 40% manifiesta estar orgullos de vivir en su barrio, porcentaje relativamente similar a quienes manifiestan que el barrio donde viven es ideal para ellos.
 
@@ -180,9 +180,9 @@ apego.barrio %>%
        x = "", y = "") 
 ```
 
-El Gráfico \ref{fig:apego_barrial_elsoc} muestra algunos de los ítems del Gráfico anterior pero comparados con la Región Metropolitana, ocupando los datos de la Encuesta Longitudinal Social de Chile (ELSOC) en su sexta ola. 
+El Gráfico \ref{fig:apego_barrial_elsoc} muestra algunos de los ítems del Gráfico anterior pero comparados con la Región Metropolitana, ocupando los datos de la Encuesta Longitudinal Social de Chile (ELSOC) en su sexta ola.
 
-Lo que se observa es que estos porcentajes son en algunos casos similares a lo que muestra la Región Metropolitana en general, aunque siempre por debajo entre unos 5 y 10 puntos. 
+Lo que se observa es que estos porcentajes son en algunos casos similares a lo que muestra la Región Metropolitana en general, aunque siempre por debajo entre unos 5 y 10 puntos.
 
 \newpage
 
@@ -217,7 +217,7 @@ elsoc_barrio %>%
 
 \newpage
 
-## Sociabilidad 
+## Sociabilidad
 
 El Gráfico \ref{fig:soci_barrial} muestra el grado de acuerdo que existe con las siguientes frases: (1) La gente en este barrio está dispuesta a ayudar a otros residentes cuando es necesario, (2) La gente en este barrio está interesada en los demás, (3) La gente en este barrio es colaboradora, (4) La gente en este barrio es cordial, (5) La gente en este barrio es sociable y (6) En este barrio es fácil hacer amigos.
 
@@ -303,11 +303,13 @@ amigos.barrio %>%
   labs(title = "¿Cuántos amigos o amigas cercanas tiene usted en el barrio?", x = "", y = "") 
 ```
 
+\newpage
+
 ### Apoyo social
 
 El Gráfico \ref{fig:apoyo_social} muestra el nivel de apoyo social que las personas perciben que pueden recibir de sus vecinos. En concreto, el gráfico muestra el porcentaje de personas que considera tener al menos un vecino a quien pedirle ayuda según distintas situaciones.
 
-La mayoría de los consultados reporta que puede solicitarle a un vecino ayuda con temas personales (55% aproximadamente). Sin embargo, este porcentaje desciende para las otras actividades, llegando al 38% que considera que puede pedir ayuda en caso de enfermedad de algún miembro del hogar. Esto puede ser indicativo de que las posibilidades de recibir ayuda disminuyen conforme la dificultad del problema aumenta. 
+La mayoría de los consultados reporta que puede solicitarle a un vecino ayuda con temas personales (55% aproximadamente). Sin embargo, este porcentaje desciende para las otras actividades, llegando al 38% que considera que puede pedir ayuda en caso de enfermedad de algún miembro del hogar. Esto puede ser indicativo de que las posibilidades de recibir ayuda disminuyen conforme la dificultad del problema aumenta.
 
 ```{r apoyo-social, fig.cap="\\label{fig:apoyo_social}Nivel de apoyo social"}
 #remove("apoyo.social")
@@ -345,9 +347,11 @@ apoyo.social %>%
   coord_flip()
 ```
 
+\newpage
+
 ### Visitas
 
-El Gráfico \ref{fig:visitas} muestra el número de visitas que los encuestados han realizado en el último mes a sus vecinos. 
+El Gráfico \ref{fig:visitas} muestra el número de visitas que los encuestados han realizado en el último mes a sus vecinos.
 
 Según el gráfico, cerca de un 75% ha visitado alguna vez a sus vecinos: un 37% los ha visitado una o dos veces en el último mes, mientras que el 38% lo ha hecho más de dos veces. Poco más de un 20% declara no haber visitado a sus vecinos en el último mes.
 
@@ -386,6 +390,8 @@ visitas.elsoc %>%
        caption = "Fuente: elaboración propia a partir de la ELSOC Ola 5") 
 ```
 
+\newpage
+
 ### Confianza
 
 El Gráfico \ref{fig:conf_vec} muestra el nivel de confianza que se tiene en los vecinos. De acuerdo con los datos. En términos generales, la distribución de los niveles de confianza es bastante similar, aunque tiende a concentrarse en categorías medias de confianza. Cerca de un 35% no confía en sus vecinos (un 10% declara no confiar en nada, mientras que un 25% declara confiar poco). Un porcentaje similar se observa entre quienes declaran confiar mucho o bastante en sus vecinos: mientras un 3.6% declara confiar mucho en sus vecinos, un 28.4% declara que confía bastante. Finalmente, un 32% confía algo en sus vecinos.
@@ -407,6 +413,7 @@ confianza %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "En términos generales, ¿Cuánto confía usted en sus vecinos?", x = "", y = "") 
 ```
+
 El Gráfico \ref{fig:conf_vec_elsoc} muestra los niveles de confianza entre los vecinos para la RM. En ella se ve que el 42% de los habitantes de la RM confía en sus vecinos, situación que contrasta con la de Renca. Sin embargo, si se observa a quienes no confían se ve que las diferencias son menos marcadas con respecto a la RM, en donde el 29% declara no confiar en sus vecinos. Es decir, en comparación a la RM, si bien en Renca son menos los que confían mucho o bastante en sus vecinos, sí son más los que confían en algo en sus vecinos.
 
 ```{r conf-vecinal.elsoc,fig.cap="\\label{fig:conf_vec_elsoc}Nivel de confianza en los vecinos (ELSOC)"}
@@ -427,12 +434,13 @@ confianza.elsoc %>%
        caption= "Fuente: elaboración propia a partir de la ELSOC Ola 6.") 
 ```
 
+\newpage
 
 ## Confianza en autoridades e instituciones comunales
 
-Por su parte, el Gráfico \ref{fig:conf_auto} muestra el porcentaje de personas que manifiesta tener bastante o mucha confianza en las autoridades y servicios comunales. Se observa que los establecimientos educacionales y los servicios de salud muestran los mayores niveles de confianza (en torno al 40% manifiesta confiar mucho o bastante en ellos), lo que contrasta con la categoría de servicios municipales: poco más de un 20% manifiesta confiar mucho o bastante en ellos. 
+Por su parte, el Gráfico \ref{fig:conf_auto} muestra el porcentaje de personas que manifiesta tener bastante o mucha confianza en las autoridades y servicios comunales. Se observa que los establecimientos educacionales y los servicios de salud muestran los mayores niveles de confianza (en torno al 40% manifiesta confiar mucho o bastante en ellos), lo que contrasta con la categoría de servicios municipales: poco más de un 20% manifiesta confiar mucho o bastante en ellos.
 
-Por su parte, las autoridades políticas (concejales y alcalde), tienen los menores niveles de confianza: un 12.5% para los concejales manifiesta confiar mucho o bastante en los concejales, y un 17% manifiesta lo mismo para el alcalde; porcentajes similares a los de las juntas de vecinos: un 14% manifiesta tener mucha o bastante confianza en ellas. 
+Por su parte, las autoridades políticas (concejales y alcalde), tienen los menores niveles de confianza: un 12.5% para los concejales manifiesta confiar mucho o bastante en los concejales, y un 17% manifiesta lo mismo para el alcalde; porcentajes similares a los de las juntas de vecinos: un 14% manifiesta tener mucha o bastante confianza en ellas.
 
 ```{r conf-auto,fig.cap="\\label{fig:conf_auto}Nivel de confianza en autoridades y servicios comunales"}
 #remove("conf.auto")
@@ -473,6 +481,8 @@ conf.auto %>%
   coord_flip()
 ```
 
+\newpage
+
 ## Arraigo físico
 
 El Gráfico \ref{fig:arraigo} muestra el porcentaje de personas que se cambiaría de domicilio en el próximo año. A partir de él se logra ver que la gran mayoría, es decir, más del 80% de los encuestados manifiesta que no se cambiaría de su actual domicilio, aunque las razones difieren: mientras el 50% manifiesta que no lo haría porque considera que está bien en su actual domicilio, el 32% no lo haría porque no tiene los medios económicos suficientes para ello.
@@ -494,6 +504,7 @@ arraigo %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿Tiene planeado cambiarse de casa/departamento en el próximo año?", x = "", y = "") 
 ```
+
 De acuerdo con el Gráfico \ref{fig:arraigo.elsoc} no parecen haber grandes diferencias entre la RM y Renca en este sentido.
 
 ```{r arraigo.elsoc,fig.cap="\\label{fig:arraigo.elsoc}Probabilidad de cambio de domicilio (ELSOC)"}
@@ -513,6 +524,8 @@ arraigo.elsoc %>%
   labs(title = "¿Tiene planeado cambiarse de casa/departamento en el próximo año?", x = "", y = "",
        caption = "Fuente: elaboración propia a partir de la ELSOC Ola 6.") 
 ```
+
+\newpage
 
 ## Participación
 
@@ -581,6 +594,8 @@ particip.elsoc %>%
   coord_flip()
 ```
 
+\newpage
+
 ## Actividad civica
 
 El Gráfico \ref{fig:act_civica} muestra el porcentaje de personas que declara haber participado en distintas instancias de activismo. En general se observa que, entre quienes participan, la mayoría ha ocupado las redes sociales para expresar sus opiniones (35%) seguido de la asistencia a reuniones (29%).
@@ -618,11 +633,13 @@ actividad.civica %>%
 
 ```
 
+\newpage
+
 ## Grupos de nuevos residentes
 
 El Gráfico \ref{fig:nvo_residente} muestra el grado de aceptación a la llegada al barrio de distintos grupos sociales, tales como inmigrantes, personas de estratos socio-económicos medios, etc.
 
-De acuerdo con los datos, los grupos cuya llegada tendría menor aceptación son los inmigrantes, principalmente venezolanos y colombianos (64% no estaría de acuerdo con su llegada al barrio) y haitianos (61% no estaría de acuerdo con su llegada al barrio), seguidos de las personas que hayan estado privadas de libertad (61% no estaría de acuerdo con su llegada al barrio). Más abajo, estarían los inmigrantes peruanos y bolivianos: en este caso poco menos del 50% no estaría de acuerdo con su llegada al barrio. 
+De acuerdo con los datos, los grupos cuya llegada tendría menor aceptación son los inmigrantes, principalmente venezolanos y colombianos (64% no estaría de acuerdo con su llegada al barrio) y haitianos (61% no estaría de acuerdo con su llegada al barrio), seguidos de las personas que hayan estado privadas de libertad (61% no estaría de acuerdo con su llegada al barrio). Más abajo, estarían los inmigrantes peruanos y bolivianos: en este caso poco menos del 50% no estaría de acuerdo con su llegada al barrio.
 
 Estos resultados contrastan con los otros grupos sociales, en donde su rechazo tiende a no superar el 20% aproximadamente, como es el caso de las personas de la diversidad sexual, de pueblos originarios.
 
@@ -666,6 +683,8 @@ new.resid %>%
   coord_flip()
 ```
 
+\newpage
+
 ## Justificación violencia
 
 El Gráfico \ref{fig:just_viol} muestra el porcentaje de personas que justificarían el uso de la violencia para detener a un delincuente, o bien como medio de protesta.
@@ -707,6 +726,8 @@ just.viol %>%
   coord_flip()
 ```
 
+\newpage
+
 # Conocimiento de iniciativas municipales y autoridades
 
 ## Medios de información:
@@ -730,7 +751,7 @@ renca %>%
   coord_flip()
 ```
 
-Por otro lado, de acuerdo al Gráfico \ref{fig:conocimiento_medios} se evidencia un bajo nivel de conocimiento de distintos medios de información, a saber: el WhatsApp "Renca Responde", la plataforma "Renca Participa" y el Diario "El Mirador de Renca". En los dos primeros, el grado de conocimiento no supera el 20%, mientras que en el caso del diario de la comuna, este porcentaje sube al 30% aproximadamente. Estos resultados bien pueden explicar el por qué los vecinos de la comuna no los mencionan como los principales medios por los cuales se informan. 
+Por otro lado, de acuerdo al Gráfico \ref{fig:conocimiento_medios} se evidencia un bajo nivel de conocimiento de distintos medios de información, a saber: el WhatsApp "Renca Responde", la plataforma "Renca Participa" y el Diario "El Mirador de Renca". En los dos primeros, el grado de conocimiento no supera el 20%, mientras que en el caso del diario de la comuna, este porcentaje sube al 30% aproximadamente. Estos resultados bien pueden explicar el por qué los vecinos de la comuna no los mencionan como los principales medios por los cuales se informan.
 
 ```{r conoce-medios,fig.cap="\\label{fig:conocimiento_medios}Grado de conocimiento de los medios de comunicación comunales"}
 wsp <- renca %>% 
@@ -774,9 +795,9 @@ grid.arrange(wsp,app,diario ,nrow = 2, top = textGrob("Usted conoce:"))
 
 ## Evaluación infraestructura y programas municipales.
 
-El Gráfico \ref{fig:conoce_infra} muestra el grado de conocimiento de distintos lugares de la comuna. A diferencia de los medios de comunicación, se ve que existe un alto conocimiento en general de los distintos espacios de la comuna, destacando la Plaza Mayor con un 84% de conocimiento, seguida del Estadio Municipal con un 82%. Por su parte, el Parque Cerros de Renca muestra un 73% de conocimiento. 
+El Gráfico \ref{fig:conoce_infra} muestra el grado de conocimiento de distintos lugares de la comuna. A diferencia de los medios de comunicación, se ve que existe un alto conocimiento en general de los distintos espacios de la comuna, destacando la Plaza Mayor con un 84% de conocimiento, seguida del Estadio Municipal con un 82%. Por su parte, el Parque Cerros de Renca muestra un 73% de conocimiento.
 
-En contraste, existen tres lugares que bajan del 50% de conocimiento. "La Fabrica" es el lugar con el menor nivel de conocimiento: sólo un 28% la conoce. Por otro lado, los estadios Sarmiento y Newén también bajan del 50% de conocimiento, alcanzando un 40% de conocimiento aproximadamente. 
+En contraste, existen tres lugares que bajan del 50% de conocimiento. "La Fabrica" es el lugar con el menor nivel de conocimiento: sólo un 28% la conoce. Por otro lado, los estadios Sarmiento y Newén también bajan del 50% de conocimiento, alcanzando un 40% de conocimiento aproximadamente.
 
 ```{r conoce-infra,fig.cap="\\label{fig:conoce_infra}Grado de conocimiento de infraestructura comunal"}
 #remove("conoce.infra")
@@ -816,6 +837,8 @@ conoce.infra %>%
        x = "", y = "") +
   coord_flip()
 ```
+
+\newpage
 
 Por su parte, el Gráfico \ref{fig:notas_infra} muestra la evaluación que los vecinos hacen de las instalaciones de la comuna. En promedio, cada una de las instalaciones recibe una nota de 4.5, siendo el Estadio Municipal y el Gimnasio Bicentenario los que mejor evaluación obtienen con un 5 aproximadamente. Por su parte, cuando se observa a aquellas instalaciones con menor nivel de conocimiento, de acuerdo al gráfico anterior, se constata que "La Fabrica" es la que recibe la peor nota con un 3.9 aproximadamente, en cambio los Estadios Sarmiento y Newén reciben una nota apenas por sobre el 4.
 
@@ -858,11 +881,13 @@ ggplot(nota.infra, aes(x = name, y = mean)) +
   coord_flip()
 ```
 
+\newpage
+
 En cuanto al Gráfico \ref{fig:conoce_prog} muestra el grado de conocimiento de distintos programas de la comuna. En este caso, existe una dispar nivel de conocimiento entre programas, aunque varios de ellos tienden a tener niveles de conocimiento bajos.
 
-Entre los que mayor nivel de conocimiento tienen, destacan tres: la Farmacia Comunitaria, con un 82% de conocimiento. En un segundo lugar se encuentra el Servicio de Seguridad Comunitario con un 75% de conocimiento, y finalmente, con un 63% de conocimiento se encuentra la Óptica Comunitaria. 
+Entre los que mayor nivel de conocimiento tienen, destacan tres: la Farmacia Comunitaria, con un 82% de conocimiento. En un segundo lugar se encuentra el Servicio de Seguridad Comunitario con un 75% de conocimiento, y finalmente, con un 63% de conocimiento se encuentra la Óptica Comunitaria.
 
-Por su parte, los tres programas con menores niveles de conocimiento vendrían siendo el Programa Fuerza Joven con un 21% de conocimiento, el programa Renca Jazz con un 22% y la Escuela del trabajo y el PADI, ambos con un 25% de conocimiento aproximadamente. 
+Por su parte, los tres programas con menores niveles de conocimiento vendrían siendo el Programa Fuerza Joven con un 21% de conocimiento, el programa Renca Jazz con un 22% y la Escuela del trabajo y el PADI, ambos con un 25% de conocimiento aproximadamente.
 
 ```{r conoce-programas,fig.cap="\\label{fig:conoce_prog}Grado de conocimiento de programas municiaples"}
 #remove("conoceprogramas")
@@ -903,6 +928,8 @@ conoce.programas %>%
        x = "", y = "") +
   coord_flip()
 ```
+
+\newpage
 
 Ahora, cuando se evalúan los distintos programas se observa que, de acuerdo con el Gráfico \ref{fig:nota_programas} se observa que, en promedio, los programas son evaluados con una nota de 4.5, siendo la Farmacia Comunitaria la con mejor evaluación: un 5 aproximadamente, nota similar a la que recibe el programa Santiago a Mil en Renca. La óptica comunitaria obtiene un 4.8 aproximadamente. Sin embargo, cuando se observa el Servicio de Seguridad Comunitario, este apenas sobre pasa el 4.
 
@@ -945,9 +972,11 @@ ggplot(nota.infra, aes(x = name, y = mean)) +
   coord_flip()
 ```
 
+\newpage
+
 ## Conocimiento autoridades
 
-De acuerdo con el Gráfico \ref{fig:conocimiento_alc} existe un alto nivel de conocimiento de la figura del alcalde: un 43% logra identificarlo como "Claudio Castro"; y cerca de un 20% lo conoce o por su nombre o por su apellido. 
+De acuerdo con el Gráfico \ref{fig:conocimiento_alc} existe un alto nivel de conocimiento de la figura del alcalde: un 43% logra identificarlo como "Claudio Castro"; y cerca de un 20% lo conoce o por su nombre o por su apellido.
 
 ```{r conoc-alc,fig.cap="\\label{fig:conocimiento_alc}Grado de conocimiento del alcalde"}
 
@@ -966,6 +995,8 @@ alcalde %>%
   labs(title = "¿Podría decirme el nombre del Alcalde de Renca? ", x = "", y = "") +
   coord_flip()
 ```
+
+\newpage
 
 Por su parte, en lo que respecta a los concejales, de acuerdo con el Gráfico \ref{fig:conoce_csj}, la mayoría no logra identificar a un concejal (66%, considerando a los No sabe y No responde). El concejal con el mayor nivel de conocimiento sería César Amestica (14%).
 
@@ -994,6 +1025,7 @@ consejal %>%
   coord_flip()
 ```
 
+\newpage
 
 # Evaluación gestión municipal
 
@@ -1044,6 +1076,8 @@ eval.gest %>%
   coord_flip()
 ```
 
+\newpage
+
 ## Evaluación elementos del barrio
 
 El Gráfico \ref{fig:eval_barrio} muestra las notas que los encuestados ponen a distintos aspectos del barrio. El promedio del total es de 3.6, y los elementos mejor evaluados son las luminarias públicas y el arbolado, ambos bordeando el 4.0. Por su parte, el elemento peor evaluado son las ciclovías, las que son evaluadas con un 3.3 en promedio, mientras que las señaléticas y los cruces peatonales son evaluados con un 3.5 aproximadamente.
@@ -1080,9 +1114,11 @@ ggplot(eval.barrio1, aes(x = name, y = mean)) +
   coord_flip()
 ```
 
+\newpage
+
 ## Evaluación infrestructura y equipamiento barrial
 
-El Gráfico \ref{fig:nota_barrio} muestra la evaluación promedio a distintas infraestructuras barriales. El promedio es de 3.8, y destacan el consultorio donde los encuestados se atienden, que recibe una nota de 4.5, un poco por sobre los jardines, escuelas y liceos municipales. El resto de las infraestructuras recibe una nota bajo el 4, siendo los bandejones y las platabandas los que reciben la evaluación más baja (3.3). 
+El Gráfico \ref{fig:nota_barrio} muestra la evaluación promedio a distintas infraestructuras barriales. El promedio es de 3.8, y destacan el consultorio donde los encuestados se atienden, que recibe una nota de 4.5, un poco por sobre los jardines, escuelas y liceos municipales. El resto de las infraestructuras recibe una nota bajo el 4, siendo los bandejones y las platabandas los que reciben la evaluación más baja (3.3).
 
 ```{r nota-barrio2,fig.cap="\\label{fig:nota_barrio}Nota a infraestructura y equipamiento barrial"}
 #remove("eval.barrio2")
@@ -1117,6 +1153,8 @@ ggplot(eval.barrio2, aes(x = name, y = mean)) +
        caption = paste("Promedio = ",round(mean(eval.barrio2$mean),1))) +
   coord_flip()
 ```
+
+\newpage
 
 ## Evaluación servicios municipales
 
@@ -1171,11 +1209,13 @@ ggplot(eval.servicios, aes(x = name, y = mean)) +
   coord_flip()
 ```
 
+\newpage
+
 # Proyección futuro
 
 ## Fortalezas
 
-El Gráfico \ref{fig:fortalezas} muestra las principales fortalezas de la comuna según los encuestados, filtrando aquellas que no alcanzan un 1% de las menciones. En términos generales, se observa que las personas tienden a no identificar una fortaleza en la comuna: cerca del 60% de los encuestados no menciona una fortaleza, ya sea porque no sabe o no responde a la pregunta (56%) o bien porque efectivamente considera que no hay ninguna fortaleza (3%). 
+El Gráfico \ref{fig:fortalezas} muestra las principales fortalezas de la comuna según los encuestados, filtrando aquellas que no alcanzan un 1% de las menciones. En términos generales, se observa que las personas tienden a no identificar una fortaleza en la comuna: cerca del 60% de los encuestados no menciona una fortaleza, ya sea porque no sabe o no responde a la pregunta (56%) o bien porque efectivamente considera que no hay ninguna fortaleza (3%).
 
 Por otro lado, cerca del 10% de los encuestados considera que una de las principales fortalezas de la comuna es el transporte público (lo que en cierta medida se condice con su renuencia a valorar la destrucción del mismo como medio de protesta). Más abajo se encontrarían las ferias y los vecinos como una de las princiaples fortalezas de la comuna, con cerca de un 4% de menciones.
 
@@ -1195,9 +1235,11 @@ ggplot(fortalezas,aes(x = value, y = freq, label = as.character(scales::percent(
   coord_flip()
 ```
 
+\newpage
+
 ## Renca en tres años
 
-El Gráfico \ref{fig:renca_tres} muestra cómo las personas proyectan que estará la comuna en tres años más. En términos generales, se observa que la mayoría de las personas ven que la comuna puede estar mejor (45%) o igual (39%); sólo el 17% considera que estará peor. 
+El Gráfico \ref{fig:renca_tres} muestra cómo las personas proyectan que estará la comuna en tres años más. En términos generales, se observa que la mayoría de las personas ven que la comuna puede estar mejor (45%) o igual (39%); sólo el 17% considera que estará peor.
 
 ```{r proyec-tres, fig.cap="\\label{fig:renca_tres}Poryección de la comuna en tres años más"}
 proyec.tres <- renca %>%
@@ -1218,6 +1260,7 @@ proyec.tres %>%
   labs(title = "Según su percepción, en 3 años Renca estara:", x = "", y = "") 
 ```
 
+\newpage
 
 ## Principales problemas
 
@@ -1251,6 +1294,7 @@ tres.problemas %>%
   coord_flip()
 ```
 
+\newpage
 
 # Seguridad
 
@@ -1275,7 +1319,9 @@ rep.barrio %>%
   labs(title = "¿Cómo cree que evalúan su barrio las personas que viven fuera de él?", x = "", y = "") 
 ```
 
-Si contrastamos estos datos con los reportados por la ELSOC para la RM, se observa que el 44% considera que su barrio es visto de manera positiva, mientras que el 27% considera que es visto de manera negativa. 
+\newpage
+
+Si contrastamos estos datos con los reportados por la ELSOC para la RM, se observa que el 44% considera que su barrio es visto de manera positiva, mientras que el 27% considera que es visto de manera negativa.
 
 ```{r rep-barrial.elsoc, fig.cap="\\label{fig:reputacion_barrio_elsoc}Percepción de cómo las personas externas evaluan el barrio (ELSOC)"}
 rep.barrio.elsoc <- elsoc.sub %>%
@@ -1294,6 +1340,8 @@ rep.barrio.elsoc %>%
        caption = "Fuente: elaboración propia a partir de la ELSOC Ola 6.") 
 
 ```
+
+\newpage
 
 ## Seguridad en el barrio
 
@@ -1314,6 +1362,9 @@ segu.barrio %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Qué tan seguro/a o inseguro/a se siente en el barrio", x = "", y = "") 
 ```
+
+\newpage
+
 Por su parte, cuando se considera al conjunto de la RM se ve que la mayoría tiende a considerarse seguro en su barrio (46%), mientras que el 30% se considera inseguro en su barrio
 
 ```{r segu-barrial.elsoc,fig.cap="\\label{fig:seguridad.elsoc}Percepción de seguridad en el barrio (ELSOC)"}
@@ -1333,7 +1384,9 @@ segu.barrio.elsoc %>%
        caption = "Fuente: elaboración propia a partir de la ELSOC Ola 6.") 
 ```
 
-Por su parte, el \ref{fig:seguridad2} muestra el grado de inseguridad que sienten los encuestados en distintas situaciones. Dentro de estas, la que presenta los mayores niveles de percepción de inseguridad es e estar en la calle durante la noche: cerca del 80% de los entrevistados considera que es una situación insegura, lo que es contrasta fuertemente con el estar en la calle durante el día: en tal caso el 47% considera que son inseguras. El resto de las otras situaciones tienen niveles de inseguridad medios: menos del 50% considera que los paraderos, los parques y las ferias son inseguras. 
+\newpage
+
+Por su parte, el \ref{fig:seguridad2} muestra el grado de inseguridad que sienten los encuestados en distintas situaciones. Dentro de estas, la que presenta los mayores niveles de percepción de inseguridad es e estar en la calle durante la noche: cerca del 80% de los entrevistados considera que es una situación insegura, lo que es contrasta fuertemente con el estar en la calle durante el día: en tal caso el 47% considera que son inseguras. El resto de las otras situaciones tienen niveles de inseguridad medios: menos del 50% considera que los paraderos, los parques y las ferias son inseguras.
 
 ```{r segu-barrio2,fig.cap="\\label{fig:seguridad2}Percepción de riesgo en la comuna según lugar"}
 #remove("segu-segu.barrio2")
@@ -1371,6 +1424,8 @@ segu.barrio2 %>%
        x = "", y = "") +
   coord_flip()
 ```
+
+\newpage
 
 Congruentemente con lo que se ha dicho anteriormente, el Gráfico \ref{fig:miedo.barrio} muestra cuales son las principales fuentes de miedo en los encuestados. En él se ve que, en prácticamente todas las categorías, existe una alta percepción a sufrir un delito, o bien que una persona cercana lo sufra: en todas las categorías, el miedo a sufrir un delito de los enumerados es superior al 70%, y en algunos casos superior al 75%; sólo el miedo a sufrir una violación es ligeramente menor al 70%, alcanzando un 66%.
 
@@ -1412,6 +1467,8 @@ miedo.barrio %>%
        x = "", y = "") +
   coord_flip()
 ```
+
+\newpage
 
 El Gráfico \ref{fig:crimen.barrio} reporta el porcentaje de personas que ha sido testigo de distintos delitos. Dentro de estos, poco más del 60% declara haber visto consumo de alcohol en la vía pública, venta de droga en la vía pública y rayados en la vía pública (siendo éste el más común). Es de notar también que el 50% de la muestra también declara ser testigo de balaceras o de disparos.
 
@@ -1465,6 +1522,8 @@ crimen.barrio %>%
        x = "", y = "") +
   coord_flip()
 ```
+
+\newpage
 
 # Caracterización sociodemográfica
 
@@ -1626,7 +1685,6 @@ ocupacion %>%
   coord_flip()
 ```
 
-
 ```{r sost-hogar}
 sost.hogar <- renca %>%
   dplyr::select(q0044) %>% 
@@ -1664,7 +1722,6 @@ educ.sost %>%
   coord_flip()
 ```
 
-
 ```{r trabajo-jefe}
 trab.sost <- renca %>%
   dplyr::select(q0046) %>% 
@@ -1683,7 +1740,6 @@ trab.sost %>%
   labs(title = "Actividad principal del sostenedor\ndel hogar durante el último mes", x = "", y = "") +
   coord_flip()
 ```
-
 
 ```{r ingresos}
 ## Ingresos totales
@@ -1708,4 +1764,3 @@ ingresos %>%
   coord_flip()
 
 ```
-

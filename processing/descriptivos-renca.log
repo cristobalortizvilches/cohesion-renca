@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8.28) (preloaded format=pdflatex 2022.10.3)  22 MAY 2023 19:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8.28) (preloaded format=pdflatex 2022.10.3)  22 MAY 2023 20:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -682,336 +682,336 @@ pdf  used on input line 234.
 [6 <./descriptivos-renca_files/figure-latex/soci-barrial-1.pdf>] [7 <./descript
 ivos-renca_files/figure-latex/soci-barrial2-1.pdf>] [8 <./descriptivos-renca_fi
 les/figure-latex/amigos-barrio-1.pdf>]
-<descriptivos-renca_files/figure-latex/apoyo-social-1.pdf, id=166, 722.7pt x 57
+<descriptivos-renca_files/figure-latex/apoyo-social-1.pdf, id=164, 722.7pt x 57
 8.16pt>
 File: descriptivos-renca_files/figure-latex/apoyo-social-1.pdf Graphic file (ty
 pe pdf)
 <use descriptivos-renca_files/figure-latex/apoyo-social-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/apoyo-social-1.p
-df  used on input line 256.
+df  used on input line 258.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/cant-visit-1.pdf, id=168, 722.7pt x 578.
+[9 <./descriptivos-renca_files/figure-latex/apoyo-social-1.pdf>]
+<descriptivos-renca_files/figure-latex/cant-visit-1.pdf, id=177, 722.7pt x 578.
 16pt>
 File: descriptivos-renca_files/figure-latex/cant-visit-1.pdf Graphic file (type
  pdf)
 <use descriptivos-renca_files/figure-latex/cant-visit-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/cant-visit-1.pdf
-  used on input line 274.
+  used on input line 278.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/cant-visit.elsoc-1.pdf, id=170, 722.7pt 
+<descriptivos-renca_files/figure-latex/cant-visit.elsoc-1.pdf, id=179, 722.7pt 
 x 578.16pt>
 File: descriptivos-renca_files/figure-latex/cant-visit.elsoc-1.pdf Graphic file
  (type pdf)
 <use descriptivos-renca_files/figure-latex/cant-visit.elsoc-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/cant-visit.elsoc
--1.pdf  used on input line 288.
+-1.pdf  used on input line 292.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[9 <./descriptivos-renca_files/figure-latex/apoyo-social-1.pdf>] [10 <./descrip
-tivos-renca_files/figure-latex/cant-visit-1.pdf>] [11 <./descriptivos-renca_fil
-es/figure-latex/cant-visit.elsoc-1.pdf>]
-<descriptivos-renca_files/figure-latex/conf-vecinal-1.pdf, id=203, 722.7pt x 57
+[10 <./descriptivos-renca_files/figure-latex/cant-visit-1.pdf>] [11 <./descript
+ivos-renca_files/figure-latex/cant-visit.elsoc-1.pdf>]
+<descriptivos-renca_files/figure-latex/conf-vecinal-1.pdf, id=202, 722.7pt x 57
 8.16pt>
 File: descriptivos-renca_files/figure-latex/conf-vecinal-1.pdf Graphic file (ty
 pe pdf)
 <use descriptivos-renca_files/figure-latex/conf-vecinal-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/conf-vecinal-1.p
-df  used on input line 309.
+df  used on input line 315.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/conf-vecinal.elsoc-1.pdf, id=205, 722.7p
+<descriptivos-renca_files/figure-latex/conf-vecinal.elsoc-1.pdf, id=204, 722.7p
 t x 578.16pt>
 File: descriptivos-renca_files/figure-latex/conf-vecinal.elsoc-1.pdf Graphic fi
 le (type pdf)
 <use descriptivos-renca_files/figure-latex/conf-vecinal.elsoc-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/conf-vecinal.els
-oc-1.pdf  used on input line 325.
+oc-1.pdf  used on input line 331.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [12 <./descriptivos-renca_files/figure-latex/conf-vecinal-1.pdf>] [13 <./descri
 ptivos-renca_files/figure-latex/conf-vecinal.elsoc-1.pdf>]
-<descriptivos-renca_files/figure-latex/conf-auto-1.pdf, id=230, 722.7pt x 578.1
+<descriptivos-renca_files/figure-latex/conf-auto-1.pdf, id=228, 722.7pt x 578.1
 6pt>
 File: descriptivos-renca_files/figure-latex/conf-auto-1.pdf Graphic file (type 
 pdf)
 <use descriptivos-renca_files/figure-latex/conf-auto-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/conf-auto-1.pdf 
- used on input line 351.
+ used on input line 359.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/arraigo-1.pdf, id=232, 722.7pt x 578.16p
+[14 <./descriptivos-renca_files/figure-latex/conf-auto-1.pdf>]
+<descriptivos-renca_files/figure-latex/arraigo-1.pdf, id=241, 722.7pt x 578.16p
 t>
 File: descriptivos-renca_files/figure-latex/arraigo-1.pdf Graphic file (type pd
 f)
 <use descriptivos-renca_files/figure-latex/arraigo-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/arraigo-1.pdf  u
-sed on input line 369.
+sed on input line 379.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/arraigo.elsoc-1.pdf, id=234, 722.7pt x 5
+<descriptivos-renca_files/figure-latex/arraigo.elsoc-1.pdf, id=243, 722.7pt x 5
 78.16pt>
 File: descriptivos-renca_files/figure-latex/arraigo.elsoc-1.pdf Graphic file (t
 ype pdf)
 <use descriptivos-renca_files/figure-latex/arraigo.elsoc-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/arraigo.elsoc-1.
-pdf  used on input line 379.
+pdf  used on input line 389.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[14 <./descriptivos-renca_files/figure-latex/conf-auto-1.pdf>] [15 <./descripti
-vos-renca_files/figure-latex/arraigo-1.pdf>] [16 <./descriptivos-renca_files/fi
-gure-latex/arraigo.elsoc-1.pdf>]
-<descriptivos-renca_files/figure-latex/participacion2-1.pdf, id=267, 722.7pt x 
+[15 <./descriptivos-renca_files/figure-latex/arraigo-1.pdf>] [16 <./descriptivo
+s-renca_files/figure-latex/arraigo.elsoc-1.pdf>]
+<descriptivos-renca_files/figure-latex/participacion2-1.pdf, id=266, 722.7pt x 
 578.16pt>
 File: descriptivos-renca_files/figure-latex/participacion2-1.pdf Graphic file (
 type pdf)
 <use descriptivos-renca_files/figure-latex/participacion2-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/participacion2-1
-.pdf  used on input line 402.
+.pdf  used on input line 414.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 
 LaTeX Warning: Reference `fig:prticipacion.elsco' on page 17 undefined on input
- line 408.
+ line 420.
 
-<descriptivos-renca_files/figure-latex/participacion.elsoc-1.pdf, id=268, 722.7
+<descriptivos-renca_files/figure-latex/participacion.elsoc-1.pdf, id=267, 722.7
 pt x 578.16pt>
 File: descriptivos-renca_files/figure-latex/participacion.elsoc-1.pdf Graphic f
 ile (type pdf)
 <use descriptivos-renca_files/figure-latex/participacion.elsoc-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/participacion.el
-soc-1.pdf  used on input line 419.
+soc-1.pdf  used on input line 431.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [17 <./descriptivos-renca_files/figure-latex/participacion2-1.pdf>] [18 <./desc
 riptivos-renca_files/figure-latex/participacion.elsoc-1.pdf>]
-<descriptivos-renca_files/figure-latex/actividad-civica-1.pdf, id=291, 722.7pt 
+<descriptivos-renca_files/figure-latex/actividad-civica-1.pdf, id=290, 722.7pt 
 x 578.16pt>
 File: descriptivos-renca_files/figure-latex/actividad-civica-1.pdf Graphic file
  (type pdf)
 <use descriptivos-renca_files/figure-latex/actividad-civica-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/actividad-civica
--1.pdf  used on input line 435.
+-1.pdf  used on input line 449.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/nuevos-residentes-1.pdf, id=293, 722.7pt
+[19 <./descriptivos-renca_files/figure-latex/actividad-civica-1.pdf>]
+<descriptivos-renca_files/figure-latex/nuevos-residentes-1.pdf, id=304, 722.7pt
  x 578.16pt>
 File: descriptivos-renca_files/figure-latex/nuevos-residentes-1.pdf Graphic fil
 e (type pdf)
 <use descriptivos-renca_files/figure-latex/nuevos-residentes-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/nuevos-residente
-s-1.pdf  used on input line 463.
+s-1.pdf  used on input line 479.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[19 <./descriptivos-renca_files/figure-latex/actividad-civica-1.pdf>] [20 <./de
-scriptivos-renca_files/figure-latex/nuevos-residentes-1.pdf>]
-<descriptivos-renca_files/figure-latex/just-viol-1.pdf, id=318, 722.7pt x 578.1
+[20 <./descriptivos-renca_files/figure-latex/nuevos-residentes-1.pdf>]
+<descriptivos-renca_files/figure-latex/just-viol-1.pdf, id=317, 722.7pt x 578.1
 6pt>
 File: descriptivos-renca_files/figure-latex/just-viol-1.pdf Graphic file (type 
 pdf)
 <use descriptivos-renca_files/figure-latex/just-viol-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/just-viol-1.pdf 
- used on input line 486.
+ used on input line 504.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [21 <./descriptivos-renca_files/figure-latex/just-viol-1.pdf>]
-<descriptivos-renca_files/figure-latex/medio-inform-1.pdf, id=333, 722.7pt x 57
+<descriptivos-renca_files/figure-latex/medio-inform-1.pdf, id=330, 722.7pt x 57
 8.16pt>
 File: descriptivos-renca_files/figure-latex/medio-inform-1.pdf Graphic file (ty
 pe pdf)
 <use descriptivos-renca_files/figure-latex/medio-inform-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/medio-inform-1.p
-df  used on input line 512.
+df  used on input line 532.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/conoce-medios-1.pdf, id=335, 722.7pt x 5
+<descriptivos-renca_files/figure-latex/conoce-medios-1.pdf, id=332, 722.7pt x 5
 78.16pt>
 File: descriptivos-renca_files/figure-latex/conoce-medios-1.pdf Graphic file (t
 ype pdf)
 <use descriptivos-renca_files/figure-latex/conoce-medios-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/conoce-medios-1.
-pdf  used on input line 529.
+pdf  used on input line 549.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/conoce-infra-1.pdf, id=337, 722.7pt x 57
+[22 <./descriptivos-renca_files/figure-latex/medio-inform-1.pdf>] [23 <./descri
+ptivos-renca_files/figure-latex/conoce-medios-1.pdf>]
+<descriptivos-renca_files/figure-latex/conoce-infra-1.pdf, id=357, 722.7pt x 57
 8.16pt>
 File: descriptivos-renca_files/figure-latex/conoce-infra-1.pdf Graphic file (ty
 pe pdf)
 <use descriptivos-renca_files/figure-latex/conoce-infra-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/conoce-infra-1.p
-df  used on input line 553.
+df  used on input line 573.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[22 <./descriptivos-renca_files/figure-latex/medio-inform-1.pdf>] [23 <./descri
-ptivos-renca_files/figure-latex/conoce-medios-1.pdf>] [24 <./descriptivos-renca
-_files/figure-latex/conoce-infra-1.pdf>]
+[24 <./descriptivos-renca_files/figure-latex/conoce-infra-1.pdf>]
 <descriptivos-renca_files/figure-latex/nota-infra-1.pdf, id=369, 722.7pt x 578.
 16pt>
 File: descriptivos-renca_files/figure-latex/nota-infra-1.pdf Graphic file (type
  pdf)
 <use descriptivos-renca_files/figure-latex/nota-infra-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/nota-infra-1.pdf
-  used on input line 570.
+  used on input line 592.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/conoce-programas-1.pdf, id=371, 722.7pt 
+[25 <./descriptivos-renca_files/figure-latex/nota-infra-1.pdf>]
+<descriptivos-renca_files/figure-latex/conoce-programas-1.pdf, id=382, 722.7pt 
 x 578.16pt>
 File: descriptivos-renca_files/figure-latex/conoce-programas-1.pdf Graphic file
  (type pdf)
 <use descriptivos-renca_files/figure-latex/conoce-programas-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/conoce-programas
--1.pdf  used on input line 593.
+-1.pdf  used on input line 617.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[25 <./descriptivos-renca_files/figure-latex/nota-infra-1.pdf>] [26 <./descript
-ivos-renca_files/figure-latex/conoce-programas-1.pdf>]
-<descriptivos-renca_files/figure-latex/nota-programas-1.pdf, id=395, 722.7pt x 
+[26 <./descriptivos-renca_files/figure-latex/conoce-programas-1.pdf>]
+<descriptivos-renca_files/figure-latex/nota-programas-1.pdf, id=394, 722.7pt x 
 578.16pt>
 File: descriptivos-renca_files/figure-latex/nota-programas-1.pdf Graphic file (
 type pdf)
 <use descriptivos-renca_files/figure-latex/nota-programas-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/nota-programas-1
-.pdf  used on input line 609.
+.pdf  used on input line 635.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/conoc-alc-1.pdf, id=397, 722.7pt x 578.1
+[27 <./descriptivos-renca_files/figure-latex/nota-programas-1.pdf>]
+<descriptivos-renca_files/figure-latex/conoc-alc-1.pdf, id=406, 722.7pt x 578.1
 6pt>
 File: descriptivos-renca_files/figure-latex/conoc-alc-1.pdf Graphic file (type 
 pdf)
 <use descriptivos-renca_files/figure-latex/conoc-alc-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/conoc-alc-1.pdf 
- used on input line 624.
+ used on input line 652.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/conoce-consej-1.pdf, id=399, 722.7pt x 5
+[28 <./descriptivos-renca_files/figure-latex/conoc-alc-1.pdf>]
+<descriptivos-renca_files/figure-latex/conoce-consej-1.pdf, id=419, 722.7pt x 5
 78.16pt>
 File: descriptivos-renca_files/figure-latex/conoce-consej-1.pdf Graphic file (t
 ype pdf)
 <use descriptivos-renca_files/figure-latex/conoce-consej-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/conoce-consej-1.
-pdf  used on input line 636.
+pdf  used on input line 666.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[27 <./descriptivos-renca_files/figure-latex/nota-programas-1.pdf>] [28 <./desc
-riptivos-renca_files/figure-latex/conoc-alc-1.pdf>] [29 <./descriptivos-renca_f
-iles/figure-latex/conoce-consej-1.pdf>]
-<descriptivos-renca_files/figure-latex/eval-gest-1.pdf, id=434, 722.7pt x 578.1
+[29 <./descriptivos-renca_files/figure-latex/conoce-consej-1.pdf>]
+<descriptivos-renca_files/figure-latex/eval-gest-1.pdf, id=431, 722.7pt x 578.1
 6pt>
 File: descriptivos-renca_files/figure-latex/eval-gest-1.pdf Graphic file (type 
 pdf)
 <use descriptivos-renca_files/figure-latex/eval-gest-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/eval-gest-1.pdf 
- used on input line 666.
+ used on input line 698.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/nota-barrio-1-1.pdf, id=436, 722.7pt x 5
+[30 <./descriptivos-renca_files/figure-latex/eval-gest-1.pdf>]
+<descriptivos-renca_files/figure-latex/nota-barrio-1-1.pdf, id=445, 722.7pt x 5
 78.16pt>
 File: descriptivos-renca_files/figure-latex/nota-barrio-1-1.pdf Graphic file (t
 ype pdf)
 <use descriptivos-renca_files/figure-latex/nota-barrio-1-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/nota-barrio-1-1.
-pdf  used on input line 685.
+pdf  used on input line 719.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[30 <./descriptivos-renca_files/figure-latex/eval-gest-1.pdf>] [31 <./descripti
-vos-renca_files/figure-latex/nota-barrio-1-1.pdf>]
-<descriptivos-renca_files/figure-latex/nota-barrio2-1.pdf, id=461, 722.7pt x 57
+[31 <./descriptivos-renca_files/figure-latex/nota-barrio-1-1.pdf>]
+<descriptivos-renca_files/figure-latex/nota-barrio2-1.pdf, id=459, 722.7pt x 57
 8.16pt>
 File: descriptivos-renca_files/figure-latex/nota-barrio2-1.pdf Graphic file (ty
 pe pdf)
 <use descriptivos-renca_files/figure-latex/nota-barrio2-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/nota-barrio2-1.p
-df  used on input line 704.
+df  used on input line 740.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/eval-servicios-1.pdf, id=463, 722.7pt x 
+[32 <./descriptivos-renca_files/figure-latex/nota-barrio2-1.pdf>]
+<descriptivos-renca_files/figure-latex/eval-servicios-1.pdf, id=472, 722.7pt x 
 578.16pt>
 File: descriptivos-renca_files/figure-latex/eval-servicios-1.pdf Graphic file (
 type pdf)
 <use descriptivos-renca_files/figure-latex/eval-servicios-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/eval-servicios-1
-.pdf  used on input line 726.
+.pdf  used on input line 764.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[32 <./descriptivos-renca_files/figure-latex/nota-barrio2-1.pdf>] [33 <./descri
-ptivos-renca_files/figure-latex/eval-servicios-1.pdf>]
-<descriptivos-renca_files/figure-latex/fortalezas-1.pdf, id=486, 722.7pt x 578.
+[33 <./descriptivos-renca_files/figure-latex/eval-servicios-1.pdf>]
+<descriptivos-renca_files/figure-latex/fortalezas-1.pdf, id=485, 722.7pt x 578.
 16pt>
 File: descriptivos-renca_files/figure-latex/fortalezas-1.pdf Graphic file (type
  pdf)
 <use descriptivos-renca_files/figure-latex/fortalezas-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/fortalezas-1.pdf
-  used on input line 754.
+  used on input line 794.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/proyec-tres-1.pdf, id=488, 722.7pt x 578
+[34 <./descriptivos-renca_files/figure-latex/fortalezas-1.pdf>]
+<descriptivos-renca_files/figure-latex/proyec-tres-1.pdf, id=499, 722.7pt x 578
 .16pt>
 File: descriptivos-renca_files/figure-latex/proyec-tres-1.pdf Graphic file (typ
 e pdf)
 <use descriptivos-renca_files/figure-latex/proyec-tres-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/proyec-tres-1.pd
-f  used on input line 769.
+f  used on input line 811.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[34 <./descriptivos-renca_files/figure-latex/fortalezas-1.pdf>] [35 <./descript
-ivos-renca_files/figure-latex/proyec-tres-1.pdf>]
-<descriptivos-renca_files/figure-latex/tres-problemas-1.pdf, id=513, 722.7pt x 
+[35 <./descriptivos-renca_files/figure-latex/proyec-tres-1.pdf>]
+<descriptivos-renca_files/figure-latex/tres-problemas-1.pdf, id=512, 722.7pt x 
 578.16pt>
 File: descriptivos-renca_files/figure-latex/tres-problemas-1.pdf Graphic file (
 type pdf)
 <use descriptivos-renca_files/figure-latex/tres-problemas-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/tres-problemas-1
-.pdf  used on input line 791.
+.pdf  used on input line 835.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/rep-barrial-1.pdf, id=515, 722.7pt x 578
+[36 <./descriptivos-renca_files/figure-latex/tres-problemas-1.pdf>]
+<descriptivos-renca_files/figure-latex/rep-barrial-1.pdf, id=525, 722.7pt x 578
 .16pt>
 File: descriptivos-renca_files/figure-latex/rep-barrial-1.pdf Graphic file (typ
 e pdf)
 <use descriptivos-renca_files/figure-latex/rep-barrial-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/rep-barrial-1.pd
-f  used on input line 812.
+f  used on input line 858.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/rep-barrial.elsoc-1.pdf, id=516, 722.7pt
+[37 <./descriptivos-renca_files/figure-latex/rep-barrial-1.pdf>]
+<descriptivos-renca_files/figure-latex/rep-barrial.elsoc-1.pdf, id=539, 722.7pt
  x 578.16pt>
 File: descriptivos-renca_files/figure-latex/rep-barrial.elsoc-1.pdf Graphic fil
 e (type pdf)
 <use descriptivos-renca_files/figure-latex/rep-barrial.elsoc-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/rep-barrial.elso
-c-1.pdf  used on input line 824.
+c-1.pdf  used on input line 872.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[36 <./descriptivos-renca_files/figure-latex/tres-problemas-1.pdf>] [37 <./desc
-riptivos-renca_files/figure-latex/rep-barrial-1.pdf>]
-<descriptivos-renca_files/figure-latex/segu-barrial-1.pdf, id=542, 722.7pt x 57
+[38 <./descriptivos-renca_files/figure-latex/rep-barrial.elsoc-1.pdf>]
+<descriptivos-renca_files/figure-latex/segu-barrial-1.pdf, id=552, 722.7pt x 57
 8.16pt>
 File: descriptivos-renca_files/figure-latex/segu-barrial-1.pdf Graphic file (ty
 pe pdf)
 <use descriptivos-renca_files/figure-latex/segu-barrial-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/segu-barrial-1.p
-df  used on input line 840.
+df  used on input line 890.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/segu-barrial.elsoc-1.pdf, id=543, 722.7p
+[39 <./descriptivos-renca_files/figure-latex/segu-barrial-1.pdf>]
+<descriptivos-renca_files/figure-latex/segu-barrial.elsoc-1.pdf, id=564, 722.7p
 t x 578.16pt>
 File: descriptivos-renca_files/figure-latex/segu-barrial.elsoc-1.pdf Graphic fi
 le (type pdf)
 <use descriptivos-renca_files/figure-latex/segu-barrial.elsoc-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/segu-barrial.els
-oc-1.pdf  used on input line 851.
+oc-1.pdf  used on input line 903.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/segu-barrio2-1.pdf, id=545, 722.7pt x 57
+[40 <./descriptivos-renca_files/figure-latex/segu-barrial.elsoc-1.pdf>]
+<descriptivos-renca_files/figure-latex/segu-barrio2-1.pdf, id=576, 722.7pt x 57
 8.16pt>
 File: descriptivos-renca_files/figure-latex/segu-barrio2-1.pdf Graphic file (ty
 pe pdf)
 <use descriptivos-renca_files/figure-latex/segu-barrio2-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/segu-barrio2-1.p
-df  used on input line 868.
+df  used on input line 922.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[38 <./descriptivos-renca_files/figure-latex/rep-barrial.elsoc-1.pdf>] [39 <./d
-escriptivos-renca_files/figure-latex/segu-barrial-1.pdf>] [40 <./descriptivos-r
-enca_files/figure-latex/segu-barrial.elsoc-1.pdf>] [41 <./descriptivos-renca_fi
-les/figure-latex/segu-barrio2-1.pdf>]
-<descriptivos-renca_files/figure-latex/miedo.barrio-1.pdf, id=589, 722.7pt x 57
+[41 <./descriptivos-renca_files/figure-latex/segu-barrio2-1.pdf>]
+<descriptivos-renca_files/figure-latex/miedo.barrio-1.pdf, id=588, 722.7pt x 57
 8.16pt>
 File: descriptivos-renca_files/figure-latex/miedo.barrio-1.pdf Graphic file (ty
 pe pdf)
 <use descriptivos-renca_files/figure-latex/miedo.barrio-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/miedo.barrio-1.p
-df  used on input line 884.
+df  used on input line 940.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/crimen-barrio-1.pdf, id=591, 722.7pt x 5
+[42 <./descriptivos-renca_files/figure-latex/miedo.barrio-1.pdf>]
+<descriptivos-renca_files/figure-latex/crimen-barrio-1.pdf, id=600, 722.7pt x 5
 78.16pt>
 File: descriptivos-renca_files/figure-latex/crimen-barrio-1.pdf Graphic file (t
 ype pdf)
 <use descriptivos-renca_files/figure-latex/crimen-barrio-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/crimen-barrio-1.
-pdf  used on input line 905.
+pdf  used on input line 963.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-<descriptivos-renca_files/figure-latex/sexo-1.pdf, id=592, 722.7pt x 578.16pt>
+[43 <./descriptivos-renca_files/figure-latex/crimen-barrio-1.pdf>]
+<descriptivos-renca_files/figure-latex/sexo-1.pdf, id=612, 722.7pt x 578.16pt>
 File: descriptivos-renca_files/figure-latex/sexo-1.pdf Graphic file (type pdf)
 <use descriptivos-renca_files/figure-latex/sexo-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/sexo-1.pdf  used
- on input line 914.
+ on input line 974.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
-[42 <./descriptivos-renca_files/figure-latex/miedo.barrio-1.pdf>] [43 <./descri
-ptivos-renca_files/figure-latex/crimen-barrio-1.pdf>]
-<descriptivos-renca_files/figure-latex/edad-1.pdf, id=614, 722.7pt x 578.16pt>
+<descriptivos-renca_files/figure-latex/edad-1.pdf, id=613, 722.7pt x 578.16pt>
 File: descriptivos-renca_files/figure-latex/edad-1.pdf Graphic file (type pdf)
 <use descriptivos-renca_files/figure-latex/edad-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/edad-1.pdf  used
- on input line 916.
+ on input line 976.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [44 <./descriptivos-renca_files/figure-latex/sexo-1.pdf>]
 <descriptivos-renca_files/figure-latex/nacionalidad-1.pdf, id=624, 722.7pt x 57
@@ -1020,7 +1020,7 @@ File: descriptivos-renca_files/figure-latex/nacionalidad-1.pdf Graphic file (ty
 pe pdf)
 <use descriptivos-renca_files/figure-latex/nacionalidad-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/nacionalidad-1.p
-df  used on input line 918.
+df  used on input line 978.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [45 <./descriptivos-renca_files/figure-latex/edad-1.pdf>]
 <descriptivos-renca_files/figure-latex/pueblo-orig-1.pdf, id=634, 722.7pt x 578
@@ -1029,7 +1029,7 @@ File: descriptivos-renca_files/figure-latex/pueblo-orig-1.pdf Graphic file (typ
 e pdf)
 <use descriptivos-renca_files/figure-latex/pueblo-orig-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/pueblo-orig-1.pd
-f  used on input line 920.
+f  used on input line 980.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [46 <./descriptivos-renca_files/figure-latex/nacionalidad-1.pdf>]
 <descriptivos-renca_files/figure-latex/anos-comuna-1.pdf, id=644, 722.7pt x 578
@@ -1038,7 +1038,7 @@ File: descriptivos-renca_files/figure-latex/anos-comuna-1.pdf Graphic file (typ
 e pdf)
 <use descriptivos-renca_files/figure-latex/anos-comuna-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/anos-comuna-1.pd
-f  used on input line 922.
+f  used on input line 982.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [47 <./descriptivos-renca_files/figure-latex/pueblo-orig-1.pdf>]
 <descriptivos-renca_files/figure-latex/educacion-1.pdf, id=654, 722.7pt x 578.1
@@ -1047,7 +1047,7 @@ File: descriptivos-renca_files/figure-latex/educacion-1.pdf Graphic file (type
 pdf)
 <use descriptivos-renca_files/figure-latex/educacion-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/educacion-1.pdf 
- used on input line 924.
+ used on input line 984.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [48 <./descriptivos-renca_files/figure-latex/anos-comuna-1.pdf>]
 <descriptivos-renca_files/figure-latex/trabajo-1.pdf, id=664, 722.7pt x 578.16p
@@ -1056,7 +1056,7 @@ File: descriptivos-renca_files/figure-latex/trabajo-1.pdf Graphic file (type pd
 f)
 <use descriptivos-renca_files/figure-latex/trabajo-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/trabajo-1.pdf  u
-sed on input line 926.
+sed on input line 986.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [49 <./descriptivos-renca_files/figure-latex/educacion-1.pdf>]
 <descriptivos-renca_files/figure-latex/sit-laboral-1.pdf, id=675, 722.7pt x 578
@@ -1065,7 +1065,7 @@ File: descriptivos-renca_files/figure-latex/sit-laboral-1.pdf Graphic file (typ
 e pdf)
 <use descriptivos-renca_files/figure-latex/sit-laboral-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/sit-laboral-1.pd
-f  used on input line 928.
+f  used on input line 988.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [50 <./descriptivos-renca_files/figure-latex/trabajo-1.pdf>]
 <descriptivos-renca_files/figure-latex/ocupacion-1.pdf, id=685, 722.7pt x 578.1
@@ -1074,7 +1074,7 @@ File: descriptivos-renca_files/figure-latex/ocupacion-1.pdf Graphic file (type
 pdf)
 <use descriptivos-renca_files/figure-latex/ocupacion-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/ocupacion-1.pdf 
- used on input line 930.
+ used on input line 990.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [51 <./descriptivos-renca_files/figure-latex/sit-laboral-1.pdf>]
 <descriptivos-renca_files/figure-latex/sost-hogar-1.pdf, id=695, 722.7pt x 578.
@@ -1083,7 +1083,7 @@ File: descriptivos-renca_files/figure-latex/sost-hogar-1.pdf Graphic file (type
  pdf)
 <use descriptivos-renca_files/figure-latex/sost-hogar-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/sost-hogar-1.pdf
-  used on input line 932.
+  used on input line 992.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [52 <./descriptivos-renca_files/figure-latex/ocupacion-1.pdf>]
 <descriptivos-renca_files/figure-latex/educ-jefe-1.pdf, id=705, 722.7pt x 578.1
@@ -1092,7 +1092,7 @@ File: descriptivos-renca_files/figure-latex/educ-jefe-1.pdf Graphic file (type
 pdf)
 <use descriptivos-renca_files/figure-latex/educ-jefe-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/educ-jefe-1.pdf 
- used on input line 934.
+ used on input line 994.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [53 <./descriptivos-renca_files/figure-latex/sost-hogar-1.pdf>]
 <descriptivos-renca_files/figure-latex/trabajo-jefe-1.pdf, id=715, 722.7pt x 57
@@ -1101,7 +1101,7 @@ File: descriptivos-renca_files/figure-latex/trabajo-jefe-1.pdf Graphic file (ty
 pe pdf)
 <use descriptivos-renca_files/figure-latex/trabajo-jefe-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/trabajo-jefe-1.p
-df  used on input line 936.
+df  used on input line 996.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [54 <./descriptivos-renca_files/figure-latex/educ-jefe-1.pdf>]
 <descriptivos-renca_files/figure-latex/ingresos-1.pdf, id=725, 722.7pt x 578.16
@@ -1110,7 +1110,7 @@ File: descriptivos-renca_files/figure-latex/ingresos-1.pdf Graphic file (type p
 df)
 <use descriptivos-renca_files/figure-latex/ingresos-1.pdf>
 Package pdftex.def Info: descriptivos-renca_files/figure-latex/ingresos-1.pdf  
-used on input line 938.
+used on input line 998.
 (pdftex.def)             Requested size: 469.76045pt x 375.80836pt.
 [55 <./descriptivos-renca_files/figure-latex/trabajo-jefe-1.pdf>] [56 <./descri
 ptivos-renca_files/figure-latex/ingresos-1.pdf>] (descriptivos-renca.aux)
@@ -1124,11 +1124,11 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  15623 strings out of 475389
  275378 string characters out of 2777000
- 630090 words of memory out of 3000000
+ 630091 words of memory out of 3000000
  36416 multiletter control sequences out of 15000+600000
  520161 words of font info for 127 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 74i,6n,81p,1017b,522s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 74i,6n,81p,1017b,514s stack positions out of 10000i,1000n,20000p,200000b,80000s
 {C:/Users/aigon/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}{
 C:/Users/aigon/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}<C:/U
 sers/aigon/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/U
@@ -1137,7 +1137,7 @@ sers/aigon/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Us
 ers/aigon/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Use
 rs/aigon/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/User
 s/aigon/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb>
-Output written on descriptivos-renca.pdf (56 pages, 729228 bytes).
+Output written on descriptivos-renca.pdf (56 pages, 730292 bytes).
 PDF statistics:
  915 PDF objects out of 1000 (max. 8388607)
  166 named destinations out of 1000 (max. 500000)

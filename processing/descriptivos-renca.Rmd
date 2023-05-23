@@ -1657,7 +1657,7 @@ nvl.educ %>%
   geom_col(position = 'dodge2') + 
   geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
-  labs(title = "¿Se considera perteneciente a algún pueblo indígena u originario?", x = "", y = "") +
+  labs(title = "Nivel educacional alcanzado", x = "", y = "") +
   coord_flip()
 ```
 
@@ -1699,25 +1699,6 @@ sit.trabajo %>%
   coord_flip()
 ```
 
-```{r ocupacion}
-ocupacion <- renca %>%
-  dplyr::select(q0044) %>% 
-  filter(!q0044 %in% c(8,9)) %>% 
-  as_label(q0044) %>% 
-  count(q0044, sort = TRUE) %>% 
-  mutate(freq = n/sum(n)) %>% 
-  drop_na()
-
-ocupacion %>%
-  ggplot(aes(x = q0044, y = freq, 
-             label = as.character(scales::percent(freq, accuracy = .1)))) +
-  geom_col(position = 'dodge2') + 
-  geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
-  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
-  labs(title = "Si trabaja, en este trabajo usted es...", x = "", y = "") +
-  coord_flip()
-```
-
 ```{r sost-hogar}
 sost.hogar <- renca %>%
   dplyr::select(q0044) %>% 
@@ -1737,16 +1718,16 @@ sost.hogar %>%
 ```
 
 ```{r educ-jefe}
-educ.sost <- renca %>%
-  dplyr::select(q0045) %>% 
-  filter(!q0045 %in% c(9,10)) %>% 
-  as_label(q0045) %>% 
-  count(q0045, sort = TRUE) %>% 
+educ.sost <- renca %>% select(q0044,q0039,q0045) %>%
+  as_label(q0039,q0045) %>%
+  mutate(q0045_r = ifelse(q0044==1,as_character(q0039),as_character(q0045))) %>% 
+  filter(!q0045_r %in% c("NR (No leer)","NS (No leer)")) %>%
+  count(q0045_r, sort = TRUE) %>% 
   mutate(freq = n/sum(n)) %>% 
   drop_na()
 
 educ.sost %>%
-  ggplot(aes(x = q0045, y = freq, 
+  ggplot(aes(x = q0045_r, y = freq, 
              label = as.character(scales::percent(freq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
   geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
@@ -1793,7 +1774,7 @@ ingresos %>%
   geom_col(position = 'dodge2') + 
   geom_text(size = 5, vjust = 0.5, hjust = -0.1) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
-  labs(title = "Edad de los/as encuestados/as", x = "", y = "") +
+  labs(title = "Tramo de ingresos de los encuestados", x = "", y = "") +
   coord_flip()
 
 ```

@@ -198,6 +198,31 @@ apego.barrio %>%
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Nivel de apego al barrio", subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
        x = "", y = "") 
+
+# Separado por macrozona
+
+apego.barrio.mz <- renca %>% dplyr::select(q0001,q0002_0001, q0002_0002, q0002_0003, q0002_0004, q0002_0005)
+apego.barrio.mz <- apego.barrio.mz %>% pivot_longer(cols=names(apego.barrio.mz)[2:6])
+
+apego.barrio.mz <- apego.barrio.mz %>% count(name,value,q0001) %>% group_by(q0001,name) %>% 
+  mutate(freq=n/sum(n)) %>% filter(value %in% c(4,5)) %>% summarise(sfreq=sum(freq)) %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0002_0001", "q0002_0002", "q0002_0003", "q0002_0004", "q0002_0005"),
+                       labels = c("Este barrio es\nideal para mi",
+                                  "Me siento integrada/o\nen este barrio",
+                                  "Me identifico con la\ngente de mi barrio",
+                                  "Este barrio es\nparte de mi",
+                                  "Me siento orgulloso/a\nde vivir en este barrio")))
+
+apego.barrio.mz <- apego.barrio.mz %>%
+  ggplot(aes(x = name, y = sfreq, 
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + facet_wrap(~q0001) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Nivel de apego al barrio", subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
+       x = "", y = "")
+
 ```
 \newpage
 
@@ -277,6 +302,37 @@ soci.barrial %>%
   labs(title = "Nivel de sociabilidad barrial", subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
        x = "", y = "") +
   coord_flip()
+
+## Separado por Macrozona
+
+soci.barrial.mz <- renca %>%
+  dplyr::select(q0001,q0002_0007, q0002_0008, q0002_0009, q0002_0010, q0002_0011, q0002_0012)
+
+soci.barrial.mz <- soci.barrial.mz %>% 
+  pivot_longer(cols = names(soci.barrial.mz)[2:7])
+
+soci.barrial.mz <- soci.barrial.mz %>% count(name,value,q0001) %>% group_by(name,q0001) %>% 
+  mutate(freq=n/sum(n)) %>% filter(value %in% c(4,5)) %>% summarise(sfreq=sum(freq)) %>% 
+  mutate(name=factor(name, 
+                       levels = c("q0002_0007", "q0002_0008", "q0002_0009", "q0002_0010", "q0002_0011", "q0002_0012"),
+                       labels = c("En este barrio es\nfácil hacer amigas/os",
+                                  "La gente en este\nbarrio es sociable",
+                                  "La gente en este\nbarrio es cordial",
+                                  "La gente en este\nbarrio es colaboradora",
+                                  "La gente en este\nbarrio está interesada en los demás",
+                                  "La gente en este\nbarrio está dispuesta a ayudar a\notros residentes cuando es necesario")))
+
+soci.barrial.mz <-  soci.barrial.mz %>% ggplot(aes(x = name, y = sfreq, 
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + facet_wrap(~q0001) + 
+  geom_text(size = 5, vjust = 0.5, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Nivel de sociabilidad barrial", subtitle = "Porcentaje que responde 'de acuerdo o muy de acuerdo'", 
+       x = "", y = "") +
+  coord_flip()
+
+
+
 ```
 
 \newpage
@@ -435,6 +491,18 @@ confianza %>%
   geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "En términos generales, ¿Cuánto confía usted en sus vecinos?", x = "", y = "") 
+
+confianza.mz <- renca %>% dplyr::select(q0001,q0006) %>% filter(!q0006 == 6) %>% 
+  as_label(q0006) %>% count(q0006,q0001) %>% group_by(q0001) %>% mutate(freq=n/sum(n)) %>% filter(q0006 != "NR (No leer)")
+
+confianza.mz <- confianza.mz %>%
+  ggplot(aes(x = q0006, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + facet_wrap(~q0001) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "En términos generales, ¿Cuánto confía usted en sus vecinos?", x = "", y = "")
+
 ```
 
 \newpage
@@ -504,6 +572,34 @@ conf.auto %>%
        subtitle = "Porcentaje que responde 'bastante o mucho'", 
        x = "", y = "") +
   coord_flip()
+
+conf.auto.mz <- renca %>% dplyr::select(q0001,starts_with("q0007_"))
+conf.auto.mz <- conf.auto.mz %>% pivot_longer(cols=names(conf.auto.mz)[2:8])
+
+conf.auto.mz <- conf.auto.mz %>% count(name,value,q0001) %>% group_by(name,q0001) %>%
+  mutate(freq = n/sum(n)) %>% filter(value %in% c(4,5)) %>% summarise(sfreq=sum(freq)) %>%
+  mutate(name = factor(name, 
+                       levels = c("q0007_0001", "q0007_0002", "q0007_0003", 
+                                  "q0007_0004", "q0007_0005", "q0007_0006",
+                                  "q0007_0007"),
+                       labels = c("El alcalde de Renca",
+                                  "Concejales de Renca",
+                                  "Servicios municipales",
+                                  "Centros de salud",
+                                  "Establecimientos\neducacionales",
+                                  "Juntas de vecinos",
+                                  "Carabineros que\ntrabajan en la comuna")))
+
+conf.auto.mz <- conf.auto.mz %>% ggplot(aes(x = name, y = sfreq, 
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + facet_wrap(~q0001) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Grado de confianza en instituciones o autoridades de la comuna", 
+       subtitle = "Porcentaje que responde 'bastante o mucho'", 
+       x = "", y = "") +
+  coord_flip()
+  
 ```
 
 \newpage
@@ -528,6 +624,23 @@ arraigo %>%
   geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "¿Tiene planeado cambiarse de casa/departamento en el próximo año?", x = "", y = "") 
+
+
+arraigo.mz <- renca %>%
+  dplyr::select(q0008,q0001) %>% 
+  filter(!q0008 %in% c(5,6)) %>% 
+  as_label(q0008) %>% 
+  count(q0008,q0001) %>% 
+  group_by(q0001) %>%
+  mutate(freq = n/sum(n))
+
+arraigo.mz <- arraigo.mz %>% ggplot(aes(x = q0008, y = freq, 
+             label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + facet_wrap(~q0001) +
+  geom_text(size = 5, vjust = -0.8, hjust = 0.5) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "¿Tiene planeado cambiarse de casa/departamento en el próximo año?", x = "", y = "")
+
 ```
 
 \newpage
@@ -660,6 +773,27 @@ actividad.civica %>%
        x = "", y = "") +
   coord_flip()
 
+actividad.civica.mz <- renca %>% dplyr::select(q0001,starts_with("q0011_"))
+actividad.civica.mz <- actividad.civica.mz %>% pivot_longer(cols=names(actividad.civica.mz)[2:dim(actividad.civica.mz)[2]])
+
+actividad.civica.mz <- actividad.civica.mz %>% count(name,value,q0001) %>% group_by(name,q0001) %>%
+  mutate(freq=n/sum(n)) %>% filter(value==1) %>% mutate(name = factor(name,
+                       levels = c("q0011_0001", "q0011_0002", "q0011_0003", "q0011_0004"),
+                       labels = c("Asistido a alguna reunión donde se traten temas\nde interés público o comunitario dentro de la comuna",
+                                  "Firmado una carta o petición apoyando una\ncausa relacionada con la comuna",
+                                  "Asistido a una marcha o manifestación\npolítica dentro de la comuna",
+                                  "Usado las redes sociales para expresar su\nopinión en temas públicos sobre la comuna")))
+
+actividad.civica.mz <- actividad.civica.mz %>% 
+    ggplot(aes(x = name, y = freq, label = as.character(scales::percent(freq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + facet_wrap(~q0001) +
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Durante los últimos 12 meses,\n¿con cuánta frecuencia usted ha...?", 
+       subtitle = "Porcentaje que responde 'Sí'", 
+       x = "", y = "") +
+  coord_flip()
+
 ```
 
 \newpage
@@ -705,6 +839,34 @@ new.resid %>%
   ggplot(aes(x = name, y = sfreq, 
              label = as.character(scales::percent(sfreq, accuracy = .1)))) +
   geom_col(position = 'dodge2') + 
+  geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Grado de acuerdo con la llegada de:", subtitle = "Porcentaje que responde 'en desacuerdo o muy en desacuerdo'", 
+       x = "", y = "") +
+  coord_flip()
+
+new.resid.mz <- renca %>% dplyr::select(q0001,starts_with("q0012_"))
+new.resid.mz <- new.resid.mz %>% pivot_longer(cols=names(new.resid.mz)[2:dim(new.resid.mz)[2]])
+
+new.resid.mz <- new.resid.mz %>% count(name,value,q0001) %>% group_by(name,q0001) %>% 
+  mutate(freq=n/sum(n)) %>% filter(value %in% c(1,2)) %>% summarise(sfreq=sum(freq)) %>%
+  mutate(name = factor(name, 
+                       levels = c("q0012_0001", "q0012_0002", "q0012_0003", "q0012_0004", "q0012_0005",
+                                  "q0012_0006", "q0012_0007", "q0012_0008", "q0012_0009"),
+                       labels = c("Personas  de  pueblos  indígenas",
+                                  "Personas de clase media acomodada",
+                                  "Personas que hayan estado\nprivadas de libertad (ex presos)",
+                                  "Personas de clase baja",
+                                  "Inmigrantes peruanos y bolivianos",
+                                  "Inmigrantes venezolanos y colombianos",
+                                  "Inmigrantes haitianos",
+                                  "Diversidades  sexuales \n(Homosexuales, lesbianas, transexuales, etc.)",
+                                  "Inmigrantes norteamericanos o europeos")))
+
+new.resid.mz <- new.resid.mz %>%
+  ggplot(aes(x = name, y = sfreq, 
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2') + facet_wrap(~q0001) +
   geom_text(size = 5, vjust = 0.3, hjust = -0.3) +
   scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
   labs(title = "Grado de acuerdo con la llegada de:", subtitle = "Porcentaje que responde 'en desacuerdo o muy en desacuerdo'", 

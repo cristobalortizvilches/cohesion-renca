@@ -157,7 +157,6 @@ tab_4 <- tab_4 %>%
                                                                 "Participación",
                                                                 "Apoyo")))
 
-
 tab_4 %>% ggplot(aes(x = freq, y = factor(var, levels = c("Apoyo","Participación", "Confianza","Sociabilidad", "Arraigo", "Pertenencia")),  fill = Tipos)) + 
   geom_bar(stat = 'identity', position = 'stack') +
   labs(y = NULL, x = NULL,

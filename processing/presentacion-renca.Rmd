@@ -1,13 +1,15 @@
 ---
-title: "Gráfico Presentación Renca"
+title: "Gráficos Presentación Renca"
 author: "Cristóbal Ortiz"
-output: html_document
 date: "2023-07-14"
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-	echo = TRUE,
+	echo = FALSE,
 	fig.align = "left",
 	fig.topcaption = TRUE,
 	message = FALSE,
@@ -30,17 +32,18 @@ library(ggalluvial)
 library(haven)
 ```
 
-```{r datos}
+```{r datos, include=FALSE}
 remove(list = ls())
 renca <- read_dta("../input/data/Renca_1010_macrozona.dta")
 #renca_1 <- read_dta("../input/data/Renca_320_unidadbarrial.dta")
 load("../input/data/renca_cb_lca.Rdata")
 load("../input/data/tab_4.Rdata")
+load("../input/data/tab_4_cs.Rdata")
 
 ```
 
-```{r recode-renca}
-renca <- renca %>% 
+```{r recode-renca, echo=FALSE}
+renca <- renca %>% #filter NA
   filter(!q0039 %in% c(9,10),
          !q0048 %in% c(8,9),
          !q0039 %in% c(9,10))
@@ -49,19 +52,120 @@ renca <- renca %>%
   mutate(sexo = as_label(q0034),
          edad = cut(as.numeric(renca$q0035),breaks=c(17,25,35,45,55,65,85),
                     labels=c("18-25","26-35","36-45","46-55","56-65", "66 o más")),
-         educ = cut(q0039,breaks=c(1,3,5,8),
-                    labels=c("Básica","Media","Profesional")),
-         ingr  = factor(q0048, labels = c("Menos de $250.000","$250.000 - $350.000",
-                                               "$350.000 - $450.000","$450.000 - $700.000",
-                                               "$700.000 - $800.000","$900.000 - $1.00.0000",
-                                               "Más de $1.000.000")))
+         educ = factor(car::recode(q0039, recodes = "1:3 = 1; 4:5 = 2; 6 = 3; 7:8 = 4"),
+                       levels = 1:4,
+                       labels = c("Basica", "Media", "Tecnica/Universitaria\n incompleta", "Tecnica/Universitaria\ncompleta")),
+         ingr  = factor(car::recode(q0048, recodes = "1 = 1; 2:3 = 2; 4:5 = 3; 6:7 = 4"),
+                       levels = 1:4,
+                       labels = c("Muy bajos\n(<$250mil)", "Bajos\n($250-$450mil)", "Medios\n($450-$800mil)", "Altos(>$800mil)")),
+         repb = factor(car::recode(q0029, recodes = "1:2 = 1; 3 = 2; 4:5 = 3"),
+                       levels = 1:3,
+                       labels = c("Negativa", "Neutra", "Positiva")),
+         segu = factor(car::recode(q0030, recodes = "1:2 = 1; 3 = 2; 4:5 = 3"),
+                       levels = 1:3,
+                       labels = c("Inseguro", "Ni seguro\nni inseguro", "Seguro")))
+
 renca_cb_lca <- renca_cb_lca %>% 
   left_join(renca, by = 'respondent_id') %>% 
-  select(respondent_id, spbi, arra, soci, conf, part, apoy, sexo, edad, educ, ingr, class_4, q0001) %>% 
+  select(respondent_id, spbi, arra, soci, conf, part, apoy, sexo, edad, educ, ingr, class_4, q0001,
+         repb, segu) %>% 
+  mutate(zona = as_label(q0001)) %>% 
   drop_na()
 ```
 
-# Cohesión barrial
+# 1. Caracterización de macrozonas y población 
+
+## Macrozonas
+
+```{r educ-zona}
+renca_cb_lca %>%
+  count(educ, zona) %>% 
+  group_by(zona) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = freq, y = fct_rev(zona), fill = fct_rev(educ), 
+             label = scales::percent(ifelse(freq < .01, NA, freq), .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), 
+            size = 3, na.rm = TRUE,) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, direction = -1) +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(y = NULL, x = NULL, fill = NULL,
+       title = 'Nivel educacional según macrozona')
+```
+
+```{r ingr-zona}
+renca_cb_lca %>%
+  count(ingr, zona) %>% 
+  group_by(zona) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = freq, y = fct_rev(zona), fill = fct_rev(ingr), 
+             label = scales::percent(ifelse(freq < .01, NA, freq), .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), 
+            size = 3, na.rm = TRUE,) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, direction = -1) +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(y = NULL, x = NULL, fill = NULL,
+       title = 'Nivel de ingresos según macrozona')
+```
+
+## Perfiles de cohesión social y barrial
+
+### Perfiles de cohesión social
+
+```{r tipos-cs}
+tab_4_cs %>% ggplot(aes(x = freq, y = fct_rev(factor(var)),  fill = fct_rev(Tipos))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  labs(y = NULL, x = NULL,
+       title = "Perfiles de cohesión social: 4 clases", fill = "") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 5), labels = scales::percent, limits=c(0, 1)) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, option = 'viridis') +
+  theme(axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  facet_grid(~ Clase) +
+  guides(fill = guide_legend(reverse = TRUE))
+```
+
+### Perfiles de cohesión barrial 
+
+```{r tipos-cb}
+tab_4 %>% ggplot(aes(x = freq, y = factor(var, levels = c("Apoyo","Participación", "Confianza","Sociabilidad", "Arraigo", "Pertenencia")),  fill = Tipos)) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  labs(y = NULL, x = NULL,
+       title = "Perfiles de cohesión barrial: 4 clases", fill = "") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 5), labels = scales::percent, limits=c(0, 1)) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, option = 'viridis') +
+  theme(axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  facet_grid(~ Clase) +
+  guides(fill = guide_legend(reverse = TRUE))
+```
+
+
+
+# 2. Relación de los habitantes con la comuna y Municipalidad de Renca 
+
+En construcción...
+
+# 3. Relación de los habitantes con su entorno barrial
+
+## Cohesión barrial
 
 ```{r tipos-sexo}
 renca_cb_lca %>%
@@ -86,6 +190,7 @@ renca_cb_lca %>%
        title = 'Perfiles de cohesión barrial según sexo')
 
 ```
+
 ```{r tipos-educ}
 renca_cb_lca %>%
   count(class_4, educ) %>% 
@@ -105,7 +210,7 @@ renca_cb_lca %>%
         legend.position = 'top',
         legend.title = element_blank()) +
   labs(y = NULL, x = NULL, fill = NULL,
-       title = 'Perfiles de cohesión barrial según nivel educacional cursado')
+       title = 'Perfiles de cohesión barrial según nivel educacional')
 ```
 
 ```{r tipos-ingr}
@@ -153,3 +258,390 @@ renca_cb_lca %>%
        title = 'Perfiles de cohesión barrial según macrozona')
 ```
 
+```{r tipos-repb}
+renca_cb_lca %>%
+  as_label(repb) %>% 
+  count(class_4, repb) %>% 
+  group_by(repb) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = freq, y = fct_rev(repb), fill = fct_rev(class_4), 
+             label = scales::percent(ifelse(freq < .01, NA, freq), .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), 
+            size = 3, na.rm = TRUE,) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, direction = -1) +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(y = NULL, x = NULL, fill = NULL,
+       title = 'Perfiles de cohesión barrial según reputación barrial')
+```
+```{r tipos-segu}
+renca_cb_lca %>%
+  as_label(segu) %>% 
+  count(class_4, segu) %>% 
+  group_by(segu) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = freq, y = fct_rev(segu), fill = fct_rev(class_4), 
+             label = scales::percent(ifelse(freq < .01, NA, freq), .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), 
+            size = 3, na.rm = TRUE,) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, direction = -1) +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(y = NULL, x = NULL, fill = NULL,
+       title = 'Perfiles de cohesión barrial según sentimiento de seguridad en el barrio')
+```
+
+## Seguridad
+
+```{r segu-sexo}
+renca_cb_lca %>%
+  filter(!sexo == "Otro (especifique)") %>% 
+  count(segu, sexo) %>% 
+  group_by(sexo) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = freq, y = fct_rev(sexo), fill = fct_rev(segu), 
+             label = scales::percent(ifelse(freq < .01, NA, freq), .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), 
+            size = 3, na.rm = TRUE,) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, direction = -1) +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(y = NULL, x = NULL, fill = NULL,
+       title = 'Sentimiento de seguridad en el barrio según sexo')
+
+```
+
+```{r segu-educ}
+renca_cb_lca %>%
+  count(segu, educ) %>% 
+  group_by(educ) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = freq, y = fct_rev(educ), fill = fct_rev(segu), 
+             label = scales::percent(ifelse(freq < .01, NA, freq), .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), 
+            size = 3, na.rm = TRUE,) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, direction = -1) +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(y = NULL, x = NULL, fill = NULL,
+       title = 'Sentimiento de seguridad en el barrio según nivel educacional cursado')
+```
+
+```{r segu-ingr}
+renca_cb_lca %>%
+  count(segu, ingr) %>% 
+  group_by(ingr) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = freq, y = fct_rev(ingr), fill = fct_rev(segu), 
+             label = scales::percent(ifelse(freq < .01, NA, freq), .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), 
+            size = 3, na.rm = TRUE,) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, direction = -1) +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(y = NULL, x = NULL, fill = NULL,
+       title = 'Sentimiento de seguridad en el barrio según nivel de ingresos')
+```
+
+```{r segu-zonas}
+renca_cb_lca %>%
+  as_label(q0001) %>% 
+  count(segu, q0001) %>% 
+  group_by(q0001) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = freq, y = fct_rev(q0001), fill = fct_rev(segu), 
+             label = scales::percent(ifelse(freq < .01, NA, freq), .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), 
+            size = 3, na.rm = TRUE,) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, direction = -1) +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(y = NULL, x = NULL, fill = NULL,
+       title = 'Sentimiento de seguridad en el barrio según macrozona')
+```
+
+## Reputación 
+
+```{r repb-sexo}
+renca_cb_lca %>%
+  filter(!sexo == "Otro (especifique)") %>% 
+  count(repb, sexo) %>% 
+  group_by(sexo) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = freq, y = fct_rev(sexo), fill = fct_rev(repb), 
+             label = scales::percent(ifelse(freq < .01, NA, freq), .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), 
+            size = 3, na.rm = TRUE,) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, direction = -1) +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(y = NULL, x = NULL, fill = NULL,
+       title = 'Reputación barrial según sexo')
+
+```
+
+```{r repb-educ}
+renca_cb_lca %>%
+  count(repb, educ) %>% 
+  group_by(educ) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = freq, y = fct_rev(educ), fill = fct_rev(repb), 
+             label = scales::percent(ifelse(freq < .01, NA, freq), .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), 
+            size = 3, na.rm = TRUE,) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, direction = -1) +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(y = NULL, x = NULL, fill = NULL,
+       title = 'Reputación barrial según nivel educacional cursado')
+```
+
+```{r repb-ingr}
+renca_cb_lca %>%
+  count(repb, ingr) %>% 
+  group_by(ingr) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = freq, y = fct_rev(ingr), fill = fct_rev(repb), 
+             label = scales::percent(ifelse(freq < .01, NA, freq), .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), 
+            size = 3, na.rm = TRUE,) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, direction = -1) +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(y = NULL, x = NULL, fill = NULL,
+       title = 'Reputación barrial según nivel de ingresos')
+```
+
+```{r repb-zonas}
+renca_cb_lca %>%
+  as_label(q0001) %>% 
+  count(repb, q0001) %>% 
+  group_by(q0001) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = freq, y = fct_rev(q0001), fill = fct_rev(repb), 
+             label = scales::percent(ifelse(freq < .01, NA, freq), .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), 
+            size = 3, na.rm = TRUE,) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, direction = -1) +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(y = NULL, x = NULL, fill = NULL,
+       title = 'Reputación barrial según macrozona')
+```
+
+## Tolerancia a la diversidad en el barrio
+
+```{r dive-gral}
+#remove("new.resid.mz")
+new.resid <- renca %>%
+  dplyr::select(starts_with("q0012_")) 
+
+new.resid <- new.resid %>% 
+  pivot_longer(cols = names(new.resid)) 
+
+new.resid <-  new.resid %>% 
+  count(name, value) %>% 
+  group_by(name) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  filter(value %in% c(1,2)) %>% 
+  summarise(sfreq = sum(freq))
+
+new.resid <- new.resid %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0012_0001", "q0012_0002", "q0012_0003", "q0012_0004", "q0012_0005",
+                                  "q0012_0006", "q0012_0007", "q0012_0008", "q0012_0009"),
+                       labels = c("Personas  de  pueblos  indígenas",
+                                  "Personas de clase media acomodada",
+                                  "Personas que hayan estado\nprivadas de libertad (ex presos)",
+                                  "Personas de clase baja",
+                                  "Inmigrantes peruanos y bolivianos",
+                                  "Inmigrantes venezolanos y colombianos",
+                                  "Inmigrantes haitianos",
+                                  "Diversidades  sexuales \n(Homosexuales, lesbianas, transexuales, etc.)",
+                                  "Inmigrantes norteamericanos o europeos")))
+
+new.resid %>%
+  ggplot(aes(x = name, y = sfreq,
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2', fill = '#482173FF') + 
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  geom_text(vjust = 0.3, hjust = -0.1, 
+            size = 3, na.rm = TRUE) +
+  theme_bw() + 
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(title = "Grado de acuerdo con la llegada de:", subtitle = "Porcentaje que responde 'en desacuerdo o muy en desacuerdo'", 
+       x = "", y = "") +
+  coord_flip()
+```
+
+```{r dive-zona}
+new.resid.mz <- renca %>% dplyr::select(q0001,starts_with("q0012_"))
+new.resid.mz <- new.resid.mz %>% pivot_longer(cols=names(new.resid.mz)[2:dim(new.resid.mz)[2]])
+
+new.resid.mz <- new.resid.mz %>% count(name,value,q0001) %>% group_by(name,q0001) %>% 
+  mutate(freq=n/sum(n)) %>% filter(value %in% c(1,2)) %>% summarise(sfreq=sum(freq)) %>%
+  mutate(name = factor(name, 
+                       levels = c("q0012_0001", "q0012_0002", "q0012_0003", "q0012_0004", "q0012_0005",
+                                  "q0012_0006", "q0012_0007", "q0012_0008", "q0012_0009"),
+                       labels = c("Personas  de  pueblos  indígenas",
+                                  "Personas de clase media acomodada",
+                                  "Personas que hayan estado\nprivadas de libertad (ex presos)",
+                                  "Personas de clase baja",
+                                  "Inmigrantes peruanos y bolivianos",
+                                  "Inmigrantes venezolanos y colombianos",
+                                  "Inmigrantes haitianos",
+                                  "Diversidades  sexuales \n(Homosexuales, lesbianas, transexuales, etc.)",
+                                  "Inmigrantes norteamericanos o europeos")))
+
+new.resid.mz %>%
+  filter(name %in% c("Inmigrantes peruanos y bolivianos",
+                     "Inmigrantes venezolanos y colombianos",
+                     "Inmigrantes haitianos")) %>% 
+  ggplot(aes(x = name, y = sfreq, 
+             label = as.character(scales::percent(sfreq, accuracy = .1)))) +
+  geom_col(position = 'dodge2', fill = '#482173FF') + 
+  facet_wrap(~q0001) +
+  geom_text(vjust = 0.3, hjust = -0.1, 
+            size = 3, na.rm = TRUE) +
+  theme_bw() + 
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(title = "Grado de acuerdo con la llegada de:", subtitle = "Porcentaje que responde 'en desacuerdo o muy en desacuerdo'\nsegún macrozona", 
+       x = "", y = "") +
+  coord_flip()
+```
+
+## Equipamiento barrial
+
+```{r nota-barrio}
+#remove("eval.barrio2")
+
+eval.barrio2 <- renca %>%
+  dplyr::select(starts_with("q0024_")) 
+
+eval.barrio2 <- eval.barrio2 %>% 
+  pivot_longer(cols = names(eval.barrio2)) 
+
+eval.barrio2 <-  eval.barrio2 %>% 
+  filter(!value %in% c(8,9,10)) %>% 
+  group_by(name) %>% 
+  summarise(mean = mean(value))
+
+eval.barrio2 <- eval.barrio2 %>% 
+  mutate(name = factor(name, 
+                       levels = c("q0024_0001", "q0024_0002", "q0024_0003", "q0024_0004",
+                                  "q0024_0005", "q0024_0006", "q0024_0007"),
+                       labels = c("Plazas de su barrio", "Bandejones y platabandas", 
+                                  "Parques  y  áreas  verdes", "Multicanchas de su barrio",
+                                  "Sedes sociales", "El consultorio donde ud. se atiende",
+                                  "Jardines, Escuelas y Liceos Municipales")))
+
+ggplot(eval.barrio2, aes(x = name, y = mean)) +
+  geom_point(size = 3) + 
+  geom_segment(aes(x = name, xend = name, y = 0, yend = mean)) +
+  theme_bw() + 
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  scale_y_continuous(limits = c(0, 7)) +
+  labs(title = "En una escala de 1 a 7 ¿Cómo evaluaría la calidad de?",
+       subtitle = "Evaluación promedio de la muestra sobre la infraestructura y\nel equipamiento barrial",
+       x = "", y = "",
+       caption = paste("Promedio = ", round(mean(eval.barrio2$mean),1))) +
+  coord_flip()
+```
+
+```{r nota-zona}
+eval.barrio2.mz <- renca %>% dplyr::select(q0001, starts_with("q0024_"))
+eval.barrio2.mz <- eval.barrio2.mz %>% pivot_longer(cols=names(eval.barrio2.mz)[2:dim(eval.barrio2.mz)[2]])
+eval.barrio2.mz <-  eval.barrio2.mz %>% 
+  filter(!value %in% c(8,9,10)) %>% 
+  group_by(name,q0001) %>% 
+  summarise(mean = mean(value)) %>% mutate(name = factor(name, 
+                       levels = c("q0024_0001", "q0024_0002", "q0024_0003", "q0024_0004",
+                                  "q0024_0005", "q0024_0006", "q0024_0007"),
+                       labels = c("Plazas de su barrio", "Bandejones y platabandas", 
+                                  "Parques  y  áreas  verdes", "Multicanchas de su barrio",
+                                  "Sedes sociales", "El consultorio donde ud. se atiende",
+                                  "Jardines, Escuelas y Liceos Municipales")))
+
+ggplot(eval.barrio2.mz, aes(x = name, y = mean)) +
+  geom_point(size = 3) + 
+  geom_segment(aes(x = name, xend = name, y = 0, yend = mean)) + facet_wrap(~q0001) + 
+  scale_y_continuous(limits = c(0, 7)) +
+  labs(title = "En una escala de 1 a 7 ¿Cómo evaluaría la calidad de?",
+       subtitle = "Evaluación promedio de la muestra",
+       x = "", y = "",
+       caption = paste("Promedio = ", round(mean(eval.barrio2$mean),1))) +
+  coord_flip()
+```
+
+
+## 

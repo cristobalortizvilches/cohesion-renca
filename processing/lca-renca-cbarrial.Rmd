@@ -34,7 +34,7 @@ library(haven)
 #remove(list = ls())
 renca <- read_dta("../input/data/Renca_1010_macrozona.dta")
 #renca_1 <- read_dta("../input/data/Renca_320_unidadbarrial.dta")
-load("../input/data/elsoc.sub.Rdata")
+#load("../input/data/elsoc.sub.Rdata")
 ```
 
 ```{r recode}
@@ -79,7 +79,7 @@ renca_cb_lca <- renca_cb %>%
   select(respondent_id, spbi, arra, soci, conf, part, apoy) %>% 
   drop_na()
 
-frq(renca_cb_lca)
+#frq(renca_cb_lca)
   
 ```
 

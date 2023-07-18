@@ -1,0 +1,185 @@
+---
+title: "Clases Latentes Renca"
+author: "Cristóbal Ortiz"
+output: html_document
+date: "2023-07-14"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	fig.align = "left",
+	fig.topcaption = TRUE,
+	message = FALSE,
+	warning = FALSE,
+	cache = FALSE
+)
+Sys.setlocale("LC_ALL","ES_ES.UTF-8")
+```
+
+```{r packages, message=FALSE, warning=FALSE, include=FALSE}
+library(poLCA)
+library(knitr)
+library(kableExtra)
+library(gridExtra)
+library(tidyverse)
+library(sjmisc)
+library(sjlabelled)
+library(ggrepel)
+library(ggalluvial)
+library(haven)
+```
+
+```{r datos}
+remove(list = ls())
+renca <- read_dta("../input/data/Renca_320_unidadbarrial.dta")
+#load("../input/data/elsoc.sub.Rdata")
+```
+
+```{r recode}
+#remove(renca_cb)
+
+renca_cb <- renca %>% 
+  select(respondent_id, 
+         q0002_0001, q0002_0002, q0002_0003, q0002_0004, q0002_0005, #pertenencia
+         q0008, #arraigo
+         q0002_0007, q0002_0008, q0002_0009, q0002_0010, q0002_0011, q0002_0012, #sociabilidad,
+         q0006, #confianza
+         q0009_0001, #participacion
+         q0005) ##apoyo/visitas
+
+renca_cb[renca_cb == 6] <- NA
+renca_cb[renca_cb == 7] <- NA
+renca_cb[renca_cb == 98] <- NA
+renca_cb[renca_cb == 99] <- NA
+renca_cb$q0008[renca_cb$q0008 == 5] <- NA
+renca_cb$q0005[renca_cb$q0005 == 4] <- NA
+renca_cb$q0005[renca_cb$q0005 == 5] <- NA
+renca_cb$q0009_0001[is.na(renca_cb$q0009_0001)] = 2
+
+renca_cb <- renca_cb %>% 
+  mutate(spb = (q0002_0001 + q0002_0002 + q0002_0003 + q0002_0004 + q0002_0005)/5,
+         spbi = cut(spb, breaks = c(0,3.5,5), labels = c(1,2)),
+         arra = car::recode(q0008, "c(1,2,4)=1; c(3)=2"),
+         soc = (q0002_0007 + q0002_0008 + q0002_0009 + q0002_0010 + q0002_0011 + q0002_0012)/6,
+         soci = cut(soc, breaks = c(0,3.5,5), labels = c(1,2)),
+         conf = car::recode(q0006, "c(1,2,3)=1; c(4,5)=2"),
+         part = car::recode(q0009_0001, "c(2)=1; c(1)=2"),
+         apoy = car::recode(q0005, "c(1)=1; c(2,3)=2")) %>% 
+  set_labels(spbi, labels = c("No perteneciente", "Perteneciente")) %>% 
+  set_labels(arra, labels = c("Desarraigo","Arraigo")) %>% 
+  set_labels(soci, labels = c("No sociabilidad", "Sociabilidad")) %>% 
+  set_labels(conf, labels = c("No confía","Confía")) %>% 
+  set_labels(part, labels = c("No participa","Participa")) %>% 
+  set_labels(apoy, labels = c("No apoya","Apoya")) %>% 
+  as_numeric(spbi, arra, soci, conf, part, apoy) 
+
+renca_cb_lca <- renca_cb %>% 
+  select(respondent_id, spbi, arra, soci, conf, part, apoy) %>% 
+  drop_na()
+
+#frq(renca_cb_lca)
+  
+```
+
+```{r modelo-lca}
+set.seed(1)
+
+var <- cbind(spbi, arra, soci, conf, part, apoy) ~ 1
+
+# Tres clases --------------------------------------------------------------------------
+#tipos_3 <- poLCA(var, renca_cb_lca, nclass = 3, na.rm = TRUE, maxiter = 5000, nrep = 10)
+
+#renca_cb_lca$clase_3 <- as.factor(tipos_3$predclass)
+
+#tabla_3 <- table(renca_cb_lca$clase_3)
+#prop.table(tabla_3)
+
+# Cuatro clases ------------------------------------------------------------------------
+tipos_4 <- poLCA(var, renca_cb_lca, nclass = 4, na.rm = TRUE, maxiter = 5000, nrep = 10)
+
+renca_cb_lca$clase_4 <- as.factor(tipos_4$predclass)
+
+tabla_4 <- table(renca_cb_lca$clase_4)
+prop.table(tabla_4)
+
+# Cinco clases  ------------------------------------------------------------------------
+#tipos_5 <- poLCA(var, renca_cb_lca, nclass = 5, na.rm = TRUE, maxiter = 5000, nrep = 10)
+
+#renca_cb_lca$clase_5 <- as.factor(tipos_5$predclass)
+
+#tabla_5 <- table(renca_cb_lca$clase_5)
+#prop.table(tabla_5)
+```
+
+```{r cuatro-clases}
+tab1_4 <- renca_cb_lca %>% group_by(clase_4, spbi) %>%
+  summarise (n = n()) %>% mutate(freq = n / sum(n)) %>% 
+  mutate(var = 1) %>% rename(Clase=clase_4, Tipos=spbi)
+
+tab2_4 <- renca_cb_lca %>% group_by(clase_4, arra) %>%
+  summarise (n = n()) %>% mutate(freq = n / sum(n)) %>% 
+  mutate(var = 2) %>% rename(Clase=clase_4, Tipos=arra)
+
+tab3_4 <- renca_cb_lca %>% group_by(clase_4, soci) %>%
+  summarise (n = n()) %>% mutate(freq = n / sum(n)) %>% 
+  mutate(var = 3) %>% rename(Clase=clase_4, Tipos=soci)
+
+tab4_4 <- renca_cb_lca %>% group_by(clase_4, conf) %>%
+  summarise (n = n()) %>% mutate(freq = n / sum(n)) %>% 
+  mutate(var = 4) %>% rename(Clase=clase_4, Tipos=conf)
+
+tab5_4 <- renca_cb_lca %>% group_by(clase_4, part) %>%
+  summarise (n = n()) %>% mutate(freq = n / sum(n)) %>% 
+  mutate(var = 5) %>% rename(Clase=clase_4, Tipos=part)
+
+tab6_4 <- renca_cb_lca %>% group_by(clase_4, apoy) %>%
+  summarise (n = n()) %>% mutate(freq = n / sum(n)) %>% 
+  mutate(var = 6) %>% rename(Clase=clase_4, Tipos=apoy)
+
+tab_4 <- rbind(tab1_4, tab2_4, tab3_4, tab4_4, tab5_4, tab6_4)
+rm(tab1_4, tab2_4, tab3_4, tab4_4, tab5_4, tab6_4)
+
+#        1         2         3         4 
+# 0.2325056 0.2923251 0.2257336 0.2494357  
+
+tab_4 <- tab_4 %>% 
+  mutate(Clase = factor(Clase, levels = c(1,2,3,4), labels = c("Altamente\ncohesionados\n(23.25%)", 
+                                                               "Apegados\ndesconfiados\n(29.23%)", 
+                                                               "Desapegados\nrelacionales\n(22.57%)",
+                                                               "Poco\ncohesionados\n(24.94%)")),
+         Tipos  = factor(Tipos, levels = c(1,2), labels = c("No presenta", "Presenta")),
+         var  = factor(var, levels = c(1,2,3,4,5,6), labels = c("Pertenencia",
+                                                                "Arraigo",
+                                                                "Sociabilidad",
+                                                                "Confianza",
+                                                                "Participación",
+                                                                "Apoyo")))
+
+tab_4 %>% ggplot(aes(x = freq, y = factor(var, levels = c("Apoyo","Participación", "Confianza","Sociabilidad", "Arraigo", "Pertenencia")),  fill = Tipos)) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  labs(y = NULL, x = NULL,
+       title = "Perfiles de cohesión barrial", fill = "") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 5), labels = scales::percent, limits=c(0, 1)) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, option = 'viridis') +
+  theme(axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  facet_grid(~ Clase) +
+  guides(fill = guide_legend(reverse = TRUE))
+
+#ggsave(filename = "../output/4_clases.jpg", width = 35, height = 15, units = "cm")
+```
+
+```{r save-dataset}
+renca_cb_lca <- renca_cb_lca %>% 
+  mutate(class_4 = factor(clase_4, levels = c(1,2,3,4), labels = c("Altamente\ncohesionados\n(23.25%)", 
+                                                               "Apegados\ndesconfiados\n(29.23%)", 
+                                                               "Desapegados\nrelacionales\n(22.57%)",
+                                                               "Poco\ncohesionados\n(24.94%)")))
+
+save(tab_4, file = "../input/data/tab_4.RData")
+save(renca_cb_lca, file = "../input/data/renca_cb_lca.RData")
+```
+

@@ -154,6 +154,8 @@ output:
 
 <img src="presentacion-renca_files/figure-html/repb-zonas-1.png" style="display: block; margin: auto auto auto 0;" />
 
+<img src="presentacion-renca_files/figure-html/repb-edad-1.png" style="display: block; margin: auto auto auto 0;" />
+
 # 5. Evaluación del municipio
 
 ## 5.1. Gestión municipal

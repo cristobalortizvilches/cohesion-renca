@@ -29,7 +29,7 @@ output:
 
 ## 2.1. Indicadores de cohesión barrial horizontal
 
-### a. Apego al barrio
+### a. Pertenencia al barrio
 
 <img src="presentacion-renca_files/figure-html/spb-renca-1.png" style="display: block; margin: auto auto auto 0;" />
 
@@ -127,6 +127,8 @@ output:
 
 <img src="presentacion-renca_files/figure-html/tipos-segu-1.png" style="display: block; margin: auto auto auto 0;" />
 
+<img src="presentacion-renca_files/figure-html/tipos-edad-1.png" style="display: block; margin: auto auto auto 0;" />
+
 # 4. Factores relacionados a la cohesión
 
 ## 4.2. Seguridad
@@ -138,6 +140,9 @@ output:
 <img src="presentacion-renca_files/figure-html/segu-ingr-1.png" style="display: block; margin: auto auto auto 0;" />
 
 <img src="presentacion-renca_files/figure-html/segu-zonas-1.png" style="display: block; margin: auto auto auto 0;" />
+
+<img src="presentacion-renca_files/figure-html/segu-edad-1.png" style="display: block; margin: auto auto auto 0;" />
+
 
 ## 4.3. Reputación 
 

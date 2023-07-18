@@ -785,6 +785,29 @@ renca_cb_lca %>%
        title = 'Perfiles de cohesión barrial según sentimiento de seguridad en el barrio')
 ```
 
+```{r tipos-edad}
+renca_cb_lca %>%
+  as_label(edad) %>% 
+  count(class_4, edad) %>% 
+  group_by(edad) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = freq, y = fct_rev(edad), fill = fct_rev(class_4), 
+             label = scales::percent(ifelse(freq < .01, NA, freq), .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), 
+            size = 3, na.rm = TRUE,) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, direction = -1) +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(y = NULL, x = NULL, fill = NULL,
+       title = 'Perfiles de cohesión barrial según tramo etario')
+```
+
 # 4. Factores relacionados a la cohesión
 
 ## 4.2. Seguridad
@@ -879,6 +902,30 @@ renca_cb_lca %>%
   labs(y = NULL, x = NULL, fill = NULL,
        title = 'Sentimiento de seguridad en el barrio según macrozona')
 ```
+
+```{r segu-edad}
+renca_cb_lca %>%
+  as_label(edad) %>% 
+  count(segu, edad) %>% 
+  group_by(edad) %>% 
+  mutate(freq = (n/sum(n))) %>% 
+  ggplot(aes(x = freq, y = fct_rev(edad), fill = fct_rev(segu), 
+             label = scales::percent(ifelse(freq < .01, NA, freq), .1))) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  scale_x_continuous(labels = scales::percent) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  geom_text(position = position_stack(vjust = .5), 
+            size = 3, na.rm = TRUE,) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, direction = -1) +
+  theme(plot.caption = element_text(hjust = 0),
+        axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top',
+        legend.title = element_blank()) +
+  labs(y = NULL, x = NULL, fill = NULL,
+       title = 'Sentimiento de seguridad en el barrio según tramo etario')
+```
+
 
 ## 4.3. Reputación 
 

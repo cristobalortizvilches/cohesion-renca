@@ -1,0 +1,225 @@
+---
+title: "Procesamiento"
+author: "Cristóbal Ortiz"
+date: "2024-01-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	fig.align = "left",
+	fig.topcaption = TRUE,
+	message = FALSE,
+	warning = FALSE,
+	cache = FALSE
+)
+Sys.setlocale("LC_ALL","ES_ES.UTF-8")
+```
+
+```{r packages, message=FALSE, warning=FALSE, include=FALSE}
+library(poLCA)
+library(knitr)
+library(kableExtra)
+library(gridExtra)
+library(tidyverse)
+library(sjmisc)
+library(sjlabelled)
+library(ggrepel)
+library(ggalluvial)
+library(haven)
+library(foreign)
+library(sf)
+```
+
+```{r read-df, include=FALSE}
+remove(list = ls())
+
+# dataframes
+renca_ub <- read_dta("../1_input/data/Renca_320_unidadbarrial.dta")
+renca_mz <- read_dta("../1_input/data/Renca_1010_macrozona.dta")
+
+#shapefiles
+unbarriales <- st_read("../1_input/shapes/Unidades_barriales_Renca.shp")
+macrozonas <- st_read("../1_input/shapes/Macrozonas_Renca.shp")
+
+```
+
+```{r recode-df-ub, echo=FALSE}
+renca_ub$q0039[renca_ub$q0039 %in% c(9,10)] <- NA #educación
+renca_ub$q0048[renca_ub$q0048 %in% c(8,9)] <- NA #ingresos
+renca_ub$q0006[renca_ub$q0006 %in% c(6,7)] <- NA #conf vecinos
+renca_ub$q0005[renca_ub$q0005 %in% c(4,5)] <- NA #apoyo social
+
+renca_ub <- renca_ub %>% #filter value "0"
+  filter(!q0039 %in% c(9,10),
+         !q0048 %in% c(8,9))
+
+renca_ub <- renca_ub %>% 
+  mutate(sexo = as_label(q0034),
+         edad = cut(as.numeric(renca_ub$q0035),breaks=c(17,25,35,45,55,65,85),
+                    labels=c("18-25","26-35","36-45","46-55","56-65", "66 o más")),
+         edadi = q0035,
+         educ = factor(car::recode(q0039, recodes = "1:3 = 1; 4:5 = 2; 6 = 3; 7:8 = 4"),
+                       levels = 1:4,
+                       labels = c("Basica", "Media", "Tecnica/Universitaria\n incompleta",
+                                  "Tecnica/Universitaria\ncompleta")),
+         educi = q0039,
+         ingr  = factor(car::recode(q0048, recodes = "1 = 1; 2:3 = 2; 4:5 = 3; 6:7 = 4"),
+                       levels = 1:4,
+                       labels = c("Muy bajos\n(<$250mil)", "Bajos\n($250-$450mil)",
+                                  "Medios\n($450-$800mil)", "Altos(>$800mil)")),
+         ingri = q0048,
+         repb = factor(car::recode(q0029, recodes = "4:5 = 1; 3 = 2; 1:2 = 3"),
+                       levels = 1:3,
+                       labels = c("Positiva", "Neutra", "Negativa")),
+         repbi = q0029,
+         segu = factor(car::recode(q0030, recodes = "4:5 = 1; 3 = 2; 1:2 = 3"),
+                       levels = 1:3,
+                       labels = c("Seguro", "Ni seguro\nni inseguro", "Inseguro")),
+         segui = q0030,
+         spbi = (q0002_0001 + q0002_0002 + q0002_0003 + q0002_0004 + q0002_0005)/5,
+         soci = (q0002_0007 + q0002_0008 + q0002_0009 + q0002_0010 + q0002_0011 + q0002_0012)/6,
+         confi = q0006,
+         confa = (q0007_0001 + q0007_0002 + q0007_0003 + q0007_0004 + q0007_0005 + q0007_0006 + q0007_0007)/7)
+
+renca_ub <- renca_ub %>% 
+  mutate(spbf = factor(with(renca_ub, case_when(spbi >= quantile(renca_ub$spbi, 0.75) ~ 1, 
+                                                spbi >= quantile(renca_ub$spbi, 0.5) ~ 2, 
+                                                spbi < quantile(renca_ub$spbi, 0.5) ~ 3)),
+                       labels = c('Alto', 'Medio', 'Bajo'),
+                       levels = c(1,2,3)),
+         socif = factor(with(renca_ub, case_when(soci >= quantile(renca_ub$soci, 0.75) ~ 1, 
+                                                 soci >= quantile(renca_ub$soci, 0.5) ~ 2, 
+                                                 soci < quantile(renca_ub$soci, 0.5) ~ 3)),
+                        labels = c('Alto', 'Medio', 'Bajo'),
+                        levels = c(1,2,3)),
+         confif = factor(car::recode(confi, recodes = "4:5 = 1; 3 = 2; 1:2 = 3"),
+                         levels = 1:3,
+                         labels = c("Bastante\no mucho", "Algo", "Nada\no poco")))
+
+renca_ub <- renca_ub %>% 
+  select(respondent_id, q0001, sexo, edad, edadi, educ, educi, ingr, ingri, repb, repbi, segu,
+         segui, spbi, spbf, soci, socif, confi, confif, confa)
+```
+
+```{r recode-df-mz, echo=FALSE}
+renca_mz$q0039[renca_mz$q0039 %in% c(9,10)] <- NA #educación
+renca_mz$q0048[renca_mz$q0048 %in% c(8,9)] <- NA #ingresos
+renca_mz$q0006[renca_mz$q0006 %in% c(6,7)] <- NA #conf vecinos
+renca_mz$q0005[renca_mz$q0005 %in% c(4,5)] <- NA #apoyo social
+renca_mz$q0008[renca_mz$q0008 %in% c(5,6)] <- NA #arraigo físico
+
+renca_mz <- renca_mz %>% #filter value "0"
+  filter(!q0039 %in% c(9,10),
+         !q0048 %in% c(8,9),
+         !q0005 %in% c(4,5),
+         !q0008 %in% c(5,6))
+
+renca_mz <- renca_mz %>%
+  mutate(sexo = as_label(q0034),
+         edad = cut(as.numeric(renca_mz$q0035),breaks=c(17,25,35,45,55,65,85),
+                    labels=c("18-25","26-35","36-45","46-55","56-65", "66 o más")),
+         edadi = q0035,
+         educ = factor(car::recode(q0039, recodes = "1:3 = 1; 4:5 = 2; 6 = 3; 7:8 = 4"),
+                       levels = 1:4,
+                       labels = c("Basica", "Media", "Tecnica/Universitaria\n incompleta",
+                                  "Tecnica/Universitaria\ncompleta")),
+         educi = q0039,
+         ingr  = factor(car::recode(q0048, recodes = "1 = 1; 2:3 = 2; 4:5 = 3; 6:7 = 4"),
+                       levels = 1:4,
+                       labels = c("Muy bajos\n(<$250mil)", "Bajos\n($250-$450mil)",
+                                  "Medios\n($450-$800mil)", "Altos(>$800mil)")),
+         ingri = q0048,
+         repb = factor(car::recode(q0029, recodes = "4:5 = 1; 3 = 2; 1:2 = 3"),
+                       levels = 1:3,
+                       labels = c("Positiva", "Neutra", "Negativa")),
+         repbi = q0029,
+         segu = factor(car::recode(q0030, recodes = "4:5 = 1; 3 = 2; 1:2 = 3"),
+                       levels = 1:3,
+                       labels = c("Seguro", "Ni seguro\nni inseguro", "Inseguro")),
+         segui = q0030,
+         spbi = (q0002_0001 + q0002_0002 + q0002_0003 + q0002_0004 + q0002_0005)/5,
+         arra = q0008, 
+         soci = (q0002_0007 + q0002_0008 + q0002_0009 + q0002_0010 + q0002_0011 + q0002_0012)/6,
+         confi = q0006,
+         apoy = as_label(q0005),
+         confa = (q0007_0001 + q0007_0002 + q0007_0003 + q0007_0004 + q0007_0005 + q0007_0006 + q0007_0007)/7)
+
+renca_mz <- renca_mz %>% 
+  mutate(spbf = factor(with(renca_mz, case_when(spbi >= quantile(renca_mz$spbi, 0.75) ~ 1, 
+                                                spbi >= quantile(renca_mz$spbi, 0.5) ~ 2, 
+                                                spbi < quantile(renca_mz$spbi, 0.5) ~ 3)),
+                       labels = c('Alto', 'Medio', 'Bajo'),
+                       levels = c(1,2,3)),
+         socif = factor(with(renca_mz, case_when(soci >= quantile(renca_mz$soci, 0.75) ~ 1, 
+                                                 soci >= quantile(renca_mz$soci, 0.5) ~ 2, 
+                                                 soci < quantile(renca_mz$soci, 0.5) ~ 3)),
+                        labels = c('Alto', 'Medio', 'Bajo'),
+                        levels = c(1,2,3)),
+         confif = factor(car::recode(confi, recodes = "4:5 = 1; 3 = 2; 1:2 = 3"),
+                         levels = 1:3,
+                         labels = c("Bastante\no mucho", "Algo", "Nada\no poco")),
+         confaf = factor(with(renca_mz, case_when(confa >= quantile(renca_mz$confa, 0.75) ~ 1, 
+                                                  confa >= quantile(renca_mz$confa, 0.5) ~ 2, 
+                                                  confa < quantile(renca_mz$confa, 0.5) ~ 3)),
+                        labels = c('Alto', 'Medio', 'Bajo'),
+                        levels = c(1,2,3)))
+
+renca_mz <- renca_mz %>% 
+  select(respondent_id, q0001, sexo, edad, edadi, educ, educi, ingr, ingri, repb, repbi, segu,
+         segui, spbi, spbf, arra, soci, socif, confi, confif, apoy, confa, confaf)
+```
+
+```{r prom-df}
+renca_ub_prom <- renca_ub %>% 
+  rename("cod_ub"="q0001") %>%
+  group_by(cod_ub) %>% 
+  dplyr::select(edadi, educi, ingri, repbi, segui, spbi, soci, confi, confa) %>% 
+  mutate(edadi = as.numeric(edadi)) %>% 
+  summarise_all(mean, na.rm = T)
+
+renca_mz_prom <- renca_mz %>% 
+  rename("cod_mz"="q0001") %>% 
+  group_by(cod_mz) %>% 
+  dplyr::select(edadi, educi, ingri, repbi, segui, spbi, soci, socif, confi, confa) %>% 
+  mutate(edadi = as.numeric(edadi)) %>% 
+  summarise_all(mean, na.rm = T)
+```
+
+```{r join-df}
+#unidad barrial
+renca_ub <- renca_ub %>% rename("cod_ub"="q0001")
+unbarriales <- unbarriales %>% 
+  rename("cod_ub"="UB") %>% 
+  filter(cod_ub %in% 1:4)
+renca_ubarrial <- dplyr::left_join(x = renca_ub, y = unbarriales, by = "cod_ub")
+
+#macrozonas
+renca_mz <- renca_mz %>% rename("cod_mz"="q0001")
+macrozonas <- macrozonas %>% 
+  mutate(cod_mz = recode(MACROZONA, "MACROZONA 1" = 1, "MACROZONA 2" = 2, "MACROZONA 3" = 3, "MACROZONA 4" = 4,"MACROZONA 5" = 5, "MACROZONA 6" = 6,"MACROZONA 7" = 7))
+renca_macrozona <- dplyr::left_join(x = renca_mz, y = macrozonas, by = "cod_mz")
+```
+
+```{r join-df-prom}
+renca_ubarrial_prom <- dplyr::left_join(x = renca_ub_prom, y = unbarriales, by = "cod_ub")
+renca_macrozona_prom <- dplyr::left_join(x = renca_mz_prom, y = macrozonas, by = "cod_mz")
+```
+
+```{r save-df}
+# df en formato tidy
+save(renca_ubarrial, file = "../1_input/data/procesada/renca_ubarrial.RData")
+save(renca_macrozona, file = "../1_input/data/procesada/renca_macrozona.RData")
+
+save(renca_ubarrial_prom, file = "../1_input/data/procesada/renca_ubarrial_prom.RData")
+save(renca_macrozona_prom, file = "../1_input/data/procesada/renca_macrozona_prom.RData")
+
+# df formato shapefile 
+st_write(renca_ubarrial, dsn = "../1_input/shapes/renca_ubarrial.shp", delete_layer = TRUE) 
+st_write(renca_macrozona, dsn = "../1_input/shapes/renca_macrozona.shp", delete_layer = TRUE) 
+
+st_write(renca_ubarrial_prom, dsn = "../1_input/shapes/renca_ubarrial_prom.shp", delete_layer = TRUE) 
+st_write(renca_macrozona_prom, dsn = "../1_input/shapes/renca_macrozona_prom.shp", delete_layer = TRUE) 
+```
+

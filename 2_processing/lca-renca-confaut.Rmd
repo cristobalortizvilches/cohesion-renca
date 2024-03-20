@@ -1,0 +1,107 @@
+---
+title: "Clases Latentes Confianza Autoridades Renca"
+author: "Cristóbal Ortiz"
+output: html_document
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	fig.align = "left",
+	fig.topcaption = TRUE,
+	message = FALSE,
+	warning = FALSE,
+	cache = FALSE
+)
+Sys.setlocale("LC_ALL","ES_ES.UTF-8")
+```
+
+```{r packages, message=FALSE, warning=FALSE, include=FALSE}
+library(poLCA)
+library(knitr)
+library(tidyverse)
+library(sjmisc)
+library(sjlabelled)
+library(haven)
+```
+
+```{r datos}
+remove(list = ls())
+getwd()
+renca_confaut <- read_dta("../1_input/data/Renca_1010_macrozona.dta")
+```
+
+```{r recode}
+#remove(renca_confaut)
+
+renca_confaut <- renca_confaut %>% 
+  select(respondent_id, starts_with("q0007_")) 
+
+renca_confaut <- renca_confaut %>% 
+  mutate(across(starts_with("q0007_"), ~if_else(. %in% 6:7, NA_real_, .)), #convierto a NA los NS/NR
+         across(starts_with("q0007_"), ~car::recode(., "1:3=1; 4:5=2"))) %>% 
+  set_labels(starts_with("q0007_"),  labels = c("No", "Sí")) %>% 
+  as_numeric(starts_with("q0007_")) 
+
+renca_confaut_lca <- renca_confaut %>% 
+  select(respondent_id, starts_with("q0007_")) %>% 
+  drop_na()
+```
+
+```{r lca-3}
+set.seed(1)
+
+# Especifico variables
+var_lca <- cbind(q0007_0001, q0007_0002, q0007_0003, q0007_0004, q0007_0005, q0007_0006, q0007_0007) ~ 1
+
+# Tres clases --------------------------------------------------------------------------
+lca_3 <- poLCA(var_lca, renca_confaut_lca, nclass = 3, na.rm = TRUE, maxiter = 5000, nrep = 10) #modelo de clases latentes
+renca_confaut_lca$clase_3 <- as.factor(lca_3$predclass) #variable de clases predichas
+```
+
+## Tres clases
+
+```{r tabla-3}
+tab_3 <- renca_confaut_lca %>%
+  pivot_longer(cols = all_of(colnames(select(renca_confaut_lca, starts_with("q0007_"))))) %>%
+  group_by(clase_3, name, value) %>%
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n),
+         var_lca = as.numeric(factor(name, levels = colnames(select(renca_confaut_lca, starts_with("q0007_")))))) %>%
+  ungroup() %>%
+  mutate(clase_3 = factor(clase_3, levels = 1:3, labels = paste0(round(prop.table(table(renca_confaut_lca$clase_3)) * 100, 1), "%")),
+         value = factor(value, levels = 1:2, labels = c("No", "Sí")),
+         var_lca = factor(var_lca, levels = 1:7, labels = get_label(renca_confaut_lca %>% select(starts_with("q0007_")))))
+```
+
+```{r plot-3}
+tab_3 %>%
+  ggplot(aes(x = freq, 
+             y = factor(var_lca, levels = rev(get_label(renca_confaut_lca %>% select(starts_with("q0007_"))))),  
+             fill = value)) + 
+  geom_bar(stat = 'identity', position = 'stack') +
+  labs(y = NULL, x = NULL,
+       title = "Perfiles de confianza institucional: 3 clases latentes", 
+       fill = "¿Confía en alguna de estas autoridades o instituciones?") +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 5), labels = scales::percent, limits=c(0,1)) +
+  theme_bw() + 
+  scale_fill_viridis_d(end = .85, option = 'viridis') +
+  theme(axis.text.x = element_text(size = rel(.9)),
+        legend.position = 'top') +
+  facet_grid(~ clase_3) +
+  guides(fill = guide_legend(reverse = TRUE))
+
+ggsave(filename = "../3_output/3_clases_confaut.jpg", width = 35, height = 15, units = "cm")
+```
+
+```{r save-3}
+renca_confaut_lca <- renca_confaut_lca %>% 
+  mutate(clase_3_label = factor(clase_3, levels = 1:3, 
+                                labels = c(paste0("Clase 1", " (", round(prop.table(table(renca_confaut_lca$clase_3)) * 100, 1)[1], "%)"), 
+                                           paste0("Clase 2", " (", round(prop.table(table(renca_confaut_lca$clase_3)) * 100, 1)[2], "%)"),
+                                           paste0("Clase 3", " (", round(prop.table(table(renca_confaut_lca$clase_3)) * 100, 1)[3], "%)"))))
+
+save(renca_confaut_lca, file = "../1_input/data/procesada/renca_confaut_lca.RData")
+```
+

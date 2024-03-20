@@ -139,12 +139,15 @@ renca_mz <- renca_mz %>%
                        levels = 1:3,
                        labels = c("Seguro", "Ni seguro\nni inseguro", "Inseguro")),
          segui = q0030,
-         spbi = (q0002_0001 + q0002_0002 + q0002_0003 + q0002_0004 + q0002_0005)/5,
+         spbi = rowMeans(select(., starts_with("q0002_")), na.rm = TRUE),
          arra = q0008, 
-         soci = (q0002_0007 + q0002_0008 + q0002_0009 + q0002_0010 + q0002_0011 + q0002_0012)/6,
+         soci = rowMeans(select(., starts_with("q0002_")), na.rm = TRUE),
          confi = q0006,
          apoy = as_label(q0005),
-         confa = (q0007_0001 + q0007_0002 + q0007_0003 + q0007_0004 + q0007_0005 + q0007_0006 + q0007_0007)/7)
+         confa = rowMeans(select(., starts_with("q0007_")), na.rm = TRUE),
+         eval1 = rowMeans(select(., starts_with("q0022_")), na.rm = TRUE), 
+         eval2 = rowMeans(select(., starts_with("q0025_")), na.rm = TRUE), 
+         eval3 = rowMeans(select(., starts_with("q0018_")), na.rm = TRUE)) 
 
 renca_mz <- renca_mz %>% 
   mutate(spbf = factor(with(renca_mz, case_when(spbi >= quantile(renca_mz$spbi, 0.75) ~ 1, 
@@ -164,11 +167,26 @@ renca_mz <- renca_mz %>%
                                                   confa >= quantile(renca_mz$confa, 0.5) ~ 2, 
                                                   confa < quantile(renca_mz$confa, 0.5) ~ 3)),
                         labels = c('Alto', 'Medio', 'Bajo'),
+                        levels = c(1,2,3)),
+         eval1f = factor(with(renca_mz, case_when(eval1 >= quantile(renca_mz$eval1, 0.75) ~ 1, 
+                                                  eval1 >= quantile(renca_mz$eval1, 0.5) ~ 2, 
+                                                  eval1 < quantile(renca_mz$eval1, 0.5) ~ 3)),
+                        labels = c('Alto', 'Medio', 'Bajo'),
+                        levels = c(1,2,3)),
+         eval2f = factor(with(renca_mz, case_when(eval2 >= quantile(renca_mz$eval2, 0.75) ~ 1, 
+                                                  eval2 >= quantile(renca_mz$eval2, 0.5) ~ 2, 
+                                                  eval2 < quantile(renca_mz$eval2, 0.5) ~ 3)),
+                        labels = c('Alto', 'Medio', 'Bajo'),
+                        levels = c(1,2,3)),
+         eval3f = factor(with(renca_mz, case_when(eval3 >= quantile(renca_mz$eval3, 0.75) ~ 1, 
+                                                  eval3 >= quantile(renca_mz$eval3, 0.5) ~ 2, 
+                                                  eval3 < quantile(renca_mz$eval3, 0.5) ~ 3)),
+                        labels = c('Alto', 'Medio', 'Bajo'),
                         levels = c(1,2,3)))
 
 renca_mz <- renca_mz %>% 
   select(respondent_id, q0001, sexo, edad, edadi, educ, educi, ingr, ingri, repb, repbi, segu,
-         segui, spbi, spbf, arra, soci, socif, confi, confif, apoy, confa, confaf)
+         segui, spbi, spbf, arra, soci, socif, confi, confif, apoy, confa, confaf, eval1f, eval2f, eval3f)
 ```
 
 ```{r prom-df}
